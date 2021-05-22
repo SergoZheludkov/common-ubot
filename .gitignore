@@ -1,0 +1,12 @@
+.env
+coverage
+tsconfig.tsbuildinfo
+yarn-error.log
+lerna-debug.log
+
+# compiled output
+node_modules
+dist
+
+# IDEs and editors
+.idea
