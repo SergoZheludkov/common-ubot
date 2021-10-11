@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useBotContext, ButtonGroup, Button, Text } from '@urban-bot/core';
-import { useTranslation } from '@pancake_bot/i18n';
-import { useCreateUserMutation } from '@pancake_bot/api-client';
+import { useTranslation } from '@common_ubot/i18n';
+import { useCreateUserMutation } from '@common_ubot/api-client';
 
 interface RegistrationProps {
   refId: string | null;
@@ -10,29 +10,36 @@ interface RegistrationProps {
 
 type Lang = 'ru' | 'en' | '';
 
-export const Registration = ({ exit }: RegistrationProps) => {
-  const { t } = useTranslation('common');
+export const Registration = ({ refId, exit }: RegistrationProps) => {
+  const { t } = useTranslation('lang');
   const { chat } = useBotContext();
   const [isReg, setReg] = useState(false);
   const [lang, setLang] = useState<Lang>('');
   const [createUser] = useCreateUserMutation();
 
   useEffect(() => {
-    (async () => {
-      const user = await createUser({ variables: { input: {
-          id: chat.id,
-          firstname: chat.firstName,
-          lastname: chat.lastName,
-          username: chat.username,
-          // lang,
-      } } });
+    if (lang) {
+      (async () => {
+        const user = await createUser({
+          variables: {
+            input: {
+              id: chat.id,
+              firstname: chat.firstName,
+              lastname: chat.lastName,
+              username: chat.username,
+              who_invite: refId,
+              lang,
+            },
+          },
+        });
 
-      if (!user) return;
+        if (!user) return;
 
-      setReg(true);
-      setTimeout(() => exit(), 500);
-    })();
-  }, []);
+        setReg(true);
+        setTimeout(() => exit(), 500);
+      })();
+    }
+  }, [lang]);
 
   const handleClick = (lng: Lang) => () => setLang(lng);
 

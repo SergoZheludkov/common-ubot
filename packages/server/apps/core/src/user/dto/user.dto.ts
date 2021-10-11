@@ -16,6 +16,9 @@ export class UserDto {
   @FilterableField({ nullable: true })
   username?: string;
 
+  @FilterableField()
+  balance: number;
+
   @FilterableField({ nullable: true })
   who_invite: string;
 
@@ -24,6 +27,9 @@ export class UserDto {
 
   @FilterableField()
   referral_money: number
+
+  @Field()
+  lang: string;
 
   @Field()
   is_admin: boolean;

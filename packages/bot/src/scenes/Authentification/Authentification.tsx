@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Text, useBotContext } from '@urban-bot/core';
-import { useTranslation } from '@pancake_bot/i18n';
-import { useUserQuery } from '@pancake_bot/api-client';
+import { useTranslation } from '@common_ubot/i18n';
+import { useUserQuery } from '@common_ubot/api-client';
 
 interface AuthenticationProps {
   isSuccess: () => void;

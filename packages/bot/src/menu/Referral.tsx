@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ButtonGroup, Button, Text, useText, useBotContext } from '@urban-bot/core';
-import { useTranslation } from '@pancake_bot/i18n';
+import { useTranslation } from '@common_ubot/i18n';
 import { useUserData } from '../contexts/UserProvider';
 
 interface Props {
@@ -12,11 +12,13 @@ interface State {
   moneyIsShowed: boolean;
 }
 
+// TODO вынести в .env
 const BOT_NAME = 'zheludkov_test_bot'
 
 const nothingShown = { inviteIsShowed: false, moneyIsShowed: false };
 const inviteShowed = { inviteIsShowed: true, moneyIsShowed: false };
 const moneyShowed = { inviteIsShowed: false, moneyIsShowed: true };
+
 // TODO сделать перевод по запросу
 const Referral = ({ back }: Props) => {
   const { t } = useTranslation(['buttons', 'referral', 'invite']);

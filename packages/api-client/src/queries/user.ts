@@ -6,10 +6,12 @@ export const USER_FRAGMENT = gql`
         firstname
         lastname
         username
+        balance
         who_invite
         referral_counter
         referral_money
         is_admin
+        lang
     }
 `;
 

@@ -24,10 +24,20 @@ export class UserUpdateDto {
   @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
+  balance?: number;
+
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
   referral_counter?: number
 
   @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   referral_money?: number
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  lang?: string;
 }

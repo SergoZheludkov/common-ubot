@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useBotContext, Text } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
-import { useTranslation } from '@pancake_bot/i18n';
+import { useTranslation } from '@common_ubot/i18n';
 import { messageBroker } from '../api/MessageBroker';
 
 interface NewReferralState {

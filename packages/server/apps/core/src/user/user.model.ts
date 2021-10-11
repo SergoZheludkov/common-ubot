@@ -17,6 +17,10 @@ export class User extends Model<User> {
   username: string;
 
   @Default(0)
+  @Column
+  balance: number;
+
+  @Default(0)
   @Column({ allowNull: true })
   who_invite: string;
 
@@ -27,6 +31,9 @@ export class User extends Model<User> {
   @Default(0)
   @Column({ type: DataType.FLOAT })
   referral_money: number;
+
+  @Column
+  lang: string;
 
   @Default(false)
   @Column

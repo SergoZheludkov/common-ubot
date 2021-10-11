@@ -31,4 +31,10 @@ export class UserCreateDto {
   @IsOptional()
   @IsString()
   who_invite?: string;
+
+  @Field()
+  @IsDefined()
+  @IsString()
+  @Length(2, 2)
+  lang: string;
 }

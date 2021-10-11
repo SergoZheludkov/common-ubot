@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { useUserQuery, UserBaseFragment } from '@pancake_bot/api-client';
+import { useUserQuery, UserBaseFragment } from '@common_ubot/api-client';
 import { useBotContext } from '@urban-bot/core';
 
 interface User {

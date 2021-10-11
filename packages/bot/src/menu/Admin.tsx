@@ -1,6 +1,6 @@
 import React from 'react';
 import { ButtonGroup, Button, useText } from '@urban-bot/core';
-import { useTranslation } from '@pancake_bot/i18n';
+import { useTranslation } from '@common_ubot/i18n';
 import { useUserData } from '../contexts/UserProvider';
 
 interface Props {

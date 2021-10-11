@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useCommand, useBotContext, ButtonGroup, Button, useText } from '@urban-bot/core';
+import { useCommand, useBotContext, ButtonGroup, Button } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
-import { useTranslation } from '@pancake_bot/i18n';
+import { useTranslation } from '@common_ubot/i18n';
 import { saveChat, getChatsMap } from './local-storage';
 
 import { UserProvider } from './contexts/UserProvider';
@@ -63,6 +63,27 @@ export const Bot = () => {
     case T.Scene.TWO:
       return button('sceneTwo');
 
+
+    // ----------------------------------------MAIN MENU----------------------------------------
+    case T.Scene.FEEDBACK:
+      return <Scene.Feedback exit={() => setScene(T.Menu.MAIN)} />;
+
+    case T.Scene.INPUT_MONEY:
+      return <Scene.InputMoney exit={() => setScene(T.Menu.BALANCE)} />;
+
+    case T.Scene.ALL_PAYMENTS:
+      return <Scene.Payments exit={() => setScene(T.Menu.BALANCE)} />;
+
+    case T.Scene.RULES:
+      return <Scene.Rules exit={() => setScene(T.Menu.MAIN)} />;
+
+    // ----------------------------------------ADMIN MENU----------------------------------------
+    case T.Scene.ADD_WALLETS:
+      return <Scene.AddWallets exit={() => setScene(T.Menu.WALLETS)} />;
+
+    case T.Scene.DEACTIVATE_WALLETS:
+      return <Scene.DeactivateWallets exit={() => setScene(T.Menu.WALLETS)} />;
+
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
       return (
@@ -80,10 +101,9 @@ export const Bot = () => {
       return (
         <UserProvider>
           <Menu.Admin
-            // wallets={() => setScene(T.Menu.WALLETS)}
-            // statistic={() => setScene(T.Scene.TEST)}
-            wallets={() => setScene(T.Menu.MAIN)}
+            wallets={() => setScene(T.Menu.WALLETS)}
             statistic={() => setScene(T.Menu.MAIN)}
+            // statistic={() => setScene(T.Scene.TEST)}
             back={() => setScene(T.Menu.MAIN)}
           />
         </UserProvider>
