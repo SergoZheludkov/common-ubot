@@ -26,4 +26,9 @@ export class UserCreateDto {
   @IsString()
   @Length(1, 50)
   username?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  who_invite?: string;
 }

@@ -16,6 +16,15 @@ export class UserDto {
   @FilterableField({ nullable: true })
   username?: string;
 
+  @FilterableField({ nullable: true })
+  who_invite: string;
+
+  @FilterableField()
+  referral_counter: number
+
+  @FilterableField()
+  referral_money: number
+
   @Field()
   is_admin: boolean;
 

@@ -103,6 +103,26 @@ export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
 };
 
+export type NumberFieldComparison = {
+  between?: Maybe<NumberFieldComparisonBetween>;
+  eq?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  neq?: Maybe<Scalars['Float']>;
+  notBetween?: Maybe<NumberFieldComparisonBetween>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
+export type NumberFieldComparisonBetween = {
+  lower: Scalars['Float'];
+  upper: Scalars['Float'];
+};
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   /** The cursor of the last returned record. */
@@ -189,8 +209,17 @@ export type User = {
   id: Scalars['String'];
   is_admin: Scalars['Boolean'];
   lastname?: Maybe<Scalars['String']>;
+  referral_counter: Scalars['Float'];
+  referral_money: Scalars['Float'];
   updated: Scalars['DateTime'];
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
+};
+
+export type UserAvgAggregate = {
+  __typename?: 'UserAvgAggregate';
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
 };
 
 export type UserConnection = {
@@ -206,7 +235,10 @@ export type UserCountAggregate = {
   firstname?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   lastname?: Maybe<Scalars['Int']>;
+  referral_counter?: Maybe<Scalars['Int']>;
+  referral_money?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['Int']>;
+  who_invite?: Maybe<Scalars['Int']>;
 };
 
 export type UserCreate = {
@@ -214,6 +246,7 @@ export type UserCreate = {
   id: Scalars['String'];
   lastname?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserDeleteFilter = {
@@ -222,7 +255,10 @@ export type UserDeleteFilter = {
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserDeleteFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
 
 export type UserDeleteResponse = {
@@ -232,8 +268,11 @@ export type UserDeleteResponse = {
   id?: Maybe<Scalars['String']>;
   is_admin?: Maybe<Scalars['Boolean']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   updated?: Maybe<Scalars['DateTime']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserEdge = {
@@ -250,7 +289,10 @@ export type UserFilter = {
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
 
 export type UserMaxAggregate = {
@@ -258,7 +300,10 @@ export type UserMaxAggregate = {
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserMinAggregate = {
@@ -266,7 +311,10 @@ export type UserMinAggregate = {
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserSort = {
@@ -279,12 +327,23 @@ export enum UserSortFields {
   Firstname = 'firstname',
   Id = 'id',
   Lastname = 'lastname',
-  Username = 'username'
+  ReferralCounter = 'referral_counter',
+  ReferralMoney = 'referral_money',
+  Username = 'username',
+  WhoInvite = 'who_invite'
 }
+
+export type UserSumAggregate = {
+  __typename?: 'UserSumAggregate';
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
+};
 
 export type UserUpdate = {
   firstname?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
 };
 
@@ -294,12 +353,15 @@ export type UserUpdateFilter = {
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserUpdateFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
 
 export type UserBaseFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'firstname' | 'lastname' | 'username' | 'is_admin'>
+  & Pick<User, 'id' | 'firstname' | 'lastname' | 'username' | 'who_invite' | 'referral_counter' | 'referral_money' | 'is_admin'>
 );
 
 export type UserQueryVariables = Exact<{
@@ -334,6 +396,9 @@ export const UserBaseFragmentDoc = gql`
   firstname
   lastname
   username
+  who_invite
+  referral_counter
+  referral_money
   is_admin
 }
     `;

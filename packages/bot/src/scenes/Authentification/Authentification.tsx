@@ -8,7 +8,7 @@ interface AuthenticationProps {
   isFailed: () => void;
 }
 
-export const Authentication = ({ isSuccess, isFailed }: AuthenticationProps) => {
+export const Authentification = ({ isSuccess, isFailed }: AuthenticationProps) => {
   const { t } = useTranslation();
   const { chat } = useBotContext();
   const { data, loading } = useUserQuery({ variables: { id: chat.id } });

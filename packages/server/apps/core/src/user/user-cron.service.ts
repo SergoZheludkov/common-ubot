@@ -14,7 +14,7 @@ export class UserCronService {
     private readonly httpService: HttpService,
   ) {}
 
-  getURL(userid: number) {
+  getURL(userid: string) {
     return `${this.configService.get('WEBHOOK_HOST_BASE')}/notification/${userid}`;
   }
 

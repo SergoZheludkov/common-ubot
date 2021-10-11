@@ -57,8 +57,16 @@ type User {
     id: String!
     is_admin: Boolean!
     lastname: String
+    referral_counter: Float!
+    referral_money: Float!
     updated: DateTime!
     username: String
+    who_invite: String
+}
+
+type UserAvgAggregate {
+    referral_counter: Float
+    referral_money: Float
 }
 
 type UserConnection {
@@ -72,7 +80,10 @@ type UserCountAggregate {
     firstname: Int
     id: Int
     lastname: Int
+    referral_counter: Int
+    referral_money: Int
     username: Int
+    who_invite: Int
 }
 
 type UserDeleteResponse {
@@ -81,8 +92,11 @@ type UserDeleteResponse {
     id: String
     is_admin: Boolean
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     updated: DateTime
     username: String
+    who_invite: String
 }
 
 type UserEdge {
@@ -96,14 +110,25 @@ type UserMaxAggregate {
     firstname: String
     id: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
+    who_invite: String
 }
 
 type UserMinAggregate {
     firstname: String
     id: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
+    who_invite: String
+}
+
+type UserSumAggregate {
+    referral_counter: Float
+    referral_money: Float
 }
 
 "Sort Directions"
@@ -122,7 +147,10 @@ enum UserSortFields {
     firstname
     id
     lastname
+    referral_counter
+    referral_money
     username
+    who_invite
 }
 
 input CreateManyUsersInput {
@@ -154,6 +182,26 @@ input DeleteManyUsersInput {
 input DeleteOneInput {
     "The id of the record to delete."
     id: ID!
+}
+
+input NumberFieldComparison {
+    between: NumberFieldComparisonBetween
+    eq: Float
+    gt: Float
+    gte: Float
+    in: [Float!]
+    is: Boolean
+    isNot: Boolean
+    lt: Float
+    lte: Float
+    neq: Float
+    notBetween: NumberFieldComparisonBetween
+    notIn: [Float!]
+}
+
+input NumberFieldComparisonBetween {
+    lower: Float!
+    upper: Float!
 }
 
 input StringFieldComparison {
@@ -192,6 +240,7 @@ input UserCreate {
     id: String!
     lastname: String
     username: String
+    who_invite: String
 }
 
 input UserDeleteFilter {
@@ -200,7 +249,10 @@ input UserDeleteFilter {
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserDeleteFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
 }
 
 input UserFilter {
@@ -209,7 +261,10 @@ input UserFilter {
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
 }
 
 input UserSort {
@@ -221,6 +276,8 @@ input UserSort {
 input UserUpdate {
     firstname: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
 }
 
@@ -230,7 +287,10 @@ input UserUpdateFilter {
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserUpdateFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
 }
 
 
