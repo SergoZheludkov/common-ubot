@@ -11,13 +11,31 @@ type DeleteManyResponse {
 }
 
 type Mutation {
+    addWallets(input: [WalletCreate!]!): ReturnStatusType!
+    checkPayment(input: CheckPaymentInput!): Payment!
+    createManyPayments(input: CreateManyPaymentsInput!): [Payment!]!
     createManyUsers(input: CreateManyUsersInput!): [User!]!
+    createManyWallets(input: CreateManyWalletsInput!): [Wallet!]!
+    createOnePayment(input: CreateOnePaymentInput!): Payment!
     createOneUser(input: CreateOneUserInput!): User!
+    createOneWallet(input: CreateOneWalletInput!): Wallet!
+    createPayment(input: PaymentCreate!): Payment!
     createUser(input: UserCreate!): User!
+    deactivateWallets(input: [Float!]!): ReturnStatusType!
+    deleteManyPayments(input: DeleteManyPaymentsInput!): DeleteManyResponse!
     deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
+    deleteManyWallets(input: DeleteManyWalletsInput!): DeleteManyResponse!
+    deleteOnePayment(input: DeleteOneInput!): PaymentDeleteResponse!
     deleteOneUser(input: DeleteOneInput!): UserDeleteResponse!
+    deleteOneWallet(input: DeleteOneInput!): WalletDeleteResponse!
+    setUserOnPayment(input: RelationInput!): Payment!
+    setWalletOnPayment(input: RelationInput!): Payment!
+    updateManyPayments(input: UpdateManyPaymentsInput!): UpdateManyResponse!
     updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
+    updateManyWallets(input: UpdateManyWalletsInput!): UpdateManyResponse!
+    updateOnePayment(input: UpdateOnePaymentInput!): Payment!
     updateOneUser(input: UpdateOneUserInput!): User!
+    updateOneWallet(input: UpdateOneWalletInput!): Wallet!
 }
 
 type PageInfo {
@@ -31,7 +49,114 @@ type PageInfo {
     startCursor: ConnectionCursor
 }
 
+type Payment {
+    amount: Float
+    comment: String!
+    created: DateTime!
+    currency: String
+    expected_amount: String!
+    id: Float!
+    is_paid: Boolean!
+    referral_id: String!
+    referral_money: Float!
+    updated: DateTime!
+    user: User!
+    user_id: String!
+    user_wallet_number: String
+    wallet: Wallet!
+    wallet_id: String!
+}
+
+type PaymentAvgAggregate {
+    amount: Float
+    id: Float
+}
+
+type PaymentConnection {
+    "Array of edges."
+    edges: [PaymentEdge!]!
+    "Paging information"
+    pageInfo: PageInfo!
+}
+
+type PaymentCountAggregate {
+    amount: Int
+    comment: Int
+    currency: Int
+    id: Int
+    is_paid: Int
+    referral_id: Int
+    user_id: Int
+    user_wallet_number: Int
+    wallet_id: Int
+}
+
+type PaymentDeleteResponse {
+    amount: Float
+    comment: String
+    created: DateTime
+    currency: String
+    expected_amount: String
+    id: Float
+    is_paid: Boolean
+    referral_id: String
+    referral_money: Float
+    updated: DateTime
+    user_id: String
+    user_wallet_number: String
+    wallet_id: String
+}
+
+type PaymentEdge {
+    "Cursor for this node."
+    cursor: ConnectionCursor!
+    "The node containing the Payment"
+    node: Payment!
+}
+
+type PaymentMaxAggregate {
+    amount: Float
+    comment: String
+    currency: String
+    id: Float
+    referral_id: String
+    user_id: String
+    user_wallet_number: String
+    wallet_id: String
+}
+
+type PaymentMinAggregate {
+    amount: Float
+    comment: String
+    currency: String
+    id: Float
+    referral_id: String
+    user_id: String
+    user_wallet_number: String
+    wallet_id: String
+}
+
+type PaymentSumAggregate {
+    amount: Float
+    id: Float
+}
+
 type Query {
+    allActiveWallets: [Wallet!]!
+    getUserPayments(id: String!): [Payment!]!
+    oneWallet(type: String!): Wallet!
+    payment(
+        "The id of the record to find."
+        id: ID!
+    ): Payment
+    payments(
+        "Specify to filter the records returned."
+        filter: PaymentFilter = {},
+        "Limit or page results."
+        paging: CursorPaging = {first : 50000},
+        "Specify to sort results."
+        sorting: [PaymentSort!] = []
+    ): PaymentConnection!
     user(
         "The id of the record to find."
         id: ID!
@@ -44,6 +169,22 @@ type Query {
         "Specify to sort results."
         sorting: [UserSort!] = []
     ): UserConnection!
+    wallet(
+        "The id of the record to find."
+        id: ID!
+    ): Wallet
+    wallets(
+        "Specify to filter the records returned."
+        filter: WalletFilter = {},
+        "Limit or page results."
+        paging: CursorPaging = {first : 50000},
+        "Specify to sort results."
+        sorting: [WalletSort!] = []
+    ): WalletConnection!
+}
+
+type ReturnStatusType {
+    status: String!
 }
 
 type UpdateManyResponse {
@@ -52,13 +193,24 @@ type UpdateManyResponse {
 }
 
 type User {
+    balance: Float!
     created: DateTime!
     firstname: String
     id: String!
     is_admin: Boolean!
+    lang: String!
     lastname: String
+    referral_counter: Float!
+    referral_money: Float!
     updated: DateTime!
     username: String
+    who_invite: String
+}
+
+type UserAvgAggregate {
+    balance: Float
+    referral_counter: Float
+    referral_money: Float
 }
 
 type UserConnection {
@@ -69,20 +221,29 @@ type UserConnection {
 }
 
 type UserCountAggregate {
+    balance: Int
     firstname: Int
     id: Int
     lastname: Int
+    referral_counter: Int
+    referral_money: Int
     username: Int
+    who_invite: Int
 }
 
 type UserDeleteResponse {
+    balance: Float
     created: DateTime
     firstname: String
     id: String
     is_admin: Boolean
+    lang: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     updated: DateTime
     username: String
+    who_invite: String
 }
 
 type UserEdge {
@@ -93,17 +254,111 @@ type UserEdge {
 }
 
 type UserMaxAggregate {
+    balance: Float
     firstname: String
     id: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
+    who_invite: String
 }
 
 type UserMinAggregate {
+    balance: Float
     firstname: String
     id: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
+    who_invite: String
+}
+
+type UserSumAggregate {
+    balance: Float
+    referral_counter: Float
+    referral_money: Float
+}
+
+type Wallet {
+    created: DateTime!
+    id: Float!
+    input_money: Float!
+    is_active: Boolean!
+    number: String!
+    token: String!
+    type: String!
+    updated: DateTime!
+}
+
+type WalletAvgAggregate {
+    id: Float
+    input_money: Float
+}
+
+type WalletConnection {
+    "Array of edges."
+    edges: [WalletEdge!]!
+    "Paging information"
+    pageInfo: PageInfo!
+}
+
+type WalletCountAggregate {
+    id: Int
+    input_money: Int
+    is_active: Int
+    number: Int
+    type: Int
+}
+
+type WalletDeleteResponse {
+    created: DateTime
+    id: Float
+    input_money: Float
+    is_active: Boolean
+    number: String
+    token: String
+    type: String
+    updated: DateTime
+}
+
+type WalletEdge {
+    "Cursor for this node."
+    cursor: ConnectionCursor!
+    "The node containing the Wallet"
+    node: Wallet!
+}
+
+type WalletMaxAggregate {
+    id: Float
+    input_money: Float
+    number: String
+    type: String
+}
+
+type WalletMinAggregate {
+    id: Float
+    input_money: Float
+    number: String
+    type: String
+}
+
+type WalletSumAggregate {
+    id: Float
+    input_money: Float
+}
+
+enum PaymentSortFields {
+    amount
+    comment
+    currency
+    id
+    is_paid
+    referral_id
+    user_id
+    user_wallet_number
+    wallet_id
 }
 
 "Sort Directions"
@@ -119,10 +374,36 @@ enum SortNulls {
 }
 
 enum UserSortFields {
+    balance
     firstname
     id
     lastname
+    referral_counter
+    referral_money
     username
+    who_invite
+}
+
+enum WalletSortFields {
+    id
+    input_money
+    is_active
+    number
+    type
+}
+
+input BooleanFieldComparison {
+    is: Boolean
+    isNot: Boolean
+}
+
+input CheckPaymentInput {
+    comment: String!
+}
+
+input CreateManyPaymentsInput {
+    "Array of records to create"
+    payments: [PaymentCreate!]!
 }
 
 input CreateManyUsersInput {
@@ -130,9 +411,24 @@ input CreateManyUsersInput {
     users: [UserCreate!]!
 }
 
+input CreateManyWalletsInput {
+    "Array of records to create"
+    wallets: [WalletCreate!]!
+}
+
+input CreateOnePaymentInput {
+    "The record to create"
+    payment: PaymentCreate!
+}
+
 input CreateOneUserInput {
     "The record to create"
     user: UserCreate!
+}
+
+input CreateOneWalletInput {
+    "The record to create"
+    wallet: WalletCreate!
 }
 
 input CursorPaging {
@@ -146,14 +442,114 @@ input CursorPaging {
     last: Int
 }
 
+input DeleteManyPaymentsInput {
+    "Filter to find records to delete"
+    filter: PaymentDeleteFilter!
+}
+
 input DeleteManyUsersInput {
     "Filter to find records to delete"
     filter: UserDeleteFilter!
 }
 
+input DeleteManyWalletsInput {
+    "Filter to find records to delete"
+    filter: WalletDeleteFilter!
+}
+
 input DeleteOneInput {
     "The id of the record to delete."
     id: ID!
+}
+
+input NumberFieldComparison {
+    between: NumberFieldComparisonBetween
+    eq: Float
+    gt: Float
+    gte: Float
+    in: [Float!]
+    is: Boolean
+    isNot: Boolean
+    lt: Float
+    lte: Float
+    neq: Float
+    notBetween: NumberFieldComparisonBetween
+    notIn: [Float!]
+}
+
+input NumberFieldComparisonBetween {
+    lower: Float!
+    upper: Float!
+}
+
+input PaymentCreate {
+    amount: Float!
+    user_id: String!
+    wallet_id: Float!
+}
+
+input PaymentDeleteFilter {
+    amount: NumberFieldComparison
+    and: [PaymentDeleteFilter!]
+    comment: StringFieldComparison
+    currency: StringFieldComparison
+    id: NumberFieldComparison
+    is_paid: BooleanFieldComparison
+    or: [PaymentDeleteFilter!]
+    referral_id: StringFieldComparison
+    user_id: StringFieldComparison
+    user_wallet_number: StringFieldComparison
+    wallet_id: StringFieldComparison
+}
+
+input PaymentFilter {
+    amount: NumberFieldComparison
+    and: [PaymentFilter!]
+    comment: StringFieldComparison
+    currency: StringFieldComparison
+    id: NumberFieldComparison
+    is_paid: BooleanFieldComparison
+    or: [PaymentFilter!]
+    referral_id: StringFieldComparison
+    user_id: StringFieldComparison
+    user_wallet_number: StringFieldComparison
+    wallet_id: StringFieldComparison
+}
+
+input PaymentSort {
+    direction: SortDirection!
+    field: PaymentSortFields!
+    nulls: SortNulls
+}
+
+input PaymentUpdate {
+    amount: String!
+    currency: String!
+    referral_id: String!
+    referral_money: Float!
+    status: Boolean!
+    user_wallet_number: String!
+}
+
+input PaymentUpdateFilter {
+    amount: NumberFieldComparison
+    and: [PaymentUpdateFilter!]
+    comment: StringFieldComparison
+    currency: StringFieldComparison
+    id: NumberFieldComparison
+    is_paid: BooleanFieldComparison
+    or: [PaymentUpdateFilter!]
+    referral_id: StringFieldComparison
+    user_id: StringFieldComparison
+    user_wallet_number: StringFieldComparison
+    wallet_id: StringFieldComparison
+}
+
+input RelationInput {
+    "The id of the record."
+    id: ID!
+    "The id of relation."
+    relationId: ID!
 }
 
 input StringFieldComparison {
@@ -173,11 +569,32 @@ input StringFieldComparison {
     notLike: String
 }
 
+input UpdateManyPaymentsInput {
+    "Filter used to find fields to update"
+    filter: PaymentUpdateFilter!
+    "The update to apply to all records found using the filter"
+    update: PaymentUpdate!
+}
+
 input UpdateManyUsersInput {
     "Filter used to find fields to update"
     filter: UserUpdateFilter!
     "The update to apply to all records found using the filter"
     update: UserUpdate!
+}
+
+input UpdateManyWalletsInput {
+    "Filter used to find fields to update"
+    filter: WalletUpdateFilter!
+    "The update to apply to all records found using the filter"
+    update: UpdateWallet!
+}
+
+input UpdateOnePaymentInput {
+    "The id of the record to update"
+    id: ID!
+    "The update to apply."
+    update: PaymentUpdate!
 }
 
 input UpdateOneUserInput {
@@ -187,29 +604,57 @@ input UpdateOneUserInput {
     update: UserUpdate!
 }
 
+input UpdateOneWalletInput {
+    "The id of the record to update"
+    id: ID!
+    "The update to apply."
+    update: UpdateWallet!
+}
+
+input UpdateWallet {
+    created: DateTime
+    id: Float
+    input_money: Float
+    is_active: Boolean
+    number: String
+    token: String
+    type: String
+    updated: DateTime
+}
+
 input UserCreate {
     firstname: String
     id: String!
+    lang: String!
     lastname: String
     username: String
+    who_invite: String
 }
 
 input UserDeleteFilter {
     and: [UserDeleteFilter!]
+    balance: NumberFieldComparison
     firstname: StringFieldComparison
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserDeleteFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
 }
 
 input UserFilter {
     and: [UserFilter!]
+    balance: NumberFieldComparison
     firstname: StringFieldComparison
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
 }
 
 input UserSort {
@@ -219,18 +664,68 @@ input UserSort {
 }
 
 input UserUpdate {
+    balance: Float
     firstname: String
+    lang: String
     lastname: String
+    referral_counter: Float
+    referral_money: Float
     username: String
 }
 
 input UserUpdateFilter {
     and: [UserUpdateFilter!]
+    balance: NumberFieldComparison
     firstname: StringFieldComparison
     id: StringFieldComparison
     lastname: StringFieldComparison
     or: [UserUpdateFilter!]
+    referral_counter: NumberFieldComparison
+    referral_money: NumberFieldComparison
     username: StringFieldComparison
+    who_invite: StringFieldComparison
+}
+
+input WalletCreate {
+    number: String!
+    token: String!
+    type: String!
+}
+
+input WalletDeleteFilter {
+    and: [WalletDeleteFilter!]
+    id: NumberFieldComparison
+    input_money: NumberFieldComparison
+    is_active: BooleanFieldComparison
+    number: StringFieldComparison
+    or: [WalletDeleteFilter!]
+    type: StringFieldComparison
+}
+
+input WalletFilter {
+    and: [WalletFilter!]
+    id: NumberFieldComparison
+    input_money: NumberFieldComparison
+    is_active: BooleanFieldComparison
+    number: StringFieldComparison
+    or: [WalletFilter!]
+    type: StringFieldComparison
+}
+
+input WalletSort {
+    direction: SortDirection!
+    field: WalletSortFields!
+    nulls: SortNulls
+}
+
+input WalletUpdateFilter {
+    and: [WalletUpdateFilter!]
+    id: NumberFieldComparison
+    input_money: NumberFieldComparison
+    is_active: BooleanFieldComparison
+    number: StringFieldComparison
+    or: [WalletUpdateFilter!]
+    type: StringFieldComparison
 }
 
 

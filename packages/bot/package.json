@@ -13,8 +13,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@pancake_bot/i18n": "0.0.1",
-    "@pancake_bot/api-client": "0.0.1",
+    "@common_ubot/i18n": "0.0.1",
+    "@common_ubot/api-client": "0.0.1",
     "@urban-bot/core": "0.2.5",
     "@urban-bot/telegram": "0.2.5",
     "@urban-bot/slack": "0.2.5",
@@ -24,6 +24,7 @@
     "react": "17.0.1",
     "ts-loader": "8.0.11",
     "file-loader": "6.0.0",
+    "date-fns": "2.22.1",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
     "webpack-node-externals": "1.7.2",

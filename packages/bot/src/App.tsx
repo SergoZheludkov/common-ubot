@@ -1,6 +1,6 @@
 import React from 'react';
-import { getDefaultI18n, I18nProvider } from '@pancake_bot/i18n';
-import { ApiProvider } from '@pancake_bot/api-client';
+import { getDefaultI18n, I18nProvider } from '@common_ubot/i18n';
+import { ApiProvider } from '@common_ubot/api-client';
 import { Bot } from './Bot';
 import { Notifications } from './notifications';
 

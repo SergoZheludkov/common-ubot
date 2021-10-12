@@ -18,15 +18,44 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type BooleanFieldComparison = {
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+};
+
+export type CheckPaymentInput = {
+  comment: Scalars['String'];
+};
+
+
+export type CreateManyPaymentsInput = {
+  /** Array of records to create */
+  payments: Array<PaymentCreate>;
+};
 
 export type CreateManyUsersInput = {
   /** Array of records to create */
   users: Array<UserCreate>;
 };
 
+export type CreateManyWalletsInput = {
+  /** Array of records to create */
+  wallets: Array<WalletCreate>;
+};
+
+export type CreateOnePaymentInput = {
+  /** The record to create */
+  payment: PaymentCreate;
+};
+
 export type CreateOneUserInput = {
   /** The record to create */
   user: UserCreate;
+};
+
+export type CreateOneWalletInput = {
+  /** The record to create */
+  wallet: WalletCreate;
 };
 
 export type CursorPaging = {
@@ -41,6 +70,11 @@ export type CursorPaging = {
 };
 
 
+export type DeleteManyPaymentsInput = {
+  /** Filter to find records to delete */
+  filter: PaymentDeleteFilter;
+};
+
 export type DeleteManyResponse = {
   __typename?: 'DeleteManyResponse';
   /** The number of records deleted. */
@@ -52,6 +86,11 @@ export type DeleteManyUsersInput = {
   filter: UserDeleteFilter;
 };
 
+export type DeleteManyWalletsInput = {
+  /** Filter to find records to delete */
+  filter: WalletDeleteFilter;
+};
+
 export type DeleteOneInput = {
   /** The id of the record to delete. */
   id: Scalars['ID'];
@@ -59,13 +98,46 @@ export type DeleteOneInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addWallets: ReturnStatusType;
+  checkPayment: Payment;
+  createManyPayments: Array<Payment>;
   createManyUsers: Array<User>;
+  createManyWallets: Array<Wallet>;
+  createOnePayment: Payment;
   createOneUser: User;
+  createOneWallet: Wallet;
+  createPayment: Payment;
   createUser: User;
+  deactivateWallets: ReturnStatusType;
+  deleteManyPayments: DeleteManyResponse;
   deleteManyUsers: DeleteManyResponse;
+  deleteManyWallets: DeleteManyResponse;
+  deleteOnePayment: PaymentDeleteResponse;
   deleteOneUser: UserDeleteResponse;
+  deleteOneWallet: WalletDeleteResponse;
+  setUserOnPayment: Payment;
+  setWalletOnPayment: Payment;
+  updateManyPayments: UpdateManyResponse;
   updateManyUsers: UpdateManyResponse;
+  updateManyWallets: UpdateManyResponse;
+  updateOnePayment: Payment;
   updateOneUser: User;
+  updateOneWallet: Wallet;
+};
+
+
+export type MutationAddWalletsArgs = {
+  input: Array<WalletCreate>;
+};
+
+
+export type MutationCheckPaymentArgs = {
+  input: CheckPaymentInput;
+};
+
+
+export type MutationCreateManyPaymentsArgs = {
+  input: CreateManyPaymentsInput;
 };
 
 
@@ -74,8 +146,28 @@ export type MutationCreateManyUsersArgs = {
 };
 
 
+export type MutationCreateManyWalletsArgs = {
+  input: CreateManyWalletsInput;
+};
+
+
+export type MutationCreateOnePaymentArgs = {
+  input: CreateOnePaymentInput;
+};
+
+
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
+};
+
+
+export type MutationCreateOneWalletArgs = {
+  input: CreateOneWalletInput;
+};
+
+
+export type MutationCreatePaymentArgs = {
+  input: PaymentCreate;
 };
 
 
@@ -84,8 +176,28 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeactivateWalletsArgs = {
+  input: Array<Scalars['Float']>;
+};
+
+
+export type MutationDeleteManyPaymentsArgs = {
+  input: DeleteManyPaymentsInput;
+};
+
+
 export type MutationDeleteManyUsersArgs = {
   input: DeleteManyUsersInput;
+};
+
+
+export type MutationDeleteManyWalletsArgs = {
+  input: DeleteManyWalletsInput;
+};
+
+
+export type MutationDeleteOnePaymentArgs = {
+  input: DeleteOneInput;
 };
 
 
@@ -94,13 +206,68 @@ export type MutationDeleteOneUserArgs = {
 };
 
 
+export type MutationDeleteOneWalletArgs = {
+  input: DeleteOneInput;
+};
+
+
+export type MutationSetUserOnPaymentArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationSetWalletOnPaymentArgs = {
+  input: RelationInput;
+};
+
+
+export type MutationUpdateManyPaymentsArgs = {
+  input: UpdateManyPaymentsInput;
+};
+
+
 export type MutationUpdateManyUsersArgs = {
   input: UpdateManyUsersInput;
 };
 
 
+export type MutationUpdateManyWalletsArgs = {
+  input: UpdateManyWalletsInput;
+};
+
+
+export type MutationUpdateOnePaymentArgs = {
+  input: UpdateOnePaymentInput;
+};
+
+
 export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
+};
+
+
+export type MutationUpdateOneWalletArgs = {
+  input: UpdateOneWalletInput;
+};
+
+export type NumberFieldComparison = {
+  between?: Maybe<NumberFieldComparisonBetween>;
+  eq?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  is?: Maybe<Scalars['Boolean']>;
+  isNot?: Maybe<Scalars['Boolean']>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  neq?: Maybe<Scalars['Float']>;
+  notBetween?: Maybe<NumberFieldComparisonBetween>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
+export type NumberFieldComparisonBetween = {
+  lower: Scalars['Float'];
+  upper: Scalars['Float'];
 };
 
 export type PageInfo = {
@@ -115,10 +282,215 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['ConnectionCursor']>;
 };
 
+export type Payment = {
+  __typename?: 'Payment';
+  amount?: Maybe<Scalars['Float']>;
+  comment: Scalars['String'];
+  created: Scalars['DateTime'];
+  currency?: Maybe<Scalars['String']>;
+  expected_amount: Scalars['String'];
+  id: Scalars['Float'];
+  is_paid: Scalars['Boolean'];
+  referral_id: Scalars['String'];
+  referral_money: Scalars['Float'];
+  updated: Scalars['DateTime'];
+  user: User;
+  user_id: Scalars['String'];
+  user_wallet_number?: Maybe<Scalars['String']>;
+  wallet: Wallet;
+  wallet_id: Scalars['String'];
+};
+
+export type PaymentAvgAggregate = {
+  __typename?: 'PaymentAvgAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type PaymentConnection = {
+  __typename?: 'PaymentConnection';
+  /** Array of edges. */
+  edges: Array<PaymentEdge>;
+  /** Paging information */
+  pageInfo: PageInfo;
+};
+
+export type PaymentCountAggregate = {
+  __typename?: 'PaymentCountAggregate';
+  amount?: Maybe<Scalars['Int']>;
+  comment?: Maybe<Scalars['Int']>;
+  currency?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  is_paid?: Maybe<Scalars['Int']>;
+  referral_id?: Maybe<Scalars['Int']>;
+  user_id?: Maybe<Scalars['Int']>;
+  user_wallet_number?: Maybe<Scalars['Int']>;
+  wallet_id?: Maybe<Scalars['Int']>;
+};
+
+export type PaymentCreate = {
+  amount: Scalars['Float'];
+  user_id: Scalars['String'];
+  wallet_id: Scalars['Float'];
+};
+
+export type PaymentDeleteFilter = {
+  amount?: Maybe<NumberFieldComparison>;
+  and?: Maybe<Array<PaymentDeleteFilter>>;
+  comment?: Maybe<StringFieldComparison>;
+  currency?: Maybe<StringFieldComparison>;
+  id?: Maybe<NumberFieldComparison>;
+  is_paid?: Maybe<BooleanFieldComparison>;
+  or?: Maybe<Array<PaymentDeleteFilter>>;
+  referral_id?: Maybe<StringFieldComparison>;
+  user_id?: Maybe<StringFieldComparison>;
+  user_wallet_number?: Maybe<StringFieldComparison>;
+  wallet_id?: Maybe<StringFieldComparison>;
+};
+
+export type PaymentDeleteResponse = {
+  __typename?: 'PaymentDeleteResponse';
+  amount?: Maybe<Scalars['Float']>;
+  comment?: Maybe<Scalars['String']>;
+  created?: Maybe<Scalars['DateTime']>;
+  currency?: Maybe<Scalars['String']>;
+  expected_amount?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  is_paid?: Maybe<Scalars['Boolean']>;
+  referral_id?: Maybe<Scalars['String']>;
+  referral_money?: Maybe<Scalars['Float']>;
+  updated?: Maybe<Scalars['DateTime']>;
+  user_id?: Maybe<Scalars['String']>;
+  user_wallet_number?: Maybe<Scalars['String']>;
+  wallet_id?: Maybe<Scalars['String']>;
+};
+
+export type PaymentEdge = {
+  __typename?: 'PaymentEdge';
+  /** Cursor for this node. */
+  cursor: Scalars['ConnectionCursor'];
+  /** The node containing the Payment */
+  node: Payment;
+};
+
+export type PaymentFilter = {
+  amount?: Maybe<NumberFieldComparison>;
+  and?: Maybe<Array<PaymentFilter>>;
+  comment?: Maybe<StringFieldComparison>;
+  currency?: Maybe<StringFieldComparison>;
+  id?: Maybe<NumberFieldComparison>;
+  is_paid?: Maybe<BooleanFieldComparison>;
+  or?: Maybe<Array<PaymentFilter>>;
+  referral_id?: Maybe<StringFieldComparison>;
+  user_id?: Maybe<StringFieldComparison>;
+  user_wallet_number?: Maybe<StringFieldComparison>;
+  wallet_id?: Maybe<StringFieldComparison>;
+};
+
+export type PaymentMaxAggregate = {
+  __typename?: 'PaymentMaxAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  comment?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  referral_id?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
+  user_wallet_number?: Maybe<Scalars['String']>;
+  wallet_id?: Maybe<Scalars['String']>;
+};
+
+export type PaymentMinAggregate = {
+  __typename?: 'PaymentMinAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  comment?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  referral_id?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['String']>;
+  user_wallet_number?: Maybe<Scalars['String']>;
+  wallet_id?: Maybe<Scalars['String']>;
+};
+
+export type PaymentSort = {
+  direction: SortDirection;
+  field: PaymentSortFields;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum PaymentSortFields {
+  Amount = 'amount',
+  Comment = 'comment',
+  Currency = 'currency',
+  Id = 'id',
+  IsPaid = 'is_paid',
+  ReferralId = 'referral_id',
+  UserId = 'user_id',
+  UserWalletNumber = 'user_wallet_number',
+  WalletId = 'wallet_id'
+}
+
+export type PaymentSumAggregate = {
+  __typename?: 'PaymentSumAggregate';
+  amount?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type PaymentUpdate = {
+  amount: Scalars['String'];
+  currency: Scalars['String'];
+  referral_id: Scalars['String'];
+  referral_money: Scalars['Float'];
+  status: Scalars['Boolean'];
+  user_wallet_number: Scalars['String'];
+};
+
+export type PaymentUpdateFilter = {
+  amount?: Maybe<NumberFieldComparison>;
+  and?: Maybe<Array<PaymentUpdateFilter>>;
+  comment?: Maybe<StringFieldComparison>;
+  currency?: Maybe<StringFieldComparison>;
+  id?: Maybe<NumberFieldComparison>;
+  is_paid?: Maybe<BooleanFieldComparison>;
+  or?: Maybe<Array<PaymentUpdateFilter>>;
+  referral_id?: Maybe<StringFieldComparison>;
+  user_id?: Maybe<StringFieldComparison>;
+  user_wallet_number?: Maybe<StringFieldComparison>;
+  wallet_id?: Maybe<StringFieldComparison>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  allActiveWallets: Array<Wallet>;
+  getUserPayments: Array<Payment>;
+  oneWallet: Wallet;
+  payment?: Maybe<Payment>;
+  payments: PaymentConnection;
   user?: Maybe<User>;
   users: UserConnection;
+  wallet?: Maybe<Wallet>;
+  wallets: WalletConnection;
+};
+
+
+export type QueryGetUserPaymentsArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryOneWalletArgs = {
+  type: Scalars['String'];
+};
+
+
+export type QueryPaymentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPaymentsArgs = {
+  filter?: Maybe<PaymentFilter>;
+  paging?: Maybe<CursorPaging>;
+  sorting?: Maybe<Array<PaymentSort>>;
 };
 
 
@@ -131,6 +503,30 @@ export type QueryUsersArgs = {
   filter?: Maybe<UserFilter>;
   paging?: Maybe<CursorPaging>;
   sorting?: Maybe<Array<UserSort>>;
+};
+
+
+export type QueryWalletArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryWalletsArgs = {
+  filter?: Maybe<WalletFilter>;
+  paging?: Maybe<CursorPaging>;
+  sorting?: Maybe<Array<WalletSort>>;
+};
+
+export type RelationInput = {
+  /** The id of the record. */
+  id: Scalars['ID'];
+  /** The id of relation. */
+  relationId: Scalars['ID'];
+};
+
+export type ReturnStatusType = {
+  __typename?: 'ReturnStatusType';
+  status: Scalars['String'];
 };
 
 /** Sort Directions */
@@ -162,6 +558,13 @@ export type StringFieldComparison = {
   notLike?: Maybe<Scalars['String']>;
 };
 
+export type UpdateManyPaymentsInput = {
+  /** Filter used to find fields to update */
+  filter: PaymentUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: PaymentUpdate;
+};
+
 export type UpdateManyResponse = {
   __typename?: 'UpdateManyResponse';
   /** The number of records updated. */
@@ -175,6 +578,20 @@ export type UpdateManyUsersInput = {
   update: UserUpdate;
 };
 
+export type UpdateManyWalletsInput = {
+  /** Filter used to find fields to update */
+  filter: WalletUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateWallet;
+};
+
+export type UpdateOnePaymentInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: PaymentUpdate;
+};
+
 export type UpdateOneUserInput = {
   /** The id of the record to update */
   id: Scalars['ID'];
@@ -182,15 +599,45 @@ export type UpdateOneUserInput = {
   update: UserUpdate;
 };
 
+export type UpdateOneWalletInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateWallet;
+};
+
+export type UpdateWallet = {
+  created?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+  is_active?: Maybe<Scalars['Boolean']>;
+  number?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  updated?: Maybe<Scalars['DateTime']>;
+};
+
 export type User = {
   __typename?: 'User';
+  balance: Scalars['Float'];
   created: Scalars['DateTime'];
   firstname?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   is_admin: Scalars['Boolean'];
+  lang: Scalars['String'];
   lastname?: Maybe<Scalars['String']>;
+  referral_counter: Scalars['Float'];
+  referral_money: Scalars['Float'];
   updated: Scalars['DateTime'];
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
+};
+
+export type UserAvgAggregate = {
+  __typename?: 'UserAvgAggregate';
+  balance?: Maybe<Scalars['Float']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
 };
 
 export type UserConnection = {
@@ -203,37 +650,52 @@ export type UserConnection = {
 
 export type UserCountAggregate = {
   __typename?: 'UserCountAggregate';
+  balance?: Maybe<Scalars['Int']>;
   firstname?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   lastname?: Maybe<Scalars['Int']>;
+  referral_counter?: Maybe<Scalars['Int']>;
+  referral_money?: Maybe<Scalars['Int']>;
   username?: Maybe<Scalars['Int']>;
+  who_invite?: Maybe<Scalars['Int']>;
 };
 
 export type UserCreate = {
   firstname?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  lang: Scalars['String'];
   lastname?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserDeleteFilter = {
   and?: Maybe<Array<UserDeleteFilter>>;
+  balance?: Maybe<NumberFieldComparison>;
   firstname?: Maybe<StringFieldComparison>;
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserDeleteFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
 
 export type UserDeleteResponse = {
   __typename?: 'UserDeleteResponse';
+  balance?: Maybe<Scalars['Float']>;
   created?: Maybe<Scalars['DateTime']>;
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   is_admin?: Maybe<Scalars['Boolean']>;
+  lang?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   updated?: Maybe<Scalars['DateTime']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserEdge = {
@@ -246,27 +708,39 @@ export type UserEdge = {
 
 export type UserFilter = {
   and?: Maybe<Array<UserFilter>>;
+  balance?: Maybe<NumberFieldComparison>;
   firstname?: Maybe<StringFieldComparison>;
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
 
 export type UserMaxAggregate = {
   __typename?: 'UserMaxAggregate';
+  balance?: Maybe<Scalars['Float']>;
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserMinAggregate = {
   __typename?: 'UserMinAggregate';
+  balance?: Maybe<Scalars['Float']>;
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
+  who_invite?: Maybe<Scalars['String']>;
 };
 
 export type UserSort = {
@@ -276,30 +750,227 @@ export type UserSort = {
 };
 
 export enum UserSortFields {
+  Balance = 'balance',
   Firstname = 'firstname',
   Id = 'id',
   Lastname = 'lastname',
-  Username = 'username'
+  ReferralCounter = 'referral_counter',
+  ReferralMoney = 'referral_money',
+  Username = 'username',
+  WhoInvite = 'who_invite'
 }
 
+export type UserSumAggregate = {
+  __typename?: 'UserSumAggregate';
+  balance?: Maybe<Scalars['Float']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
+};
+
 export type UserUpdate = {
+  balance?: Maybe<Scalars['Float']>;
   firstname?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
+  referral_counter?: Maybe<Scalars['Float']>;
+  referral_money?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
 };
 
 export type UserUpdateFilter = {
   and?: Maybe<Array<UserUpdateFilter>>;
+  balance?: Maybe<NumberFieldComparison>;
   firstname?: Maybe<StringFieldComparison>;
   id?: Maybe<StringFieldComparison>;
   lastname?: Maybe<StringFieldComparison>;
   or?: Maybe<Array<UserUpdateFilter>>;
+  referral_counter?: Maybe<NumberFieldComparison>;
+  referral_money?: Maybe<NumberFieldComparison>;
   username?: Maybe<StringFieldComparison>;
+  who_invite?: Maybe<StringFieldComparison>;
 };
+
+export type Wallet = {
+  __typename?: 'Wallet';
+  created: Scalars['DateTime'];
+  id: Scalars['Float'];
+  input_money: Scalars['Float'];
+  is_active: Scalars['Boolean'];
+  number: Scalars['String'];
+  token: Scalars['String'];
+  type: Scalars['String'];
+  updated: Scalars['DateTime'];
+};
+
+export type WalletAvgAggregate = {
+  __typename?: 'WalletAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+};
+
+export type WalletConnection = {
+  __typename?: 'WalletConnection';
+  /** Array of edges. */
+  edges: Array<WalletEdge>;
+  /** Paging information */
+  pageInfo: PageInfo;
+};
+
+export type WalletCountAggregate = {
+  __typename?: 'WalletCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  input_money?: Maybe<Scalars['Int']>;
+  is_active?: Maybe<Scalars['Int']>;
+  number?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+export type WalletCreate = {
+  number: Scalars['String'];
+  token: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type WalletDeleteFilter = {
+  and?: Maybe<Array<WalletDeleteFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  input_money?: Maybe<NumberFieldComparison>;
+  is_active?: Maybe<BooleanFieldComparison>;
+  number?: Maybe<StringFieldComparison>;
+  or?: Maybe<Array<WalletDeleteFilter>>;
+  type?: Maybe<StringFieldComparison>;
+};
+
+export type WalletDeleteResponse = {
+  __typename?: 'WalletDeleteResponse';
+  created?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+  is_active?: Maybe<Scalars['Boolean']>;
+  number?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  updated?: Maybe<Scalars['DateTime']>;
+};
+
+export type WalletEdge = {
+  __typename?: 'WalletEdge';
+  /** Cursor for this node. */
+  cursor: Scalars['ConnectionCursor'];
+  /** The node containing the Wallet */
+  node: Wallet;
+};
+
+export type WalletFilter = {
+  and?: Maybe<Array<WalletFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  input_money?: Maybe<NumberFieldComparison>;
+  is_active?: Maybe<BooleanFieldComparison>;
+  number?: Maybe<StringFieldComparison>;
+  or?: Maybe<Array<WalletFilter>>;
+  type?: Maybe<StringFieldComparison>;
+};
+
+export type WalletMaxAggregate = {
+  __typename?: 'WalletMaxAggregate';
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+  number?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type WalletMinAggregate = {
+  __typename?: 'WalletMinAggregate';
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+  number?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type WalletSort = {
+  direction: SortDirection;
+  field: WalletSortFields;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum WalletSortFields {
+  Id = 'id',
+  InputMoney = 'input_money',
+  IsActive = 'is_active',
+  Number = 'number',
+  Type = 'type'
+}
+
+export type WalletSumAggregate = {
+  __typename?: 'WalletSumAggregate';
+  id?: Maybe<Scalars['Float']>;
+  input_money?: Maybe<Scalars['Float']>;
+};
+
+export type WalletUpdateFilter = {
+  and?: Maybe<Array<WalletUpdateFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  input_money?: Maybe<NumberFieldComparison>;
+  is_active?: Maybe<BooleanFieldComparison>;
+  number?: Maybe<StringFieldComparison>;
+  or?: Maybe<Array<WalletUpdateFilter>>;
+  type?: Maybe<StringFieldComparison>;
+};
+
+export type AllPaymentQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type AllPaymentQuery = (
+  { __typename?: 'Query' }
+  & { getUserPayments: Array<(
+    { __typename?: 'Payment' }
+    & Pick<Payment, 'currency' | 'amount' | 'expected_amount' | 'comment' | 'updated'>
+    & { wallet: (
+      { __typename?: 'Wallet' }
+      & Pick<Wallet, 'id' | 'number' | 'type'>
+    ) }
+  )> }
+);
+
+export type CreatePaymentMutationVariables = Exact<{
+  input: PaymentCreate;
+}>;
+
+
+export type CreatePaymentMutation = (
+  { __typename?: 'Mutation' }
+  & { createPayment: (
+    { __typename?: 'Payment' }
+    & Pick<Payment, 'user_id' | 'wallet_id' | 'amount' | 'expected_amount' | 'currency' | 'comment'>
+    & { wallet: (
+      { __typename?: 'Wallet' }
+      & Pick<Wallet, 'id' | 'number' | 'type'>
+    ) }
+  ) }
+);
+
+export type CheckPaymentMutationVariables = Exact<{
+  input: CheckPaymentInput;
+}>;
+
+
+export type CheckPaymentMutation = (
+  { __typename?: 'Mutation' }
+  & { checkPayment: (
+    { __typename?: 'Payment' }
+    & Pick<Payment, 'user_id' | 'wallet_id' | 'currency' | 'amount' | 'expected_amount' | 'is_paid'>
+    & { wallet: (
+      { __typename?: 'Wallet' }
+      & Pick<Wallet, 'id' | 'number' | 'type'>
+    ) }
+  ) }
+);
 
 export type UserBaseFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'firstname' | 'lastname' | 'username' | 'is_admin'>
+  & Pick<User, 'id' | 'firstname' | 'lastname' | 'username' | 'balance' | 'who_invite' | 'referral_counter' | 'referral_money' | 'is_admin' | 'lang'>
 );
 
 export type UserQueryVariables = Exact<{
@@ -328,15 +999,196 @@ export type CreateUserMutation = (
   ) }
 );
 
+export type OneWalletQueryVariables = Exact<{
+  type: Scalars['String'];
+}>;
+
+
+export type OneWalletQuery = (
+  { __typename?: 'Query' }
+  & { oneWallet: (
+    { __typename?: 'Wallet' }
+    & Pick<Wallet, 'id' | 'number' | 'type'>
+  ) }
+);
+
+export type AllActiveWalletsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllActiveWalletsQuery = (
+  { __typename?: 'Query' }
+  & { allActiveWallets: Array<(
+    { __typename?: 'Wallet' }
+    & Pick<Wallet, 'id' | 'number' | 'type'>
+  )> }
+);
+
+export type AddWalletsMutationVariables = Exact<{
+  input: Array<WalletCreate> | WalletCreate;
+}>;
+
+
+export type AddWalletsMutation = (
+  { __typename?: 'Mutation' }
+  & { addWallets: (
+    { __typename?: 'ReturnStatusType' }
+    & Pick<ReturnStatusType, 'status'>
+  ) }
+);
+
+export type DeactivateWalletsMutationVariables = Exact<{
+  input: Array<Scalars['Float']> | Scalars['Float'];
+}>;
+
+
+export type DeactivateWalletsMutation = (
+  { __typename?: 'Mutation' }
+  & { deactivateWallets: (
+    { __typename?: 'ReturnStatusType' }
+    & Pick<ReturnStatusType, 'status'>
+  ) }
+);
+
 export const UserBaseFragmentDoc = gql`
     fragment UserBase on User {
   id
   firstname
   lastname
   username
+  balance
+  who_invite
+  referral_counter
+  referral_money
   is_admin
+  lang
 }
     `;
+export const AllPaymentDocument = gql`
+    query allPayment($id: String!) {
+  getUserPayments(id: $id) {
+    currency
+    amount
+    expected_amount
+    comment
+    updated
+    wallet {
+      id
+      number
+      type
+    }
+  }
+}
+    `;
+
+/**
+ * __useAllPaymentQuery__
+ *
+ * To run a query within a React component, call `useAllPaymentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllPaymentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllPaymentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useAllPaymentQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
+      }
+export function useAllPaymentLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
+        }
+export type AllPaymentQueryHookResult = ReturnType<typeof useAllPaymentQuery>;
+export type AllPaymentLazyQueryHookResult = ReturnType<typeof useAllPaymentLazyQuery>;
+export type AllPaymentQueryResult = ApolloReactCommon.QueryResult<AllPaymentQuery, AllPaymentQueryVariables>;
+export const CreatePaymentDocument = gql`
+    mutation createPayment($input: PaymentCreate!) {
+  createPayment(input: $input) {
+    user_id
+    wallet_id
+    amount
+    expected_amount
+    currency
+    comment
+    wallet {
+      id
+      number
+      type
+    }
+  }
+}
+    `;
+export type CreatePaymentMutationFn = ApolloReactCommon.MutationFunction<CreatePaymentMutation, CreatePaymentMutationVariables>;
+
+/**
+ * __useCreatePaymentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentMutation, { data, loading, error }] = useCreatePaymentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePaymentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CreatePaymentDocument, baseOptions);
+      }
+export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
+export type CreatePaymentMutationResult = ApolloReactCommon.MutationResult<CreatePaymentMutation>;
+export type CreatePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const CheckPaymentDocument = gql`
+    mutation checkPayment($input: CheckPaymentInput!) {
+  checkPayment(input: $input) {
+    user_id
+    wallet_id
+    currency
+    amount
+    expected_amount
+    is_paid
+    wallet {
+      id
+      number
+      type
+    }
+  }
+}
+    `;
+export type CheckPaymentMutationFn = ApolloReactCommon.MutationFunction<CheckPaymentMutation, CheckPaymentMutationVariables>;
+
+/**
+ * __useCheckPaymentMutation__
+ *
+ * To run a mutation, you first call `useCheckPaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckPaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkPaymentMutation, { data, loading, error }] = useCheckPaymentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCheckPaymentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CheckPaymentMutation, CheckPaymentMutationVariables>) {
+        return ApolloReactHooks.useMutation<CheckPaymentMutation, CheckPaymentMutationVariables>(CheckPaymentDocument, baseOptions);
+      }
+export type CheckPaymentMutationHookResult = ReturnType<typeof useCheckPaymentMutation>;
+export type CheckPaymentMutationResult = ApolloReactCommon.MutationResult<CheckPaymentMutation>;
+export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<CheckPaymentMutation, CheckPaymentMutationVariables>;
 export const UserDocument = gql`
     query user($id: ID!) {
   user(id: $id) {
@@ -402,3 +1254,136 @@ export function useCreateUserMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const OneWalletDocument = gql`
+    query oneWallet($type: String!) {
+  oneWallet(type: $type) {
+    id
+    number
+    type
+  }
+}
+    `;
+
+/**
+ * __useOneWalletQuery__
+ *
+ * To run a query within a React component, call `useOneWalletQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOneWalletQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOneWalletQuery({
+ *   variables: {
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useOneWalletQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneWalletQuery, OneWalletQueryVariables>) {
+        return ApolloReactHooks.useQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
+      }
+export function useOneWalletLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneWalletQuery, OneWalletQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
+        }
+export type OneWalletQueryHookResult = ReturnType<typeof useOneWalletQuery>;
+export type OneWalletLazyQueryHookResult = ReturnType<typeof useOneWalletLazyQuery>;
+export type OneWalletQueryResult = ApolloReactCommon.QueryResult<OneWalletQuery, OneWalletQueryVariables>;
+export const AllActiveWalletsDocument = gql`
+    query allActiveWallets {
+  allActiveWallets {
+    id
+    number
+    type
+  }
+}
+    `;
+
+/**
+ * __useAllActiveWalletsQuery__
+ *
+ * To run a query within a React component, call `useAllActiveWalletsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllActiveWalletsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllActiveWalletsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllActiveWalletsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(AllActiveWalletsDocument, baseOptions);
+      }
+export function useAllActiveWalletsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(AllActiveWalletsDocument, baseOptions);
+        }
+export type AllActiveWalletsQueryHookResult = ReturnType<typeof useAllActiveWalletsQuery>;
+export type AllActiveWalletsLazyQueryHookResult = ReturnType<typeof useAllActiveWalletsLazyQuery>;
+export type AllActiveWalletsQueryResult = ApolloReactCommon.QueryResult<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>;
+export const AddWalletsDocument = gql`
+    mutation addWallets($input: [WalletCreate!]!) {
+  addWallets(input: $input) {
+    status
+  }
+}
+    `;
+export type AddWalletsMutationFn = ApolloReactCommon.MutationFunction<AddWalletsMutation, AddWalletsMutationVariables>;
+
+/**
+ * __useAddWalletsMutation__
+ *
+ * To run a mutation, you first call `useAddWalletsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddWalletsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addWalletsMutation, { data, loading, error }] = useAddWalletsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddWalletsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddWalletsMutation, AddWalletsMutationVariables>) {
+        return ApolloReactHooks.useMutation<AddWalletsMutation, AddWalletsMutationVariables>(AddWalletsDocument, baseOptions);
+      }
+export type AddWalletsMutationHookResult = ReturnType<typeof useAddWalletsMutation>;
+export type AddWalletsMutationResult = ApolloReactCommon.MutationResult<AddWalletsMutation>;
+export type AddWalletsMutationOptions = ApolloReactCommon.BaseMutationOptions<AddWalletsMutation, AddWalletsMutationVariables>;
+export const DeactivateWalletsDocument = gql`
+    mutation deactivateWallets($input: [Float!]!) {
+  deactivateWallets(input: $input) {
+    status
+  }
+}
+    `;
+export type DeactivateWalletsMutationFn = ApolloReactCommon.MutationFunction<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>;
+
+/**
+ * __useDeactivateWalletsMutation__
+ *
+ * To run a mutation, you first call `useDeactivateWalletsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeactivateWalletsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deactivateWalletsMutation, { data, loading, error }] = useDeactivateWalletsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeactivateWalletsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>(DeactivateWalletsDocument, baseOptions);
+      }
+export type DeactivateWalletsMutationHookResult = ReturnType<typeof useDeactivateWalletsMutation>;
+export type DeactivateWalletsMutationResult = ApolloReactCommon.MutationResult<DeactivateWalletsMutation>;
+export type DeactivateWalletsMutationOptions = ApolloReactCommon.BaseMutationOptions<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>;

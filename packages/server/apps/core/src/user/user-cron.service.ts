@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
 
-const EVERY_30_MINUTES = '0 */1 8-22 * * *';
+const EVERY_30_MINUTES = '0 */1 8-17 * * *';
 
 @Injectable()
 export class UserCronService {
@@ -14,7 +14,7 @@ export class UserCronService {
     private readonly httpService: HttpService,
   ) {}
 
-  getURL(userid: number) {
+  getURL(userid: string) {
     return `${this.configService.get('WEBHOOK_HOST_BASE')}/notification/${userid}`;
   }
 
