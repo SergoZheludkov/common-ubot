@@ -9,8 +9,8 @@ interface MainMenuProps {
   balance: () => void;
   referral: () => void;
 
-  actionOne: () => void;
-  actionTwo: () => void;
+  feedback: () => void;
+  rules: () => void;
 }
 
 export const Main = ({
@@ -19,31 +19,25 @@ export const Main = ({
   admin,
   balance,
   referral,
-
-  actionOne,
-  actionTwo,
+  feedback,
+  rules,
 }: MainMenuProps) => {
   const { t } = useTranslation('buttons');
 
   useCommand(() => admin(), '/admin');
   useText(balance, t('balance'));
   useText(referral, t('referral'));
-  useText(() => actionOne(), t('actionOne'));
-  useText(() => actionTwo(), t('actionTwo'));
+  useText(feedback, t('feedback'));
+  useText(rules, t('rules'));
 
   const message = isUpdated ? 'common:update_message' : 'common:main_menu';
 
   return (
-    <ButtonGroup
-      isReplyButtons
-      isResizedKeyboard
-      maxColumns={2}
-      title={t(message)}
-    >
-      <Button>{t('actionOne')}</Button>
-      <Button>{t('actionTwo')}</Button>
+    <ButtonGroup isReplyButtons isResizedKeyboard maxColumns={2} title={t(message)}>
       <Button>{t('balance')}</Button>
       <Button>{t('referral')}</Button>
+      <Button>{t('feedback')}</Button>
+      <Button>{t('rules')}</Button>
     </ButtonGroup>
   );
 };

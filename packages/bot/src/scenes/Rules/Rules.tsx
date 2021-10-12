@@ -8,7 +8,7 @@ interface Props {
 
 const Rules = ({ exit }: Props) => {
   const { t } = useTranslation(['rules']);
-  useText(exit, t('back'));
+  useText(exit, t('buttons:back'));
 
   return (
     <ButtonGroup isReplyButtons isResizedKeyboard title={t('message')}>

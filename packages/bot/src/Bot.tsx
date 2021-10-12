@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useCommand, useBotContext, ButtonGroup, Button } from '@urban-bot/core';
+import { useCommand, useBotContext } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
-import { useTranslation } from '@common_ubot/i18n';
 import { saveChat, getChatsMap } from './local-storage';
 
 import { UserProvider } from './contexts/UserProvider';
@@ -11,7 +10,6 @@ import * as Scene from './scenes';
 import * as T from './types';
 
 export const Bot = () => {
-  const { t } = useTranslation('common');
   const [scene, setScene] = useState<T.Menu | T.Scene>(T.Scene.RESET);
   const [refId, setRefId] = useState<string | null>('');
   console.info('Bot scene:', scene);
@@ -33,12 +31,6 @@ export const Bot = () => {
     setScene(T.Scene.AUTH);
   }, '/start');
 
-  const button = (title: string) => (
-    <ButtonGroup isReplyButtons isResizedKeyboard title={t(title)}>
-      <Button>{t('buttons:back')}</Button>
-    </ButtonGroup>
-  );
-
   switch (scene) {
     case T.Scene.UPDATE_BOT:
       return (
@@ -47,9 +39,8 @@ export const Bot = () => {
           admin={() => setScene(T.Menu.ADMIN)}
           balance={() => setScene(T.Menu.BALANCE)}
           referral={() => setScene(T.Menu.REFERRAL)}
-
-          actionOne={() => setScene(T.Scene.ONE)}
-          actionTwo={() => setScene(T.Scene.TWO)}
+          feedback={() => setScene(T.Scene.FEEDBACK)}
+          rules={() => setScene(T.Scene.RULES)}
         />
       );
     // -------------------------------------AUTHENTIFICATION-------------------------------------
@@ -57,22 +48,15 @@ export const Bot = () => {
       return <Scene.Authentification isSuccess={() => setScene(T.Menu.MAIN)} isFailed={() => setScene(T.Scene.REG)} />;
     case T.Scene.REG:
       return <Scene.Registration refId={refId || null} exit={() => setScene(T.Menu.MAIN)} />;
-
-    case T.Scene.ONE:
-      return button('sceneOne');
-    case T.Scene.TWO:
-      return button('sceneTwo');
-
-
     // ----------------------------------------MAIN MENU----------------------------------------
-    case T.Scene.FEEDBACK:
-      return <Scene.Feedback exit={() => setScene(T.Menu.MAIN)} />;
-
     case T.Scene.INPUT_MONEY:
       return <Scene.InputMoney exit={() => setScene(T.Menu.BALANCE)} />;
 
     case T.Scene.ALL_PAYMENTS:
       return <Scene.Payments exit={() => setScene(T.Menu.BALANCE)} />;
+
+    case T.Scene.FEEDBACK:
+      return <Scene.Feedback exit={() => setScene(T.Menu.MAIN)} />;
 
     case T.Scene.RULES:
       return <Scene.Rules exit={() => setScene(T.Menu.MAIN)} />;
@@ -91,9 +75,8 @@ export const Bot = () => {
           admin={() => setScene(T.Menu.ADMIN)}
           balance={() => setScene(T.Menu.BALANCE)}
           referral={() => setScene(T.Menu.REFERRAL)}
-
-          actionOne={() => setScene(T.Scene.ONE)}
-          actionTwo={() => setScene(T.Scene.TWO)}
+          feedback={() => setScene(T.Scene.FEEDBACK)}
+          rules={() => setScene(T.Scene.RULES)}
         />
       );
 
