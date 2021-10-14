@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonGroup, Button, useText } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
-import { useUserData } from '../contexts/UserProvider';
+import { Hook } from '../contexts';
 
 interface Props {
   wallets: () => void;
@@ -11,7 +11,7 @@ interface Props {
 
 const Admin = ({ wallets, statistic, back }: Props) => {
   const { t } = useTranslation('buttons');
-  const { user } = useUserData();
+  const { user } = Hook.useUser();
 
   useText(wallets, t('wallets'));
   useText(statistic, t('statistic'));

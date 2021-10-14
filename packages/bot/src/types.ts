@@ -1,6 +1,4 @@
 export enum Scene {
-  ONE = 'scene_one',
-  TWO = 'scene_two',
   AUTH = 'scene_authentification',
   REG = 'scene_registration',
   FEEDBACK = 'scene_feedback',
@@ -9,6 +7,7 @@ export enum Scene {
   ALL_PAYMENTS = 'scene_all_payments',
   ADD_WALLETS = 'scene_add_wallets',
   DEACTIVATE_WALLETS = 'scene_deactivate_wallets',
+  MANAGEMENT_WALLETS = 'scene_management_wallets',
 
   UPDATE_BOT = 'scene_update_bot',
   RESET = 'scene_reset',

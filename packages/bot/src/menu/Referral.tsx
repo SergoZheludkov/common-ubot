@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ButtonGroup, Button, Text, useText, useBotContext } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
-import { useUserData } from '../contexts/UserProvider';
+import { Hook } from '../contexts';
 
 interface Props {
   back: () => void;
@@ -12,8 +12,7 @@ interface State {
   moneyIsShowed: boolean;
 }
 
-// TODO вынести в .env
-const BOT_NAME = 'zheludkov_test_bot'
+const BOT_NAME = 'zheludkov_test_bot';
 
 const nothingShown = { inviteIsShowed: false, moneyIsShowed: false };
 const inviteShowed = { inviteIsShowed: true, moneyIsShowed: false };
@@ -24,7 +23,7 @@ const Referral = ({ back }: Props) => {
   const { t } = useTranslation(['buttons', 'referral', 'invite']);
   const { chat } = useBotContext();
   const [{ inviteIsShowed, moneyIsShowed }, setShowed] = useState<State>(nothingShown);
-  const { user } = useUserData();
+  const { user } = Hook.useUser();
 
   useText(() => setShowed(inviteShowed), t('invite'));
   useText(() => setShowed(moneyShowed), t('output_money'));

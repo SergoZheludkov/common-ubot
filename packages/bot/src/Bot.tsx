@@ -3,7 +3,7 @@ import { useCommand, useBotContext } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
 import { saveChat, getChatsMap } from './local-storage';
 
-import { UserProvider } from './contexts/UserProvider';
+import { Provider } from './contexts';
 
 import * as Menu from './menu';
 import * as Scene from './scenes';
@@ -63,10 +63,17 @@ export const Bot = () => {
 
     // ----------------------------------------ADMIN MENU----------------------------------------
     case T.Scene.ADD_WALLETS:
-      return <Scene.AddWallets exit={() => setScene(T.Menu.WALLETS)} />;
+      return <Scene.Wallets.Add exit={() => setScene(T.Menu.WALLETS)} />;
 
-    case T.Scene.DEACTIVATE_WALLETS:
-      return <Scene.DeactivateWallets exit={() => setScene(T.Menu.WALLETS)} />;
+    // case T.Scene.DEACTIVATE_WALLETS:
+    //   return <Scene.Wallets.Deactivate exit={() => setScene(T.Menu.WALLETS)} />;
+
+    case T.Scene.MANAGEMENT_WALLETS:
+      return (
+        <Provider.Wallets>
+          <Scene.Wallets.Management exit={() => setScene(T.Menu.WALLETS)} />
+        </Provider.Wallets>
+      );
 
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
@@ -82,32 +89,32 @@ export const Bot = () => {
 
     case T.Menu.ADMIN:
       return (
-        <UserProvider>
+        <Provider.User>
           <Menu.Admin
             wallets={() => setScene(T.Menu.WALLETS)}
             statistic={() => setScene(T.Menu.MAIN)}
             // statistic={() => setScene(T.Scene.TEST)}
             back={() => setScene(T.Menu.MAIN)}
           />
-        </UserProvider>
+        </Provider.User>
       );
 
     case T.Menu.BALANCE:
       return (
-        <UserProvider>
+        <Provider.User>
           <Menu.Balance
             inputMoney={() => setScene(T.Scene.INPUT_MONEY)}
             allPayments={() => setScene(T.Scene.ALL_PAYMENTS)}
             back={() => setScene(T.Menu.MAIN)}
           />
-        </UserProvider>
+        </Provider.User>
       );
 
     case T.Menu.REFERRAL:
       return (
-        <UserProvider>
+        <Provider.User>
           <Menu.Referral back={() => setScene(T.Menu.MAIN)} />
-        </UserProvider>
+        </Provider.User>
       );
 
     case T.Menu.WALLETS:
@@ -115,6 +122,7 @@ export const Bot = () => {
         <Menu.Wallets
           add={() => setScene(T.Scene.ADD_WALLETS)}
           deactivate={() => setScene(T.Scene.DEACTIVATE_WALLETS)}
+          management={() => setScene(T.Scene.MANAGEMENT_WALLETS)}
           back={() => setScene(T.Menu.ADMIN)}
         />
       );

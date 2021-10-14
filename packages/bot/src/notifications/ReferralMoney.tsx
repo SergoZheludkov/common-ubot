@@ -42,7 +42,6 @@ const ReferralMoney: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [isShow]);
 
-  // Поменять текст
   if (isShow) {
     return (
       <Text>

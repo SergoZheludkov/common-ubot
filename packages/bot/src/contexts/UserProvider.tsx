@@ -7,13 +7,13 @@ interface User {
   refetch: () => void;
 }
 
-export const UserContext = createContext({} as User);
+const UserContext = createContext({} as User);
 
-export type UserProviderProps = {
+type UserProviderProps = {
   children: React.ReactNode;
 };
 
-export const UserProvider = ({ children }: UserProviderProps) => {
+export const User = ({ children }: UserProviderProps) => {
   const { chat } = useBotContext();
   const variables = { id: chat.id };
   const { data, refetch } = useUserQuery({ variables });
@@ -24,6 +24,4 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   return <UserContext.Provider value={{ user, refetch }}>{children}</UserContext.Provider>;
 };
 
-export const useUserData = () => {
-  return useContext(UserContext);
-};
+export const useUser = () => useContext(UserContext);

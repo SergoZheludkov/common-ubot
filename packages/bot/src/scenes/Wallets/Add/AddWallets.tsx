@@ -2,22 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Text } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 
-import { SelectWallets } from './SelectWallets';
+import { EnterData } from './EnterData';
 import { Write } from './Write';
+
+import { AddWalletData } from './types';
 
 interface Props {
   exit: () => void;
 }
 
 enum Scene {
-  CHOOSE_WALLETS = 'choose_wallets',
+  ENTER_DATA = 'enter_data',
   WRITE = 'wallets_write',
   LOADING = 'loading',
 }
 
 export interface State {
   scene: Scene;
-  data: number[];
+  data: AddWalletData[];
 }
 
 const loadingState: State = {
@@ -26,11 +28,11 @@ const loadingState: State = {
 };
 
 const defaultState: State = {
-  scene: Scene.CHOOSE_WALLETS,
+  scene: Scene.ENTER_DATA,
   data: [],
 };
 
-const DeactivateWallets = ({ exit }: Props) => {
+const AddWallets = ({ exit }: Props) => {
   const { t } = useTranslation(['common']);
   const [{ scene, data }, setState] = useState<State>(loadingState);
   console.log('Accounts scene:', scene);
@@ -39,13 +41,17 @@ const DeactivateWallets = ({ exit }: Props) => {
     if (scene === Scene.LOADING) setTimeout(() => setState(defaultState), 0);
   }, []);
 
-  const handleWalletsId = (enterData: number[]) => setState({ scene: Scene.WRITE, data: enterData });
+  const handleEnterData = (enterData: AddWalletData[]) => setState({ scene: Scene.WRITE, data: enterData });
 
   switch (scene) {
     case Scene.LOADING:
-      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('loading')}</Text>;
-    case Scene.CHOOSE_WALLETS:
-      return <SelectWallets onEnterData={handleWalletsId} exit={exit} />;
+      return (
+        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
+          {t('loading')}
+        </Text>
+      );
+    case Scene.ENTER_DATA:
+      return <EnterData onEnterData={handleEnterData} exit={exit} />;
     case Scene.WRITE:
       if (!data.length) return null;
       return <Write data={data} exit={exit} />;
@@ -54,4 +60,4 @@ const DeactivateWallets = ({ exit }: Props) => {
   }
 };
 
-export { DeactivateWallets };
+export { AddWallets };

@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Dialog, DialogAnswers, DialogStep, Text } from '@u
 import { useTranslation } from '@common_ubot/i18n';
 
 import { AddWalletData } from './types';
-import { WALLET_TYPES } from '../../constants';
+import { WALLET_TYPES } from '../../../constants';
 
 interface Props {
   onEnterData: (data: AddWalletData[]) => void;
