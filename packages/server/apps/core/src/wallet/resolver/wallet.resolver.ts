@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
+import { IsDefined } from 'class-validator';
 import { NoOpQueryService } from '@nestjs-query/core';
-import { Args, Resolver, Mutation, Query } from '@nestjs/graphql';
+import { Args, Resolver, Mutation, Query, InputType, Field } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize, OrderItem } from 'sequelize';
 import { WalletDto, WalletCreateDto } from '../dto';
@@ -8,12 +9,20 @@ import { Wallet } from '../wallet.model';
 import { ReturnStatusType } from '../../types';
 import { Status } from '../../reqStatuses';
 
+@InputType('WalletStatus')
+export class WalletStatus {
+  @Field()
+  @IsDefined()
+  id: number;
+
+  @Field()
+  @IsDefined()
+  is_active: boolean;
+}
+
 @Resolver()
 export class WalletResolver extends NoOpQueryService<Account> {
-  constructor(
-    @InjectModel(Wallet) readonly wallet: typeof Wallet,
-    private sequelize: Sequelize,
-  ) {
+  constructor(@InjectModel(Wallet) readonly wallet: typeof Wallet, private sequelize: Sequelize) {
     super();
   }
 
@@ -26,18 +35,19 @@ export class WalletResolver extends NoOpQueryService<Account> {
       return wallet;
     } catch (e) {
       console.error(e);
-      throw new Error('Error with prices');
+      throw new Error('Error with One Wallet');
     }
   }
 
-  @Query(() => [WalletDto], { name: 'allActiveWallets' })
-  async allActiveWallets() {
+  @Query(() => [WalletDto], { name: 'allWallets' })
+  async allWallets() {
     try {
-      const wallets = await this.wallet.findAll({ where: { is_active: true } });
+      const order = [['number', 'ASC']] as OrderItem[];
+      const wallets = await this.wallet.findAll({ order });
       return wallets;
     } catch (e) {
       console.error(e);
-      throw new Error('Error with prices');
+      throw new Error('Error with All Wallets');
     }
   }
 
@@ -56,16 +66,13 @@ export class WalletResolver extends NoOpQueryService<Account> {
   }
 
   @Mutation(() => ReturnStatusType)
-  async deactivateWallets(@Args({ name: 'input', type: () => [Number] }) ids: number[]) {
+  async switchWalletStatus(@Args({ name: 'id', type: () => Number }) id: number) {
     try {
       return await this.sequelize.transaction(async (transaction) => {
-        const wallets = await this.wallet.findAll({ where: { id: ids }, transaction });
-
-        const updateRow = { is_active: false };
-        const updatedWallets = wallets.map((wallet) => wallet.update(updateRow, { transaction }));
-        const deactivatedWallets = await Promise.all(updatedWallets);
-
-        return deactivatedWallets.length ? Status.SUCCESS : Status.FAILED;
+        const wallet = await this.wallet.findByPk(id, { transaction });
+        if (!wallet) return Status.FAILED;
+        await wallet.update({ is_active: !wallet.is_active }, { transaction });
+        return Status.SUCCESS;
       });
     } catch (e) {
       console.error(e);

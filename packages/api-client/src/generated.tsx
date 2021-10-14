@@ -27,7 +27,6 @@ export type CheckPaymentInput = {
   comment: Scalars['String'];
 };
 
-
 export type CreateManyPaymentsInput = {
   /** Array of records to create */
   payments: Array<PaymentCreate>;
@@ -68,7 +67,6 @@ export type CursorPaging = {
   /** Paginate last */
   last?: Maybe<Scalars['Int']>;
 };
-
 
 export type DeleteManyPaymentsInput = {
   /** Filter to find records to delete */
@@ -117,6 +115,8 @@ export type Mutation = {
   deleteOneWallet: WalletDeleteResponse;
   setUserOnPayment: Payment;
   setWalletOnPayment: Payment;
+  switchWalletStatus: ReturnStatusType;
+  switchWalletStatuses: ReturnStatusType;
   updateManyPayments: UpdateManyResponse;
   updateManyUsers: UpdateManyResponse;
   updateManyWallets: UpdateManyResponse;
@@ -125,126 +125,109 @@ export type Mutation = {
   updateOneWallet: Wallet;
 };
 
-
 export type MutationAddWalletsArgs = {
   input: Array<WalletCreate>;
 };
-
 
 export type MutationCheckPaymentArgs = {
   input: CheckPaymentInput;
 };
 
-
 export type MutationCreateManyPaymentsArgs = {
   input: CreateManyPaymentsInput;
 };
-
 
 export type MutationCreateManyUsersArgs = {
   input: CreateManyUsersInput;
 };
 
-
 export type MutationCreateManyWalletsArgs = {
   input: CreateManyWalletsInput;
 };
-
 
 export type MutationCreateOnePaymentArgs = {
   input: CreateOnePaymentInput;
 };
 
-
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
 };
-
 
 export type MutationCreateOneWalletArgs = {
   input: CreateOneWalletInput;
 };
 
-
 export type MutationCreatePaymentArgs = {
   input: PaymentCreate;
 };
-
 
 export type MutationCreateUserArgs = {
   input: UserCreate;
 };
 
-
 export type MutationDeactivateWalletsArgs = {
   input: Array<Scalars['Float']>;
 };
-
 
 export type MutationDeleteManyPaymentsArgs = {
   input: DeleteManyPaymentsInput;
 };
 
-
 export type MutationDeleteManyUsersArgs = {
   input: DeleteManyUsersInput;
 };
-
 
 export type MutationDeleteManyWalletsArgs = {
   input: DeleteManyWalletsInput;
 };
 
-
 export type MutationDeleteOnePaymentArgs = {
   input: DeleteOneInput;
 };
-
 
 export type MutationDeleteOneUserArgs = {
   input: DeleteOneInput;
 };
 
-
 export type MutationDeleteOneWalletArgs = {
   input: DeleteOneInput;
 };
-
 
 export type MutationSetUserOnPaymentArgs = {
   input: RelationInput;
 };
 
-
 export type MutationSetWalletOnPaymentArgs = {
   input: RelationInput;
 };
 
+export type MutationSwitchWalletStatusArgs = {
+  id: Scalars['Float'];
+};
+
+export type MutationSwitchWalletStatusesArgs = {
+  input: Array<WalletStatus>;
+};
 
 export type MutationUpdateManyPaymentsArgs = {
   input: UpdateManyPaymentsInput;
 };
 
-
 export type MutationUpdateManyUsersArgs = {
   input: UpdateManyUsersInput;
 };
-
 
 export type MutationUpdateManyWalletsArgs = {
   input: UpdateManyWalletsInput;
 };
 
-
 export type MutationUpdateOnePaymentArgs = {
   input: UpdateOnePaymentInput;
 };
 
-
 export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
 };
-
 
 export type MutationUpdateOneWalletArgs = {
   input: UpdateOneWalletInput;
@@ -426,7 +409,7 @@ export enum PaymentSortFields {
   ReferralId = 'referral_id',
   UserId = 'user_id',
   UserWalletNumber = 'user_wallet_number',
-  WalletId = 'wallet_id'
+  WalletId = 'wallet_id',
 }
 
 export type PaymentSumAggregate = {
@@ -461,6 +444,7 @@ export type PaymentUpdateFilter = {
 export type Query = {
   __typename?: 'Query';
   allActiveWallets: Array<Wallet>;
+  allWallets: Array<Wallet>;
   getUserPayments: Array<Payment>;
   oneWallet: Wallet;
   payment?: Maybe<Payment>;
@@ -471,21 +455,17 @@ export type Query = {
   wallets: WalletConnection;
 };
 
-
 export type QueryGetUserPaymentsArgs = {
   id: Scalars['String'];
 };
-
 
 export type QueryOneWalletArgs = {
   type: Scalars['String'];
 };
 
-
 export type QueryPaymentArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryPaymentsArgs = {
   filter?: Maybe<PaymentFilter>;
@@ -493,11 +473,9 @@ export type QueryPaymentsArgs = {
   sorting?: Maybe<Array<PaymentSort>>;
 };
 
-
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryUsersArgs = {
   filter?: Maybe<UserFilter>;
@@ -505,11 +483,9 @@ export type QueryUsersArgs = {
   sorting?: Maybe<Array<UserSort>>;
 };
 
-
 export type QueryWalletArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryWalletsArgs = {
   filter?: Maybe<WalletFilter>;
@@ -532,13 +508,13 @@ export type ReturnStatusType = {
 /** Sort Directions */
 export enum SortDirection {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 /** Sort Nulls Options */
 export enum SortNulls {
   NullsFirst = 'NULLS_FIRST',
-  NullsLast = 'NULLS_LAST'
+  NullsLast = 'NULLS_LAST',
 }
 
 export type StringFieldComparison = {
@@ -757,7 +733,7 @@ export enum UserSortFields {
   ReferralCounter = 'referral_counter',
   ReferralMoney = 'referral_money',
   Username = 'username',
-  WhoInvite = 'who_invite'
+  WhoInvite = 'who_invite',
 }
 
 export type UserSumAggregate = {
@@ -898,8 +874,13 @@ export enum WalletSortFields {
   InputMoney = 'input_money',
   IsActive = 'is_active',
   Number = 'number',
-  Type = 'type'
+  Type = 'type',
 }
+
+export type WalletStatus = {
+  id: Scalars['Float'];
+  is_active: Scalars['Boolean'];
+};
 
 export type WalletSumAggregate = {
   __typename?: 'WalletSumAggregate';
@@ -921,164 +902,138 @@ export type AllPaymentQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-
-export type AllPaymentQuery = (
-  { __typename?: 'Query' }
-  & { getUserPayments: Array<(
-    { __typename?: 'Payment' }
-    & Pick<Payment, 'currency' | 'amount' | 'expected_amount' | 'comment' | 'updated'>
-    & { wallet: (
-      { __typename?: 'Wallet' }
-      & Pick<Wallet, 'id' | 'number' | 'type'>
-    ) }
-  )> }
-);
+export type AllPaymentQuery = { __typename?: 'Query' } & {
+  getUserPayments: Array<
+    { __typename?: 'Payment' } & Pick<Payment, 'currency' | 'amount' | 'expected_amount' | 'comment' | 'updated'> & {
+        wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'>;
+      }
+  >;
+};
 
 export type CreatePaymentMutationVariables = Exact<{
   input: PaymentCreate;
 }>;
 
-
-export type CreatePaymentMutation = (
-  { __typename?: 'Mutation' }
-  & { createPayment: (
-    { __typename?: 'Payment' }
-    & Pick<Payment, 'user_id' | 'wallet_id' | 'amount' | 'expected_amount' | 'currency' | 'comment'>
-    & { wallet: (
-      { __typename?: 'Wallet' }
-      & Pick<Wallet, 'id' | 'number' | 'type'>
-    ) }
-  ) }
-);
+export type CreatePaymentMutation = { __typename?: 'Mutation' } & {
+  createPayment: { __typename?: 'Payment' } & Pick<
+    Payment,
+    'user_id' | 'wallet_id' | 'amount' | 'expected_amount' | 'currency' | 'comment'
+  > & { wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'> };
+};
 
 export type CheckPaymentMutationVariables = Exact<{
   input: CheckPaymentInput;
 }>;
 
+export type CheckPaymentMutation = { __typename?: 'Mutation' } & {
+  checkPayment: { __typename?: 'Payment' } & Pick<
+    Payment,
+    'user_id' | 'wallet_id' | 'currency' | 'amount' | 'expected_amount' | 'is_paid'
+  > & { wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'> };
+};
 
-export type CheckPaymentMutation = (
-  { __typename?: 'Mutation' }
-  & { checkPayment: (
-    { __typename?: 'Payment' }
-    & Pick<Payment, 'user_id' | 'wallet_id' | 'currency' | 'amount' | 'expected_amount' | 'is_paid'>
-    & { wallet: (
-      { __typename?: 'Wallet' }
-      & Pick<Wallet, 'id' | 'number' | 'type'>
-    ) }
-  ) }
-);
-
-export type UserBaseFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'firstname' | 'lastname' | 'username' | 'balance' | 'who_invite' | 'referral_counter' | 'referral_money' | 'is_admin' | 'lang'>
-);
+export type UserBaseFragment = { __typename?: 'User' } & Pick<
+  User,
+  | 'id'
+  | 'firstname'
+  | 'lastname'
+  | 'username'
+  | 'balance'
+  | 'who_invite'
+  | 'referral_counter'
+  | 'referral_money'
+  | 'is_admin'
+  | 'lang'
+>;
 
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type UserQuery = (
-  { __typename?: 'Query' }
-  & { user?: Maybe<(
-    { __typename?: 'User' }
-    & UserBaseFragment
-  )> }
-);
+export type UserQuery = { __typename?: 'Query' } & { user?: Maybe<{ __typename?: 'User' } & UserBaseFragment> };
 
 export type CreateUserMutationVariables = Exact<{
   input: UserCreate;
 }>;
 
+export type CreateUserMutation = { __typename?: 'Mutation' } & {
+  createUser: { __typename?: 'User' } & Pick<User, 'id'>;
+};
 
-export type CreateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { createUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
-  ) }
-);
+export type WalletBaseFragment = { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type' | 'is_active'>;
 
 export type OneWalletQueryVariables = Exact<{
   type: Scalars['String'];
 }>;
 
+export type OneWalletQuery = { __typename?: 'Query' } & { oneWallet: { __typename?: 'Wallet' } & WalletBaseFragment };
 
-export type OneWalletQuery = (
-  { __typename?: 'Query' }
-  & { oneWallet: (
-    { __typename?: 'Wallet' }
-    & Pick<Wallet, 'id' | 'number' | 'type'>
-  ) }
-);
+export type AllWalletsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AllActiveWalletsQueryVariables = Exact<{ [key: string]: never; }>;
+export type AllWalletsQuery = { __typename?: 'Query' } & {
+  allWallets: Array<{ __typename?: 'Wallet' } & WalletBaseFragment>;
+};
 
+export type AllActiveWalletsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AllActiveWalletsQuery = (
-  { __typename?: 'Query' }
-  & { allActiveWallets: Array<(
-    { __typename?: 'Wallet' }
-    & Pick<Wallet, 'id' | 'number' | 'type'>
-  )> }
-);
+export type AllActiveWalletsQuery = { __typename?: 'Query' } & {
+  allActiveWallets: Array<{ __typename?: 'Wallet' } & WalletBaseFragment>;
+};
 
 export type AddWalletsMutationVariables = Exact<{
   input: Array<WalletCreate> | WalletCreate;
 }>;
 
+export type AddWalletsMutation = { __typename?: 'Mutation' } & {
+  addWallets: { __typename?: 'ReturnStatusType' } & Pick<ReturnStatusType, 'status'>;
+};
 
-export type AddWalletsMutation = (
-  { __typename?: 'Mutation' }
-  & { addWallets: (
-    { __typename?: 'ReturnStatusType' }
-    & Pick<ReturnStatusType, 'status'>
-  ) }
-);
-
-export type DeactivateWalletsMutationVariables = Exact<{
-  input: Array<Scalars['Float']> | Scalars['Float'];
+export type SwitchWalletStatusMutationVariables = Exact<{
+  id: Scalars['Float'];
 }>;
 
-
-export type DeactivateWalletsMutation = (
-  { __typename?: 'Mutation' }
-  & { deactivateWallets: (
-    { __typename?: 'ReturnStatusType' }
-    & Pick<ReturnStatusType, 'status'>
-  ) }
-);
+export type SwitchWalletStatusMutation = { __typename?: 'Mutation' } & {
+  switchWalletStatus: { __typename?: 'ReturnStatusType' } & Pick<ReturnStatusType, 'status'>;
+};
 
 export const UserBaseFragmentDoc = gql`
-    fragment UserBase on User {
-  id
-  firstname
-  lastname
-  username
-  balance
-  who_invite
-  referral_counter
-  referral_money
-  is_admin
-  lang
-}
-    `;
+  fragment UserBase on User {
+    id
+    firstname
+    lastname
+    username
+    balance
+    who_invite
+    referral_counter
+    referral_money
+    is_admin
+    lang
+  }
+`;
+export const WalletBaseFragmentDoc = gql`
+  fragment WalletBase on Wallet {
+    id
+    number
+    type
+    is_active
+  }
+`;
 export const AllPaymentDocument = gql`
-    query allPayment($id: String!) {
-  getUserPayments(id: $id) {
-    currency
-    amount
-    expected_amount
-    comment
-    updated
-    wallet {
-      id
-      number
-      type
+  query allPayment($id: String!) {
+    getUserPayments(id: $id) {
+      currency
+      amount
+      expected_amount
+      comment
+      updated
+      wallet {
+        id
+        number
+        type
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useAllPaymentQuery__
@@ -1096,33 +1051,40 @@ export const AllPaymentDocument = gql`
  *   },
  * });
  */
-export function useAllPaymentQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>) {
-        return ApolloReactHooks.useQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
-      }
-export function useAllPaymentLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
-        }
+export function useAllPaymentQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
+}
+export function useAllPaymentLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllPaymentQuery, AllPaymentQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<AllPaymentQuery, AllPaymentQueryVariables>(AllPaymentDocument, baseOptions);
+}
 export type AllPaymentQueryHookResult = ReturnType<typeof useAllPaymentQuery>;
 export type AllPaymentLazyQueryHookResult = ReturnType<typeof useAllPaymentLazyQuery>;
 export type AllPaymentQueryResult = ApolloReactCommon.QueryResult<AllPaymentQuery, AllPaymentQueryVariables>;
 export const CreatePaymentDocument = gql`
-    mutation createPayment($input: PaymentCreate!) {
-  createPayment(input: $input) {
-    user_id
-    wallet_id
-    amount
-    expected_amount
-    currency
-    comment
-    wallet {
-      id
-      number
-      type
+  mutation createPayment($input: PaymentCreate!) {
+    createPayment(input: $input) {
+      user_id
+      wallet_id
+      amount
+      expected_amount
+      currency
+      comment
+      wallet {
+        id
+        number
+        type
+      }
     }
   }
-}
-    `;
-export type CreatePaymentMutationFn = ApolloReactCommon.MutationFunction<CreatePaymentMutation, CreatePaymentMutationVariables>;
+`;
+export type CreatePaymentMutationFn = ApolloReactCommon.MutationFunction<
+  CreatePaymentMutation,
+  CreatePaymentMutationVariables
+>;
 
 /**
  * __useCreatePaymentMutation__
@@ -1141,30 +1103,41 @@ export type CreatePaymentMutationFn = ApolloReactCommon.MutationFunction<CreateP
  *   },
  * });
  */
-export function useCreatePaymentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CreatePaymentDocument, baseOptions);
-      }
+export function useCreatePaymentMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePaymentMutation, CreatePaymentMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(
+    CreatePaymentDocument,
+    baseOptions,
+  );
+}
 export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
 export type CreatePaymentMutationResult = ApolloReactCommon.MutationResult<CreatePaymentMutation>;
-export type CreatePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export type CreatePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreatePaymentMutation,
+  CreatePaymentMutationVariables
+>;
 export const CheckPaymentDocument = gql`
-    mutation checkPayment($input: CheckPaymentInput!) {
-  checkPayment(input: $input) {
-    user_id
-    wallet_id
-    currency
-    amount
-    expected_amount
-    is_paid
-    wallet {
-      id
-      number
-      type
+  mutation checkPayment($input: CheckPaymentInput!) {
+    checkPayment(input: $input) {
+      user_id
+      wallet_id
+      currency
+      amount
+      expected_amount
+      is_paid
+      wallet {
+        id
+        number
+        type
+      }
     }
   }
-}
-    `;
-export type CheckPaymentMutationFn = ApolloReactCommon.MutationFunction<CheckPaymentMutation, CheckPaymentMutationVariables>;
+`;
+export type CheckPaymentMutationFn = ApolloReactCommon.MutationFunction<
+  CheckPaymentMutation,
+  CheckPaymentMutationVariables
+>;
 
 /**
  * __useCheckPaymentMutation__
@@ -1183,19 +1156,28 @@ export type CheckPaymentMutationFn = ApolloReactCommon.MutationFunction<CheckPay
  *   },
  * });
  */
-export function useCheckPaymentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CheckPaymentMutation, CheckPaymentMutationVariables>) {
-        return ApolloReactHooks.useMutation<CheckPaymentMutation, CheckPaymentMutationVariables>(CheckPaymentDocument, baseOptions);
-      }
+export function useCheckPaymentMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<CheckPaymentMutation, CheckPaymentMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<CheckPaymentMutation, CheckPaymentMutationVariables>(
+    CheckPaymentDocument,
+    baseOptions,
+  );
+}
 export type CheckPaymentMutationHookResult = ReturnType<typeof useCheckPaymentMutation>;
 export type CheckPaymentMutationResult = ApolloReactCommon.MutationResult<CheckPaymentMutation>;
-export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<CheckPaymentMutation, CheckPaymentMutationVariables>;
+export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CheckPaymentMutation,
+  CheckPaymentMutationVariables
+>;
 export const UserDocument = gql`
-    query user($id: ID!) {
-  user(id: $id) {
-    ...UserBase
+  query user($id: ID!) {
+    user(id: $id) {
+      ...UserBase
+    }
   }
-}
-    ${UserBaseFragmentDoc}`;
+  ${UserBaseFragmentDoc}
+`;
 
 /**
  * __useUserQuery__
@@ -1214,21 +1196,21 @@ export const UserDocument = gql`
  * });
  */
 export function useUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>) {
-        return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
-      }
+  return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+}
 export function useUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
-        }
+  return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+}
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
 export const CreateUserDocument = gql`
-    mutation createUser($input: UserCreate!) {
-  createUser(input: $input) {
-    id
+  mutation createUser($input: UserCreate!) {
+    createUser(input: $input) {
+      id
+    }
   }
-}
-    `;
+`;
 export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
@@ -1248,21 +1230,25 @@ export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUser
  *   },
  * });
  */
-export function useCreateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, baseOptions);
-      }
+export function useCreateUserMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, baseOptions);
+}
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreateUserMutation,
+  CreateUserMutationVariables
+>;
 export const OneWalletDocument = gql`
-    query oneWallet($type: String!) {
-  oneWallet(type: $type) {
-    id
-    number
-    type
+  query oneWallet($type: String!) {
+    oneWallet(type: $type) {
+      ...WalletBase
+    }
   }
-}
-    `;
+  ${WalletBaseFragmentDoc}
+`;
 
 /**
  * __useOneWalletQuery__
@@ -1280,24 +1266,64 @@ export const OneWalletDocument = gql`
  *   },
  * });
  */
-export function useOneWalletQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneWalletQuery, OneWalletQueryVariables>) {
-        return ApolloReactHooks.useQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
-      }
-export function useOneWalletLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneWalletQuery, OneWalletQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
-        }
+export function useOneWalletQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<OneWalletQuery, OneWalletQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
+}
+export function useOneWalletLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneWalletQuery, OneWalletQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<OneWalletQuery, OneWalletQueryVariables>(OneWalletDocument, baseOptions);
+}
 export type OneWalletQueryHookResult = ReturnType<typeof useOneWalletQuery>;
 export type OneWalletLazyQueryHookResult = ReturnType<typeof useOneWalletLazyQuery>;
 export type OneWalletQueryResult = ApolloReactCommon.QueryResult<OneWalletQuery, OneWalletQueryVariables>;
-export const AllActiveWalletsDocument = gql`
-    query allActiveWallets {
-  allActiveWallets {
-    id
-    number
-    type
+export const AllWalletsDocument = gql`
+  query allWallets {
+    allWallets {
+      ...WalletBase
+    }
   }
+  ${WalletBaseFragmentDoc}
+`;
+
+/**
+ * __useAllWalletsQuery__
+ *
+ * To run a query within a React component, call `useAllWalletsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllWalletsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllWalletsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllWalletsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<AllWalletsQuery, AllWalletsQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<AllWalletsQuery, AllWalletsQueryVariables>(AllWalletsDocument, baseOptions);
 }
-    `;
+export function useAllWalletsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllWalletsQuery, AllWalletsQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<AllWalletsQuery, AllWalletsQueryVariables>(AllWalletsDocument, baseOptions);
+}
+export type AllWalletsQueryHookResult = ReturnType<typeof useAllWalletsQuery>;
+export type AllWalletsLazyQueryHookResult = ReturnType<typeof useAllWalletsLazyQuery>;
+export type AllWalletsQueryResult = ApolloReactCommon.QueryResult<AllWalletsQuery, AllWalletsQueryVariables>;
+export const AllActiveWalletsDocument = gql`
+  query allActiveWallets {
+    allActiveWallets {
+      ...WalletBase
+    }
+  }
+  ${WalletBaseFragmentDoc}
+`;
 
 /**
  * __useAllActiveWalletsQuery__
@@ -1314,22 +1340,35 @@ export const AllActiveWalletsDocument = gql`
  *   },
  * });
  */
-export function useAllActiveWalletsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>) {
-        return ApolloReactHooks.useQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(AllActiveWalletsDocument, baseOptions);
-      }
-export function useAllActiveWalletsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(AllActiveWalletsDocument, baseOptions);
-        }
+export function useAllActiveWalletsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(
+    AllActiveWalletsDocument,
+    baseOptions,
+  );
+}
+export function useAllActiveWalletsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(
+    AllActiveWalletsDocument,
+    baseOptions,
+  );
+}
 export type AllActiveWalletsQueryHookResult = ReturnType<typeof useAllActiveWalletsQuery>;
 export type AllActiveWalletsLazyQueryHookResult = ReturnType<typeof useAllActiveWalletsLazyQuery>;
-export type AllActiveWalletsQueryResult = ApolloReactCommon.QueryResult<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>;
+export type AllActiveWalletsQueryResult = ApolloReactCommon.QueryResult<
+  AllActiveWalletsQuery,
+  AllActiveWalletsQueryVariables
+>;
 export const AddWalletsDocument = gql`
-    mutation addWallets($input: [WalletCreate!]!) {
-  addWallets(input: $input) {
-    status
+  mutation addWallets($input: [WalletCreate!]!) {
+    addWallets(input: $input) {
+      status
+    }
   }
-}
-    `;
+`;
 export type AddWalletsMutationFn = ApolloReactCommon.MutationFunction<AddWalletsMutation, AddWalletsMutationVariables>;
 
 /**
@@ -1349,41 +1388,57 @@ export type AddWalletsMutationFn = ApolloReactCommon.MutationFunction<AddWallets
  *   },
  * });
  */
-export function useAddWalletsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddWalletsMutation, AddWalletsMutationVariables>) {
-        return ApolloReactHooks.useMutation<AddWalletsMutation, AddWalletsMutationVariables>(AddWalletsDocument, baseOptions);
-      }
+export function useAddWalletsMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<AddWalletsMutation, AddWalletsMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<AddWalletsMutation, AddWalletsMutationVariables>(AddWalletsDocument, baseOptions);
+}
 export type AddWalletsMutationHookResult = ReturnType<typeof useAddWalletsMutation>;
 export type AddWalletsMutationResult = ApolloReactCommon.MutationResult<AddWalletsMutation>;
-export type AddWalletsMutationOptions = ApolloReactCommon.BaseMutationOptions<AddWalletsMutation, AddWalletsMutationVariables>;
-export const DeactivateWalletsDocument = gql`
-    mutation deactivateWallets($input: [Float!]!) {
-  deactivateWallets(input: $input) {
-    status
+export type AddWalletsMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  AddWalletsMutation,
+  AddWalletsMutationVariables
+>;
+export const SwitchWalletStatusDocument = gql`
+  mutation switchWalletStatus($id: Float!) {
+    switchWalletStatus(id: $id) {
+      status
+    }
   }
-}
-    `;
-export type DeactivateWalletsMutationFn = ApolloReactCommon.MutationFunction<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>;
+`;
+export type SwitchWalletStatusMutationFn = ApolloReactCommon.MutationFunction<
+  SwitchWalletStatusMutation,
+  SwitchWalletStatusMutationVariables
+>;
 
 /**
- * __useDeactivateWalletsMutation__
+ * __useSwitchWalletStatusMutation__
  *
- * To run a mutation, you first call `useDeactivateWalletsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeactivateWalletsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSwitchWalletStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSwitchWalletStatusMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deactivateWalletsMutation, { data, loading, error }] = useDeactivateWalletsMutation({
+ * const [switchWalletStatusMutation, { data, loading, error }] = useSwitchWalletStatusMutation({
  *   variables: {
- *      input: // value for 'input'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useDeactivateWalletsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>) {
-        return ApolloReactHooks.useMutation<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>(DeactivateWalletsDocument, baseOptions);
-      }
-export type DeactivateWalletsMutationHookResult = ReturnType<typeof useDeactivateWalletsMutation>;
-export type DeactivateWalletsMutationResult = ApolloReactCommon.MutationResult<DeactivateWalletsMutation>;
-export type DeactivateWalletsMutationOptions = ApolloReactCommon.BaseMutationOptions<DeactivateWalletsMutation, DeactivateWalletsMutationVariables>;
+export function useSwitchWalletStatusMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<SwitchWalletStatusMutation, SwitchWalletStatusMutationVariables>,
+) {
+  return ApolloReactHooks.useMutation<SwitchWalletStatusMutation, SwitchWalletStatusMutationVariables>(
+    SwitchWalletStatusDocument,
+    baseOptions,
+  );
+}
+export type SwitchWalletStatusMutationHookResult = ReturnType<typeof useSwitchWalletStatusMutation>;
+export type SwitchWalletStatusMutationResult = ApolloReactCommon.MutationResult<SwitchWalletStatusMutation>;
+export type SwitchWalletStatusMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  SwitchWalletStatusMutation,
+  SwitchWalletStatusMutationVariables
+>;

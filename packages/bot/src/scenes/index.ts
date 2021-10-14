@@ -7,5 +7,4 @@ export { Rules } from './Rules';
 export { InputMoney } from './InputMoney';
 export { Payments } from './Payments';
 
-export { AddWallets } from './AddWallets';
-export { DeactivateWallets } from './DeactivateWallets';
+export { Wallets } from './Wallets';

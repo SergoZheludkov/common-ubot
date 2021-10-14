@@ -30,6 +30,8 @@ type Mutation {
     deleteOneWallet(input: DeleteOneInput!): WalletDeleteResponse!
     setUserOnPayment(input: RelationInput!): Payment!
     setWalletOnPayment(input: RelationInput!): Payment!
+    switchWalletStatus(id: Float!): ReturnStatusType!
+    switchWalletStatuses(input: [WalletStatus!]!): ReturnStatusType!
     updateManyPayments(input: UpdateManyPaymentsInput!): UpdateManyResponse!
     updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
     updateManyWallets(input: UpdateManyWalletsInput!): UpdateManyResponse!
@@ -143,6 +145,7 @@ type PaymentSumAggregate {
 
 type Query {
     allActiveWallets: [Wallet!]!
+    allWallets: [Wallet!]!
     getUserPayments(id: String!): [Payment!]!
     oneWallet(type: String!): Wallet!
     payment(
@@ -716,6 +719,11 @@ input WalletSort {
     direction: SortDirection!
     field: WalletSortFields!
     nulls: SortNulls
+}
+
+input WalletStatus {
+    id: Float!
+    is_active: Boolean!
 }
 
 input WalletUpdateFilter {

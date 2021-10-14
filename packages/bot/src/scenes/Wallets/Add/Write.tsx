@@ -23,7 +23,7 @@ const Write = ({ data, exit }: Props) => {
 
   switch (returnData?.addWallets.status) {
     case 'success': {
-      const successMessage = `${t('add_wallets_success')} ${data.length} шт`;
+      const successMessage = `${t('add.success')} ${data.length} шт`;
       return (
         <ButtonGroup isReplyButtons isResizedKeyboard title={successMessage}>
           <Button>{t('buttons:great')}</Button>
@@ -32,7 +32,7 @@ const Write = ({ data, exit }: Props) => {
     }
     case 'failed':
       return (
-        <ButtonGroup isReplyButtons isResizedKeyboard title={t('add_wallets_failed')}>
+        <ButtonGroup isReplyButtons isResizedKeyboard title={t('add.failed')}>
           <Button>{t('buttons:exit')}</Button>
         </ButtonGroup>
       );
