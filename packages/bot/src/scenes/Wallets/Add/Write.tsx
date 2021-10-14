@@ -18,9 +18,7 @@ const Write = ({ data, exit }: Props) => {
   useText(exit, t('buttons:exit'));
 
   useEffect(() => {
-    (async () => {
-      await addWallets({ variables: { input: data } });
-    })();
+    (async () => { await addWallets({ variables: { input: data } }); })();
   }, []);
 
   switch (returnData?.addWallets.status) {
@@ -39,11 +37,7 @@ const Write = ({ data, exit }: Props) => {
         </ButtonGroup>
       );
     default:
-      return (
-        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
-          {t('common:loading')}
-        </Text>
-      );
+      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('common:loading')}</Text>;
   }
 };
 

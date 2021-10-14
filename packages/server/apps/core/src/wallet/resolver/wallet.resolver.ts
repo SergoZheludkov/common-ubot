@@ -35,7 +35,7 @@ export class WalletResolver extends NoOpQueryService<Account> {
       return wallet;
     } catch (e) {
       console.error(e);
-      throw new Error('Error with prices');
+      throw new Error('Error with One Wallet');
     }
   }
 
@@ -47,18 +47,7 @@ export class WalletResolver extends NoOpQueryService<Account> {
       return wallets;
     } catch (e) {
       console.error(e);
-      throw new Error('Error with prices');
-    }
-  }
-
-  @Query(() => [WalletDto], { name: 'allActiveWallets' })
-  async allActiveWallets() {
-    try {
-      const wallets = await this.wallet.findAll({ where: { is_active: true } });
-      return wallets;
-    } catch (e) {
-      console.error(e);
-      throw new Error('Error with prices');
+      throw new Error('Error with All Wallets');
     }
   }
 

@@ -60,13 +60,9 @@ export const Bot = () => {
 
     case T.Scene.RULES:
       return <Scene.Rules exit={() => setScene(T.Menu.MAIN)} />;
-
     // ----------------------------------------ADMIN MENU----------------------------------------
     case T.Scene.ADD_WALLETS:
       return <Scene.Wallets.Add exit={() => setScene(T.Menu.WALLETS)} />;
-
-    // case T.Scene.DEACTIVATE_WALLETS:
-    //   return <Scene.Wallets.Deactivate exit={() => setScene(T.Menu.WALLETS)} />;
 
     case T.Scene.MANAGEMENT_WALLETS:
       return (
@@ -74,7 +70,6 @@ export const Bot = () => {
           <Scene.Wallets.Management exit={() => setScene(T.Menu.WALLETS)} />
         </Provider.Wallets>
       );
-
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
       return (
@@ -93,7 +88,6 @@ export const Bot = () => {
           <Menu.Admin
             wallets={() => setScene(T.Menu.WALLETS)}
             statistic={() => setScene(T.Menu.MAIN)}
-            // statistic={() => setScene(T.Scene.TEST)}
             back={() => setScene(T.Menu.MAIN)}
           />
         </Provider.User>

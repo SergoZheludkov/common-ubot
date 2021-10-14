@@ -25,14 +25,6 @@ export const ALL_WALLET = gql`
   }
 `;
 
-export const ALL_ACTIVE_WALLETS = gql`
-  query allActiveWallets {
-    allActiveWallets {
-      ...WalletBase
-    }
-  }
-`;
-
 export const ADD_WALLETS = gql`
   mutation addWallets($input: [WalletCreate!]!) {
     addWallets(input: $input) {

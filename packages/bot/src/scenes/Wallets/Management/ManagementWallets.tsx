@@ -24,11 +24,7 @@ const ManagementWallets = ({ exit }: Props) => {
 
   switch (scene) {
     case Scene.LOADING:
-      return (
-        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
-          {t('loading')}
-        </Text>
-      );
+      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('loading')}</Text>;
     case Scene.CHOOSE_WALLETS:
       return <SwitchWallets exit={exit} />;
     default:

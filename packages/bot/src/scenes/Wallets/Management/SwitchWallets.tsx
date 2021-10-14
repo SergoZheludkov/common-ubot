@@ -67,11 +67,7 @@ const SwitchWallets = ({ exit }: Props) => {
       {[
         filterButtons,
         ...walletButtons,
-        [
-          <Button key="back" onClick={exit}>
-            {t('buttons:back')}
-          </Button>,
-        ],
+        [<Button key="back" onClick={exit}>{t('buttons:back')}</Button>],
       ]}
     </ButtonGroup>
   );

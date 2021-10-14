@@ -45,11 +45,7 @@ const AddWallets = ({ exit }: Props) => {
 
   switch (scene) {
     case Scene.LOADING:
-      return (
-        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
-          {t('loading')}
-        </Text>
-      );
+      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('loading')}</Text>;
     case Scene.ENTER_DATA:
       return <EnterData onEnterData={handleEnterData} exit={exit} />;
     case Scene.WRITE:
