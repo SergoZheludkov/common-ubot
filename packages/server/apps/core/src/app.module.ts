@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { UserModule } from './user/user.module';
 import { PaymentModule } from './payment/payment.module';
+import { StatisticModule } from './statistic/statistic.module';
 import { DbModule } from '../../../libs/db/db.module';
 import { GraphqlModule } from '../../../libs/graphql/graphql.module';
 
@@ -14,6 +15,7 @@ import { GraphqlModule } from '../../../libs/graphql/graphql.module';
     GraphqlModule,
     UserModule,
     PaymentModule,
+    StatisticModule,
   ],
   exports: [ConfigModule],
 })

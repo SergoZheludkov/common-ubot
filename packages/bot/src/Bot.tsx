@@ -115,7 +115,6 @@ export const Bot = () => {
       return (
         <Menu.Wallets
           add={() => setScene(T.Scene.ADD_WALLETS)}
-          deactivate={() => setScene(T.Scene.DEACTIVATE_WALLETS)}
           management={() => setScene(T.Scene.MANAGEMENT_WALLETS)}
           back={() => setScene(T.Menu.ADMIN)}
         />

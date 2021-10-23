@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useBotContext, Text } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
 import { useTranslation } from '@common_ubot/i18n';
-import { messageBroker } from '../api/MessageBroker';
+import { messageBroker, NewReferralData } from '../api';
 
-interface NewReferralState {
+interface NewReferralState extends NewReferralData {
   isShow: boolean;
-  firstname: string;
-  lastname: string;
 }
 
 const defaultState = {
@@ -21,15 +19,9 @@ const NewReferral: React.FC = () => {
   const { chat, bot } = useBotContext<UrbanBotTelegram>();
   const [{ isShow, firstname, lastname }, setState] = useState<NewReferralState>(defaultState);
 
-  useEffect(() => {
-    messageBroker.newReferral(chat.id, (ref) => {
-      setState({
-        firstname: ref.firstname,
-        lastname: ref.lastname,
-        isShow: true,
-      });
-    });
-  }, [bot.client, chat.id]);
+  const callback = (data: NewReferralData) => setState({ ...data, isShow: true });
+
+  useEffect(() => messageBroker.newReferral(chat.id, callback), [bot.client, chat.id]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;

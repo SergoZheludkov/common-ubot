@@ -24,6 +24,7 @@ const locale = {
     all_payments: '🧾 Все пополнения',
     qiwi: '🟠 QIWI',
     yoomoney: '🟣 ЮMoney',
+    webmoney: '🔵 Webmoney',
     check_payment: '♻️ Проверить платеж',
     wallets: '💳 Кошельки',
     statistic: '📈 Статистика',
@@ -124,6 +125,14 @@ const locale = {
   },
   rules: {
     message: 'Правила' + '\n\n-Пункт 1"' + '\n-Пункт 2' + '\n-Пункт 3',
+  },
+  statistic: {
+    daily_statistics: 'Статистика за день',
+    new_users: 'Новых юзеров:',
+    daily_payments: 'Дневные платежи:',
+    daily_payments_is_empty: 'Платежей не было',
+    total: 'Всего:',
+    amount: 'Сумма:',
   },
 };
 
