@@ -4,12 +4,12 @@ import { PaymentStatistics } from './payments.dto';
 
 @ObjectType()
 export class CustomStatisticDto {
-  @Field()
+  @Field({ nullable: true })
   @IsDefined()
   @IsNumber()
   users: number;
 
-  @Field(() => PaymentStatistics)
+  @Field(() => PaymentStatistics, { nullable: true })
   @IsDefined()
   @IsString()
   payments: PaymentStatistics;

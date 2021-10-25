@@ -1,9 +1,10 @@
 import React, { createContext, useContext } from 'react';
-import { useDailyStatisticsQuery } from '@common_ubot/api-client';
+import { useStatisticsByLazyQuery } from '@common_ubot/api-client';
 import { StatisticsData } from '../api';
 
 interface Statistics {
-  dailyStatistics: StatisticsData;
+  statistics: StatisticsData | null;
+  getDailyStatistics: () => void;
   refetch: () => void;
 }
 
@@ -14,20 +15,28 @@ type StatisticsProviderProps = {
 };
 
 export const Statistics = ({ children }: StatisticsProviderProps) => {
-  const { data, refetch } = useDailyStatisticsQuery();
+  const [getStatisticsBy, { data, refetch }] = useStatisticsByLazyQuery();
 
-  if (!data?.dailyStatistics) return null;
+  const getDailyStatistics = () => getStatisticsBy({ variables: { users: true, payments: true } });
 
-  const {
-    dailyStatistics: { users, payments },
-  } = data;
+  const statistics = data?.statisticsBy
+    ? {
+        users: data?.statisticsBy?.users || 0,
+        payments: (data?.statisticsBy?.payments as unknown as StatisticsData['payments']) || {},
+      }
+    : null;
 
-  const dailyStatistics = {
-    users,
-    payments: payments as unknown as StatisticsData['payments'],
-  };
-
-  return <StatisticsContext.Provider value={{ dailyStatistics, refetch }}>{children}</StatisticsContext.Provider>;
+  return (
+    <StatisticsContext.Provider
+      value={{
+        statistics,
+        getDailyStatistics,
+        refetch,
+      }}
+    >
+      {children}
+    </StatisticsContext.Provider>
+  );
 };
 
 export const useStatistics = () => useContext(StatisticsContext);

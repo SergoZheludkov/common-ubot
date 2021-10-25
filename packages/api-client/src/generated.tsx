@@ -78,10 +78,10 @@ export type CursorPaging = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type DailyDto = {
-  __typename?: 'DailyDto';
-  payments: PaymentStatistics;
-  users: Scalars['Float'];
+export type CustomStatisticDto = {
+  __typename?: 'CustomStatisticDto';
+  payments?: Maybe<PaymentStatistics>;
+  users?: Maybe<Scalars['Float']>;
 };
 
 export type DeleteManyPaymentsInput = {
@@ -492,13 +492,13 @@ export type PaymentUpdateFilter = {
 export type Query = {
   __typename?: 'Query';
   allWallets: Array<Wallet>;
-  dailyStatistics: DailyDto;
   getUserPayments: Array<Payment>;
   oneWallet: Wallet;
   payment?: Maybe<Payment>;
   payments: PaymentConnection;
   statistic?: Maybe<Statistic>;
   statistics: StatisticConnection;
+  statisticsBy: CustomStatisticDto;
   user?: Maybe<User>;
   users: UserConnection;
   wallet?: Maybe<Wallet>;
@@ -531,6 +531,10 @@ export type QueryStatisticsArgs = {
   filter?: Maybe<StatisticFilter>;
   paging?: Maybe<CursorPaging>;
   sorting?: Maybe<Array<StatisticSort>>;
+};
+
+export type QueryStatisticsByArgs = {
+  input: StatisticsInput;
 };
 
 export type QueryUserArgs = {
@@ -677,6 +681,15 @@ export type StatisticUpdateFilter = {
   id?: Maybe<NumberFieldComparison>;
   or?: Maybe<Array<StatisticUpdateFilter>>;
   users?: Maybe<NumberFieldComparison>;
+};
+
+export type StatisticsInput = {
+  /** format: 20211130 */
+  endDate?: Maybe<Scalars['Float']>;
+  payments: Scalars['Boolean'];
+  /** format: 20211025 */
+  startDate?: Maybe<Scalars['Float']>;
+  users: Scalars['Boolean'];
 };
 
 export type StringFieldComparison = {
@@ -1117,18 +1130,33 @@ export type CheckPaymentMutation = { __typename?: 'Mutation' } & {
   > & { wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'> };
 };
 
-export type DailyBaseFragment = { __typename?: 'DailyDto' } & Pick<DailyDto, 'users'> & {
-    payments: { __typename?: 'PaymentStatistics' } & {
-      qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
-      webmoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
-      yoomoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
-    };
+export type StatisticsBaseFragment = { __typename?: 'CustomStatisticDto' } & Pick<CustomStatisticDto, 'users'> & {
+    payments?: Maybe<
+      { __typename?: 'PaymentStatistics' } & {
+        qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+        webmoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+        yoomoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+      }
+    >;
   };
 
-export type DailyStatisticsQueryVariables = Exact<{ [key: string]: never }>;
+export type StatisticsByQueryVariables = Exact<{
+  users: Scalars['Boolean'];
+  payments: Scalars['Boolean'];
+  startDate?: Maybe<Scalars['Float']>;
+  endDate?: Maybe<Scalars['Float']>;
+}>;
 
-export type DailyStatisticsQuery = { __typename?: 'Query' } & {
-  dailyStatistics: { __typename?: 'DailyDto' } & DailyBaseFragment;
+export type StatisticsByQuery = { __typename?: 'Query' } & {
+  statisticsBy: { __typename?: 'CustomStatisticDto' } & MakeOptional<Pick<CustomStatisticDto, 'users'>, 'users'> & {
+      payments?: Maybe<
+        { __typename?: 'PaymentStatistics' } & {
+          qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+          webmoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+          yoomoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+        }
+      >;
+    };
 };
 
 export type UserBaseFragment = { __typename?: 'User' } & Pick<
@@ -1189,19 +1217,19 @@ export type SwitchWalletStatusMutation = { __typename?: 'Mutation' } & {
   switchWalletStatus: { __typename?: 'ReturnStatusType' } & Pick<ReturnStatusType, 'status'>;
 };
 
-export const DailyBaseFragmentDoc = gql`
-  fragment DailyBase on DailyDto {
+export const StatisticsBaseFragmentDoc = gql`
+  fragment StatisticsBase on CustomStatisticDto {
     users
     payments {
-      qiwi @include(if: true) {
+      qiwi {
         amount
         total
       }
-      webmoney @include(if: true) {
+      webmoney {
         amount
         total
       }
-      yoomoney @include(if: true) {
+      yoomoney {
         amount
         total
       }
@@ -1382,52 +1410,63 @@ export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CheckPaymentMutation,
   CheckPaymentMutationVariables
 >;
-export const DailyStatisticsDocument = gql`
-  query dailyStatistics {
-    dailyStatistics {
-      ...DailyBase
+export const StatisticsByDocument = gql`
+  query statisticsBy($users: Boolean!, $payments: Boolean!, $startDate: Float, $endDate: Float) {
+    statisticsBy(input: { users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }) {
+      users @include(if: $users)
+      payments @include(if: $payments) {
+        qiwi {
+          amount
+          total
+        }
+        webmoney {
+          amount
+          total
+        }
+        yoomoney {
+          amount
+          total
+        }
+      }
     }
   }
-  ${DailyBaseFragmentDoc}
 `;
 
 /**
- * __useDailyStatisticsQuery__
+ * __useStatisticsByQuery__
  *
- * To run a query within a React component, call `useDailyStatisticsQuery` and pass it any options that fit your needs.
- * When your component renders, `useDailyStatisticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useStatisticsByQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStatisticsByQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useDailyStatisticsQuery({
+ * const { data, loading, error } = useStatisticsByQuery({
  *   variables: {
+ *      users: // value for 'users'
+ *      payments: // value for 'payments'
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
  *   },
  * });
  */
-export function useDailyStatisticsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<DailyStatisticsQuery, DailyStatisticsQueryVariables>,
+export function useStatisticsByQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<StatisticsByQuery, StatisticsByQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<DailyStatisticsQuery, DailyStatisticsQueryVariables>(
-    DailyStatisticsDocument,
+  return ApolloReactHooks.useQuery<StatisticsByQuery, StatisticsByQueryVariables>(StatisticsByDocument, baseOptions);
+}
+export function useStatisticsByLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<StatisticsByQuery, StatisticsByQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<StatisticsByQuery, StatisticsByQueryVariables>(
+    StatisticsByDocument,
     baseOptions,
   );
 }
-export function useDailyStatisticsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<DailyStatisticsQuery, DailyStatisticsQueryVariables>,
-) {
-  return ApolloReactHooks.useLazyQuery<DailyStatisticsQuery, DailyStatisticsQueryVariables>(
-    DailyStatisticsDocument,
-    baseOptions,
-  );
-}
-export type DailyStatisticsQueryHookResult = ReturnType<typeof useDailyStatisticsQuery>;
-export type DailyStatisticsLazyQueryHookResult = ReturnType<typeof useDailyStatisticsLazyQuery>;
-export type DailyStatisticsQueryResult = ApolloReactCommon.QueryResult<
-  DailyStatisticsQuery,
-  DailyStatisticsQueryVariables
->;
+export type StatisticsByQueryHookResult = ReturnType<typeof useStatisticsByQuery>;
+export type StatisticsByLazyQueryHookResult = ReturnType<typeof useStatisticsByLazyQuery>;
+export type StatisticsByQueryResult = ApolloReactCommon.QueryResult<StatisticsByQuery, StatisticsByQueryVariables>;
 export const UserDocument = gql`
   query user($id: ID!) {
     user(id: $id) {

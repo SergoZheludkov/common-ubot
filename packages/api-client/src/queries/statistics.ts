@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const WALLET_FRAGMENT = gql`
-  fragment DailyBase on DailyDto {
+export const STATISTICS_FRAGMENT = gql`
+  fragment StatisticsBase on CustomStatisticDto {
     users
     payments {
       qiwi {
@@ -20,10 +20,24 @@ export const WALLET_FRAGMENT = gql`
   }
 `;
 
-export const DAILY_STATISTICS = gql`
-  query dailyStatistics {
-    dailyStatistics {
-      ...DailyBase
+export const STATISTICS_BY = gql`
+  query statisticsBy($users: Boolean!, $payments: Boolean!, $startDate: Float, $endDate: Float) {
+    statisticsBy(input: { users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }) {
+      users @include(if: $users)
+      payments @include(if: $payments) {
+        qiwi {
+          amount
+          total
+        }
+        webmoney {
+          amount
+          total
+        }
+        yoomoney {
+          amount
+          total
+        }
+      }
     }
   }
 `;

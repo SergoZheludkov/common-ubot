@@ -5,9 +5,9 @@ schema {
     mutation: Mutation
 }
 
-type DailyDto {
-    payments: PaymentStatistics!
-    users: Float!
+type CustomStatisticDto {
+    payments: PaymentStatistics
+    users: Float
 }
 
 type DeleteManyResponse {
@@ -160,7 +160,6 @@ type PaymentSumAggregate {
 
 type Query {
     allWallets: [Wallet!]!
-    dailyStatistics: DailyDto!
     getUserPayments(id: String!): [Payment!]!
     oneWallet(type: String!): Wallet!
     payment(
@@ -187,6 +186,7 @@ type Query {
         "Specify to sort results."
         sorting: [StatisticSort!] = []
     ): StatisticConnection!
+    statisticsBy(input: StatisticsInput!): CustomStatisticDto!
     user(
         "The id of the record to find."
         id: ID!
@@ -693,6 +693,15 @@ input StatisticUpdateFilter {
     id: NumberFieldComparison
     or: [StatisticUpdateFilter!]
     users: NumberFieldComparison
+}
+
+input StatisticsInput {
+    "format: 20211130"
+    endDate: Float
+    payments: Boolean!
+    "format: 20211025"
+    startDate: Float
+    users: Boolean!
 }
 
 input StringFieldComparison {
