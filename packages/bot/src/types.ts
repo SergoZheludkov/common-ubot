@@ -6,7 +6,6 @@ export enum Scene {
   INPUT_MONEY = 'scene_input_money',
   ALL_PAYMENTS = 'scene_all_payments',
   ADD_WALLETS = 'scene_add_wallets',
-  DEACTIVATE_WALLETS = 'scene_deactivate_wallets',
   MANAGEMENT_WALLETS = 'scene_management_wallets',
 
   UPDATE_BOT = 'scene_update_bot',
@@ -19,6 +18,7 @@ export enum Menu {
   BALANCE = 'balance_menu',
   REFERRAL = 'referral_menu',
   WALLETS = 'wallets_menu',
+  STATISTICS = 'statistics_menu',
 }
 
 export enum Wallet {

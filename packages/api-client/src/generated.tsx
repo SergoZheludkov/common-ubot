@@ -32,6 +32,11 @@ export type CreateManyPaymentsInput = {
   payments: Array<PaymentCreate>;
 };
 
+export type CreateManyStatisticsInput = {
+  /** Array of records to create */
+  statistics: Array<StatisticCreate>;
+};
+
 export type CreateManyUsersInput = {
   /** Array of records to create */
   users: Array<UserCreate>;
@@ -45,6 +50,11 @@ export type CreateManyWalletsInput = {
 export type CreateOnePaymentInput = {
   /** The record to create */
   payment: PaymentCreate;
+};
+
+export type CreateOneStatisticInput = {
+  /** The record to create */
+  statistic: StatisticCreate;
 };
 
 export type CreateOneUserInput = {
@@ -68,6 +78,12 @@ export type CursorPaging = {
   last?: Maybe<Scalars['Int']>;
 };
 
+export type DailyDto = {
+  __typename?: 'DailyDto';
+  payments: PaymentStatistics;
+  users: Scalars['Float'];
+};
+
 export type DeleteManyPaymentsInput = {
   /** Filter to find records to delete */
   filter: PaymentDeleteFilter;
@@ -77,6 +93,11 @@ export type DeleteManyResponse = {
   __typename?: 'DeleteManyResponse';
   /** The number of records deleted. */
   deletedCount: Scalars['Int'];
+};
+
+export type DeleteManyStatisticsInput = {
+  /** Filter to find records to delete */
+  filter: StatisticDeleteFilter;
 };
 
 export type DeleteManyUsersInput = {
@@ -99,28 +120,32 @@ export type Mutation = {
   addWallets: ReturnStatusType;
   checkPayment: Payment;
   createManyPayments: Array<Payment>;
+  createManyStatistics: Array<Statistic>;
   createManyUsers: Array<User>;
   createManyWallets: Array<Wallet>;
   createOnePayment: Payment;
+  createOneStatistic: Statistic;
   createOneUser: User;
   createOneWallet: Wallet;
   createPayment: Payment;
   createUser: User;
-  deactivateWallets: ReturnStatusType;
   deleteManyPayments: DeleteManyResponse;
+  deleteManyStatistics: DeleteManyResponse;
   deleteManyUsers: DeleteManyResponse;
   deleteManyWallets: DeleteManyResponse;
   deleteOnePayment: PaymentDeleteResponse;
+  deleteOneStatistic: StatisticDeleteResponse;
   deleteOneUser: UserDeleteResponse;
   deleteOneWallet: WalletDeleteResponse;
   setUserOnPayment: Payment;
   setWalletOnPayment: Payment;
   switchWalletStatus: ReturnStatusType;
-  switchWalletStatuses: ReturnStatusType;
   updateManyPayments: UpdateManyResponse;
+  updateManyStatistics: UpdateManyResponse;
   updateManyUsers: UpdateManyResponse;
   updateManyWallets: UpdateManyResponse;
   updateOnePayment: Payment;
+  updateOneStatistic: Statistic;
   updateOneUser: User;
   updateOneWallet: Wallet;
 };
@@ -137,6 +162,10 @@ export type MutationCreateManyPaymentsArgs = {
   input: CreateManyPaymentsInput;
 };
 
+export type MutationCreateManyStatisticsArgs = {
+  input: CreateManyStatisticsInput;
+};
+
 export type MutationCreateManyUsersArgs = {
   input: CreateManyUsersInput;
 };
@@ -147,6 +176,10 @@ export type MutationCreateManyWalletsArgs = {
 
 export type MutationCreateOnePaymentArgs = {
   input: CreateOnePaymentInput;
+};
+
+export type MutationCreateOneStatisticArgs = {
+  input: CreateOneStatisticInput;
 };
 
 export type MutationCreateOneUserArgs = {
@@ -165,12 +198,12 @@ export type MutationCreateUserArgs = {
   input: UserCreate;
 };
 
-export type MutationDeactivateWalletsArgs = {
-  input: Array<Scalars['Float']>;
-};
-
 export type MutationDeleteManyPaymentsArgs = {
   input: DeleteManyPaymentsInput;
+};
+
+export type MutationDeleteManyStatisticsArgs = {
+  input: DeleteManyStatisticsInput;
 };
 
 export type MutationDeleteManyUsersArgs = {
@@ -182,6 +215,10 @@ export type MutationDeleteManyWalletsArgs = {
 };
 
 export type MutationDeleteOnePaymentArgs = {
+  input: DeleteOneInput;
+};
+
+export type MutationDeleteOneStatisticArgs = {
   input: DeleteOneInput;
 };
 
@@ -205,12 +242,12 @@ export type MutationSwitchWalletStatusArgs = {
   id: Scalars['Float'];
 };
 
-export type MutationSwitchWalletStatusesArgs = {
-  input: Array<WalletStatus>;
-};
-
 export type MutationUpdateManyPaymentsArgs = {
   input: UpdateManyPaymentsInput;
+};
+
+export type MutationUpdateManyStatisticsArgs = {
+  input: UpdateManyStatisticsInput;
 };
 
 export type MutationUpdateManyUsersArgs = {
@@ -223,6 +260,10 @@ export type MutationUpdateManyWalletsArgs = {
 
 export type MutationUpdateOnePaymentArgs = {
   input: UpdateOnePaymentInput;
+};
+
+export type MutationUpdateOneStatisticArgs = {
+  input: UpdateOneStatisticInput;
 };
 
 export type MutationUpdateOneUserArgs = {
@@ -412,6 +453,13 @@ export enum PaymentSortFields {
   WalletId = 'wallet_id',
 }
 
+export type PaymentStatistics = {
+  __typename?: 'PaymentStatistics';
+  qiwi?: Maybe<WalletStatistics>;
+  webmoney?: Maybe<WalletStatistics>;
+  yoomoney?: Maybe<WalletStatistics>;
+};
+
 export type PaymentSumAggregate = {
   __typename?: 'PaymentSumAggregate';
   amount?: Maybe<Scalars['Float']>;
@@ -443,12 +491,14 @@ export type PaymentUpdateFilter = {
 
 export type Query = {
   __typename?: 'Query';
-  allActiveWallets: Array<Wallet>;
   allWallets: Array<Wallet>;
+  dailyStatistics: DailyDto;
   getUserPayments: Array<Payment>;
   oneWallet: Wallet;
   payment?: Maybe<Payment>;
   payments: PaymentConnection;
+  statistic?: Maybe<Statistic>;
+  statistics: StatisticConnection;
   user?: Maybe<User>;
   users: UserConnection;
   wallet?: Maybe<Wallet>;
@@ -471,6 +521,16 @@ export type QueryPaymentsArgs = {
   filter?: Maybe<PaymentFilter>;
   paging?: Maybe<CursorPaging>;
   sorting?: Maybe<Array<PaymentSort>>;
+};
+
+export type QueryStatisticArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryStatisticsArgs = {
+  filter?: Maybe<StatisticFilter>;
+  paging?: Maybe<CursorPaging>;
+  sorting?: Maybe<Array<StatisticSort>>;
 };
 
 export type QueryUserArgs = {
@@ -517,6 +577,108 @@ export enum SortNulls {
   NullsLast = 'NULLS_LAST',
 }
 
+export type Statistic = {
+  __typename?: 'Statistic';
+  created: Scalars['DateTime'];
+  id: Scalars['Float'];
+  payments: Scalars['String'];
+  updated: Scalars['DateTime'];
+  users: Scalars['Float'];
+};
+
+export type StatisticAvgAggregate = {
+  __typename?: 'StatisticAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+  users?: Maybe<Scalars['Float']>;
+};
+
+export type StatisticConnection = {
+  __typename?: 'StatisticConnection';
+  /** Array of edges. */
+  edges: Array<StatisticEdge>;
+  /** Paging information */
+  pageInfo: PageInfo;
+};
+
+export type StatisticCountAggregate = {
+  __typename?: 'StatisticCountAggregate';
+  id?: Maybe<Scalars['Int']>;
+  users?: Maybe<Scalars['Int']>;
+};
+
+export type StatisticCreate = {
+  id: Scalars['String'];
+  payments: Scalars['String'];
+  users: Scalars['Float'];
+};
+
+export type StatisticDeleteFilter = {
+  and?: Maybe<Array<StatisticDeleteFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  or?: Maybe<Array<StatisticDeleteFilter>>;
+  users?: Maybe<NumberFieldComparison>;
+};
+
+export type StatisticDeleteResponse = {
+  __typename?: 'StatisticDeleteResponse';
+  created?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  payments?: Maybe<Scalars['String']>;
+  updated?: Maybe<Scalars['DateTime']>;
+  users?: Maybe<Scalars['Float']>;
+};
+
+export type StatisticEdge = {
+  __typename?: 'StatisticEdge';
+  /** Cursor for this node. */
+  cursor: Scalars['ConnectionCursor'];
+  /** The node containing the Statistic */
+  node: Statistic;
+};
+
+export type StatisticFilter = {
+  and?: Maybe<Array<StatisticFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  or?: Maybe<Array<StatisticFilter>>;
+  users?: Maybe<NumberFieldComparison>;
+};
+
+export type StatisticMaxAggregate = {
+  __typename?: 'StatisticMaxAggregate';
+  id?: Maybe<Scalars['Float']>;
+  users?: Maybe<Scalars['Float']>;
+};
+
+export type StatisticMinAggregate = {
+  __typename?: 'StatisticMinAggregate';
+  id?: Maybe<Scalars['Float']>;
+  users?: Maybe<Scalars['Float']>;
+};
+
+export type StatisticSort = {
+  direction: SortDirection;
+  field: StatisticSortFields;
+  nulls?: Maybe<SortNulls>;
+};
+
+export enum StatisticSortFields {
+  Id = 'id',
+  Users = 'users',
+}
+
+export type StatisticSumAggregate = {
+  __typename?: 'StatisticSumAggregate';
+  id?: Maybe<Scalars['Float']>;
+  users?: Maybe<Scalars['Float']>;
+};
+
+export type StatisticUpdateFilter = {
+  and?: Maybe<Array<StatisticUpdateFilter>>;
+  id?: Maybe<NumberFieldComparison>;
+  or?: Maybe<Array<StatisticUpdateFilter>>;
+  users?: Maybe<NumberFieldComparison>;
+};
+
 export type StringFieldComparison = {
   eq?: Maybe<Scalars['String']>;
   gt?: Maybe<Scalars['String']>;
@@ -547,6 +709,13 @@ export type UpdateManyResponse = {
   updatedCount: Scalars['Int'];
 };
 
+export type UpdateManyStatisticsInput = {
+  /** Filter used to find fields to update */
+  filter: StatisticUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateStatistic;
+};
+
 export type UpdateManyUsersInput = {
   /** Filter used to find fields to update */
   filter: UserUpdateFilter;
@@ -568,6 +737,13 @@ export type UpdateOnePaymentInput = {
   update: PaymentUpdate;
 };
 
+export type UpdateOneStatisticInput = {
+  /** The id of the record to update */
+  id: Scalars['ID'];
+  /** The update to apply. */
+  update: UpdateStatistic;
+};
+
 export type UpdateOneUserInput = {
   /** The id of the record to update */
   id: Scalars['ID'];
@@ -580,6 +756,14 @@ export type UpdateOneWalletInput = {
   id: Scalars['ID'];
   /** The update to apply. */
   update: UpdateWallet;
+};
+
+export type UpdateStatistic = {
+  created?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  payments?: Maybe<Scalars['String']>;
+  updated?: Maybe<Scalars['DateTime']>;
+  users?: Maybe<Scalars['Float']>;
 };
 
 export type UpdateWallet = {
@@ -877,9 +1061,10 @@ export enum WalletSortFields {
   Type = 'type',
 }
 
-export type WalletStatus = {
-  id: Scalars['Float'];
-  is_active: Scalars['Boolean'];
+export type WalletStatistics = {
+  __typename?: 'WalletStatistics';
+  amount: Scalars['Float'];
+  total: Scalars['Float'];
 };
 
 export type WalletSumAggregate = {
@@ -932,6 +1117,20 @@ export type CheckPaymentMutation = { __typename?: 'Mutation' } & {
   > & { wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'> };
 };
 
+export type DailyBaseFragment = { __typename?: 'DailyDto' } & Pick<DailyDto, 'users'> & {
+    payments: { __typename?: 'PaymentStatistics' } & {
+      qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+      webmoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+      yoomoney?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
+    };
+  };
+
+export type DailyStatisticsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type DailyStatisticsQuery = { __typename?: 'Query' } & {
+  dailyStatistics: { __typename?: 'DailyDto' } & DailyBaseFragment;
+};
+
 export type UserBaseFragment = { __typename?: 'User' } & Pick<
   User,
   | 'id'
@@ -974,12 +1173,6 @@ export type AllWalletsQuery = { __typename?: 'Query' } & {
   allWallets: Array<{ __typename?: 'Wallet' } & WalletBaseFragment>;
 };
 
-export type AllActiveWalletsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type AllActiveWalletsQuery = { __typename?: 'Query' } & {
-  allActiveWallets: Array<{ __typename?: 'Wallet' } & WalletBaseFragment>;
-};
-
 export type AddWalletsMutationVariables = Exact<{
   input: Array<WalletCreate> | WalletCreate;
 }>;
@@ -996,6 +1189,25 @@ export type SwitchWalletStatusMutation = { __typename?: 'Mutation' } & {
   switchWalletStatus: { __typename?: 'ReturnStatusType' } & Pick<ReturnStatusType, 'status'>;
 };
 
+export const DailyBaseFragmentDoc = gql`
+  fragment DailyBase on DailyDto {
+    users
+    payments {
+      qiwi @include(if: true) {
+        amount
+        total
+      }
+      webmoney @include(if: true) {
+        amount
+        total
+      }
+      yoomoney @include(if: true) {
+        amount
+        total
+      }
+    }
+  }
+`;
 export const UserBaseFragmentDoc = gql`
   fragment UserBase on User {
     id
@@ -1170,6 +1382,52 @@ export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CheckPaymentMutation,
   CheckPaymentMutationVariables
 >;
+export const DailyStatisticsDocument = gql`
+  query dailyStatistics {
+    dailyStatistics {
+      ...DailyBase
+    }
+  }
+  ${DailyBaseFragmentDoc}
+`;
+
+/**
+ * __useDailyStatisticsQuery__
+ *
+ * To run a query within a React component, call `useDailyStatisticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDailyStatisticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDailyStatisticsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDailyStatisticsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<DailyStatisticsQuery, DailyStatisticsQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<DailyStatisticsQuery, DailyStatisticsQueryVariables>(
+    DailyStatisticsDocument,
+    baseOptions,
+  );
+}
+export function useDailyStatisticsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<DailyStatisticsQuery, DailyStatisticsQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<DailyStatisticsQuery, DailyStatisticsQueryVariables>(
+    DailyStatisticsDocument,
+    baseOptions,
+  );
+}
+export type DailyStatisticsQueryHookResult = ReturnType<typeof useDailyStatisticsQuery>;
+export type DailyStatisticsLazyQueryHookResult = ReturnType<typeof useDailyStatisticsLazyQuery>;
+export type DailyStatisticsQueryResult = ApolloReactCommon.QueryResult<
+  DailyStatisticsQuery,
+  DailyStatisticsQueryVariables
+>;
 export const UserDocument = gql`
   query user($id: ID!) {
     user(id: $id) {
@@ -1316,52 +1574,6 @@ export function useAllWalletsLazyQuery(
 export type AllWalletsQueryHookResult = ReturnType<typeof useAllWalletsQuery>;
 export type AllWalletsLazyQueryHookResult = ReturnType<typeof useAllWalletsLazyQuery>;
 export type AllWalletsQueryResult = ApolloReactCommon.QueryResult<AllWalletsQuery, AllWalletsQueryVariables>;
-export const AllActiveWalletsDocument = gql`
-  query allActiveWallets {
-    allActiveWallets {
-      ...WalletBase
-    }
-  }
-  ${WalletBaseFragmentDoc}
-`;
-
-/**
- * __useAllActiveWalletsQuery__
- *
- * To run a query within a React component, call `useAllActiveWalletsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllActiveWalletsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllActiveWalletsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAllActiveWalletsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>,
-) {
-  return ApolloReactHooks.useQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(
-    AllActiveWalletsDocument,
-    baseOptions,
-  );
-}
-export function useAllActiveWalletsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>,
-) {
-  return ApolloReactHooks.useLazyQuery<AllActiveWalletsQuery, AllActiveWalletsQueryVariables>(
-    AllActiveWalletsDocument,
-    baseOptions,
-  );
-}
-export type AllActiveWalletsQueryHookResult = ReturnType<typeof useAllActiveWalletsQuery>;
-export type AllActiveWalletsLazyQueryHookResult = ReturnType<typeof useAllActiveWalletsLazyQuery>;
-export type AllActiveWalletsQueryResult = ApolloReactCommon.QueryResult<
-  AllActiveWalletsQuery,
-  AllActiveWalletsQueryVariables
->;
 export const AddWalletsDocument = gql`
   mutation addWallets($input: [WalletCreate!]!) {
     addWallets(input: $input) {

@@ -4,16 +4,17 @@ import { Cron } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op, Sequelize } from 'sequelize';
 import { startOfYesterday, endOfYesterday, format } from 'date-fns';
+
 import { User } from '../user/user.model';
 import { Payment } from '../payment/payment.model';
-import { Statistic } from './statistic.model';
-import { getPaymentStatistic } from './helpers';
-import { PaymentStatistics } from './types';
+
+import { Statistic } from './statistics.model';
+import { getPaymentStatistic, PaymentStatistics } from './helpers';
 
 const EVERY_START_DAY = '10 0 * * *';
 
 @Injectable()
-export class StatisticCronService {
+export class StatisticsCronService {
   constructor(
     @InjectModel(User) readonly user: typeof User,
     @InjectModel(Payment) readonly payment: typeof Payment,
@@ -34,7 +35,7 @@ export class StatisticCronService {
     const yesterday = { [Op.between]: [startDate, endDate] };
     try {
       return await this.sequelize.transaction(async (transaction) => {
-        const { count: userTotal } = await this.user.findAndCountAll({
+        const { count: totalUsers } = await this.user.findAndCountAll({
           where: { created: yesterday },
           transaction,
         });
@@ -48,13 +49,13 @@ export class StatisticCronService {
 
         const statisticsPerDay = {
           id: Number(format(startDate, 'yyyyMMdd')),
-          users: userTotal,
+          users: totalUsers,
           payments: JSON.stringify(payments),
         } as Statistic;
 
         await this.statistic.create(statisticsPerDay, { transaction });
 
-        const data = { payments, users: userTotal };
+        const data = { payments, users: totalUsers };
         const admins = await this.user.findAll({ where: { is_admin: true }, transaction });
         admins.forEach(({ id }) => this.httpService.post(this.getURL(id), { data }).toPromise());
       });

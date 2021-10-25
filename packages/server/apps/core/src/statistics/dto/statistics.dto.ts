@@ -3,7 +3,7 @@ import { FilterableField } from '@nestjs-query/query-graphql';
 import { ObjectType, GraphQLISODateTime, Field } from '@nestjs/graphql';
 
 @ObjectType('Statistic')
-export class StatisticDto {
+export class StatisticsDto {
   @FilterableField()
   id: number;
 

@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsDefined, IsNumber, Length } from 'class-validator';
+import { IsString, IsDefined, IsNumber } from 'class-validator';
 
 @InputType('StatisticCreate')
-export class StatisticCreateDto {
+export class StatisticsCreateDto {
   @Field()
   @IsDefined()
   @IsNumber()
@@ -11,13 +11,11 @@ export class StatisticCreateDto {
 
   @Field()
   @IsDefined()
-  @IsString()
-  @Length(1, 50)
+  @IsNumber()
   users: number;
 
   @Field()
   @IsDefined()
   @IsString()
-  @Length(1, 50)
   payments: string;
 }

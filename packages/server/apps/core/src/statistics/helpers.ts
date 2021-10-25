@@ -1,5 +1,12 @@
-import { PaymentStatistics } from './types';
+// import { PaymentStatistics } from './dto';
 import { Payment } from '../payment/payment.model';
+
+export interface PaymentStatistics {
+  [key: string]: {
+    total: number;
+    amount: number;
+  };
+}
 
 const getPaymentStatistic = (
   acc: PaymentStatistics,
