@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import { Text } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 import { isNotEmpty } from '@common_ubot/utilits';
-import { StatisticsData } from '../api';
+import { StatisticsTypes } from '../api';
 
-const DailyStatistics: React.FC<StatisticsData> = ({ users, payments }) => {
+const DailyStatistics: React.FC<StatisticsTypes> = ({ users, payments }) => {
   const { t } = useTranslation('statistics');
 
   const paymentsToRender = Object.entries(payments)
@@ -27,8 +27,8 @@ const DailyStatistics: React.FC<StatisticsData> = ({ users, payments }) => {
     ));
 
   return (
-    <Text>
-      <b>{t('daily_statistics')}</b>
+    <Text isNewMessageEveryRender={false}>
+      <b>{t('periods.daily')}</b>
       <br />
       <br />
       {t('new_users')}
@@ -38,11 +38,11 @@ const DailyStatistics: React.FC<StatisticsData> = ({ users, payments }) => {
       <br />
       {paymentsToRender.length ? (
         <>
-          {t('daily_payments')}
+          {t('payments')}
           {paymentsToRender}
         </>
       ) : (
-        t('daily_payments_is_empty')
+        t('payments_is_empty')
       )}
     </Text>
   );

@@ -7,7 +7,7 @@ import { getWallet } from '../../../utilits';
 import { Hook } from '../../../contexts';
 
 interface Props {
-  exit: () => void;
+  onExit: () => void;
 }
 
 enum FilterState {
@@ -16,7 +16,7 @@ enum FilterState {
   ALL = 'all',
 }
 
-const SwitchWallets = ({ exit }: Props) => {
+const SwitchWallets = ({ onExit }: Props) => {
   const { t } = useTranslation(['wallets', 'buttons']);
   const { wallets, refetch } = Hook.useWallets();
   const [switchWalletStatus] = useSwitchWalletStatusMutation();
@@ -67,7 +67,11 @@ const SwitchWallets = ({ exit }: Props) => {
       {[
         filterButtons,
         ...walletButtons,
-        [<Button key="back" onClick={exit}>{t('buttons:back')}</Button>],
+        [
+          <Button key="back" onClick={onExit}>
+            {t('buttons:back')}
+          </Button>,
+        ],
       ]}
     </ButtonGroup>
   );

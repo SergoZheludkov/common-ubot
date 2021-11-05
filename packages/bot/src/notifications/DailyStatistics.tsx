@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useBotContext } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
-import { messageBroker, StatisticsData } from '../api';
+
+import { messageBroker, StatisticsTypes } from '../api';
 import { DailyStatistics as DailyStatisticsComponent } from '../components/DailyStatistics';
 
-interface StatisticsState extends StatisticsData {
+interface StatisticsState extends StatisticsTypes {
   isShow: boolean;
 }
 
@@ -18,7 +19,7 @@ const DailyStatistics: React.FC = () => {
   const { chat, bot } = useBotContext<UrbanBotTelegram>();
   const [{ isShow, users, payments }, setState] = useState<StatisticsState>(defaultState);
 
-  const callback = (data: StatisticsData) => setState({ ...data, isShow: true });
+  const callback = (data: StatisticsTypes) => setState({ ...data, isShow: true });
 
   useEffect(() => messageBroker.dayStatistics(chat.id, callback), [bot.client, chat.id]);
 

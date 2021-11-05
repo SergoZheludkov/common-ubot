@@ -5,12 +5,12 @@ import { useCreateUserMutation } from '@common_ubot/api-client';
 
 interface RegistrationProps {
   refId: string | null;
-  exit: () => void;
+  onExit: () => void;
 }
 
 type Lang = 'ru' | 'en' | '';
 
-export const Registration = ({ refId, exit }: RegistrationProps) => {
+export const Registration = ({ refId, onExit }: RegistrationProps) => {
   const { t } = useTranslation('lang');
   const { chat } = useBotContext();
   const [isReg, setReg] = useState(false);
@@ -36,7 +36,7 @@ export const Registration = ({ refId, exit }: RegistrationProps) => {
         if (!user) return;
 
         setReg(true);
-        setTimeout(() => exit(), 500);
+        setTimeout(() => onExit(), 500);
       })();
     }
   }, [lang]);

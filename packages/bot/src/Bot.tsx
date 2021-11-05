@@ -9,10 +9,20 @@ import * as Menu from './menu';
 import * as Scene from './scenes';
 import * as T from './types';
 
+interface BotState {
+  scene: T.Menu | T.Scene;
+  statisticsType: T.Statistics;
+}
+
+const DEFAULT_STATE = { scene: T.Scene.RESET, statisticsType: T.Statistics.NONE };
+
 export const Bot = () => {
-  const [scene, setScene] = useState<T.Menu | T.Scene>(T.Scene.RESET);
+  const [{ scene, statisticsType }, setState] = useState<BotState>(DEFAULT_STATE);
   const [refId, setRefId] = useState<string | null>('');
   console.info('Bot scene:', scene);
+
+  const setScene = (_scene: BotState['scene']) => setState((prev) => ({ ...prev, scene: _scene }));
+  const setStatistics = (type: T.Statistics) => setState({ scene: T.Scene.STATISTICS, statisticsType: type });
 
   const { chat } = useBotContext<UrbanBotTelegram>();
 
@@ -37,7 +47,7 @@ export const Bot = () => {
   const handleMenuBalance = () => setScene(T.Menu.BALANCE);
   const handleMenuReferral = () => setScene(T.Menu.REFERRAL);
   const handleMenuWallets = () => setScene(T.Menu.WALLETS);
-  const handleMenuStatistics = () => setScene(T.Menu.STATISTICS);
+  const handleMenuStatistics = () => setState({ scene: T.Menu.STATISTICS, statisticsType: T.Statistics.NONE });
 
   // scene handlers
   const handleSceneFeedback = () => setScene(T.Scene.FEEDBACK);
@@ -48,75 +58,90 @@ export const Bot = () => {
   const handleSceneAddWallets = () => setScene(T.Scene.ADD_WALLETS);
   const handleSceneManagementWallets = () => setScene(T.Scene.MANAGEMENT_WALLETS);
 
+  // statistics handlers
+  const handleStatisticsUsers = () => setStatistics(T.Statistics.USERS);
+  const handleStatisticsPayments = () => setStatistics(T.Statistics.PAYMENTS);
+
   switch (scene) {
     case T.Scene.UPDATE_BOT:
       return (
         <Menu.Main
           isUpdated
-          admin={handleMenuAdmin}
-          balance={handleMenuBalance}
-          referral={handleMenuReferral}
-          feedback={handleSceneFeedback}
-          rules={handleSceneRules}
+          onAdmin={handleMenuAdmin}
+          onBalance={handleMenuBalance}
+          onReferral={handleMenuReferral}
+          onFeedback={handleSceneFeedback}
+          onRules={handleSceneRules}
         />
       );
     // -------------------------------------AUTHENTIFICATION-------------------------------------
     case T.Scene.AUTH:
-      return <Scene.Authentification isSuccess={handleMenuMain} isFailed={handleSceneRegistration} />;
+      return <Scene.Authentification onSuccess={handleMenuMain} onFailed={handleSceneRegistration} />;
     case T.Scene.REG:
-      return <Scene.Registration refId={refId || null} exit={handleMenuMain} />;
+      return <Scene.Registration refId={refId || null} onExit={handleMenuMain} />;
     // ----------------------------------------MAIN MENU----------------------------------------
     case T.Scene.INPUT_MONEY:
-      return <Scene.InputMoney exit={handleMenuBalance} />;
+      return <Scene.InputMoney onExit={handleMenuBalance} />;
 
     case T.Scene.ALL_PAYMENTS:
-      return <Scene.Payments exit={handleMenuBalance} />;
+      return <Scene.Payments onExit={handleMenuBalance} />;
 
     case T.Scene.FEEDBACK:
-      return <Scene.Feedback exit={handleMenuMain} />;
+      return <Scene.Feedback onExit={handleMenuMain} />;
 
     case T.Scene.RULES:
-      return <Scene.Rules exit={handleMenuMain} />;
+      return <Scene.Rules onExit={handleMenuMain} />;
     // ----------------------------------------ADMIN MENU----------------------------------------
     case T.Scene.ADD_WALLETS:
-      return <Scene.Wallets.Add exit={handleMenuWallets} />;
+      return <Scene.Wallets.Add onExit={handleMenuWallets} />;
 
     case T.Scene.MANAGEMENT_WALLETS:
       return (
         <Provider.Wallets>
-          <Scene.Wallets.Management exit={handleMenuWallets} />
+          <Scene.Wallets.Management onExit={handleMenuWallets} />
         </Provider.Wallets>
+      );
+
+    case T.Scene.STATISTICS:
+      return (
+        <Provider.Statistics>
+          <Scene.Statistics type={statisticsType} onExit={handleMenuStatistics} />
+        </Provider.Statistics>
       );
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
       return (
         <Menu.Main
-          admin={handleMenuAdmin}
-          balance={handleMenuBalance}
-          referral={handleMenuReferral}
-          feedback={handleSceneFeedback}
-          rules={handleSceneRules}
+          onAdmin={handleMenuAdmin}
+          onBalance={handleMenuBalance}
+          onReferral={handleMenuReferral}
+          onFeedback={handleSceneFeedback}
+          onRules={handleSceneRules}
         />
       );
 
     case T.Menu.ADMIN:
       return (
         <Provider.User>
-          <Menu.Admin wallets={handleMenuWallets} statistic={handleMenuStatistics} back={handleMenuMain} />
+          <Menu.Admin onWallets={handleMenuWallets} onStatistic={handleMenuStatistics} onBack={handleMenuMain} />
         </Provider.User>
       );
 
     case T.Menu.WALLETS:
       return (
-        <Menu.Wallets add={handleSceneAddWallets} management={handleSceneManagementWallets} back={handleMenuAdmin} />
+        <Menu.Wallets
+          onAdd={handleSceneAddWallets}
+          onManagement={handleSceneManagementWallets}
+          onBack={handleMenuAdmin}
+        />
       );
 
     case T.Menu.STATISTICS:
       return (
         <Provider.Statistics>
           <Menu.Statistics
-            onUsers={handleMenuAdmin} // TODO Раздел статистики по юзерам
-            onPayments={handleMenuAdmin} // TODO Раздел статистики по оплатам
+            onUsers={handleStatisticsUsers}
+            onPayments={handleStatisticsPayments}
             onBack={handleMenuAdmin}
           />
         </Provider.Statistics>
@@ -125,16 +150,22 @@ export const Bot = () => {
     case T.Menu.BALANCE:
       return (
         <Provider.User>
-          <Menu.Balance inputMoney={handleSceneInputMoney} allPayments={handleSceneAllPayments} back={handleMenuMain} />
+          <Menu.Balance
+            onInputMoney={handleSceneInputMoney}
+            onAllPayments={handleSceneAllPayments}
+            onBack={handleMenuMain}
+          />
         </Provider.User>
       );
 
     case T.Menu.REFERRAL:
       return (
         <Provider.User>
-          <Menu.Referral back={handleMenuMain} />
+          <Menu.Referral onBack={handleMenuMain} />
         </Provider.User>
       );
+
+    // -----------------------------------------------------------------------------------------
 
     default:
       return null;

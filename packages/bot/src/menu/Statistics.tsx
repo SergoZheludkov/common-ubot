@@ -25,7 +25,13 @@ const Statistics = ({ onUsers, onPayments, onBack }: Props) => {
   return (
     <>
       <DailyStatistics users={statistics.users} payments={statistics.payments} />
-      <ButtonGroup isReplyButtons isResizedKeyboard maxColumns={2} title={t('statistics:more_details')}>
+      <ButtonGroup
+        isNewMessageEveryRender={false}
+        isReplyButtons
+        isResizedKeyboard
+        maxColumns={2}
+        title={t('statistics:more_details')}
+      >
         <Button>{t('users')}</Button>
         <Button>{t('payments')}</Button>
         <Button>{t('back')}</Button>

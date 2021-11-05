@@ -81,6 +81,7 @@ export type CursorPaging = {
 export type CustomStatisticDto = {
   __typename?: 'CustomStatisticDto';
   payments?: Maybe<PaymentStatistics>;
+  period?: Maybe<Scalars['String']>;
   users?: Maybe<Scalars['Float']>;
 };
 
@@ -611,7 +612,7 @@ export type StatisticCountAggregate = {
 };
 
 export type StatisticCreate = {
-  id: Scalars['String'];
+  id: Scalars['Float'];
   payments: Scalars['String'];
   users: Scalars['Float'];
 };
@@ -687,6 +688,7 @@ export type StatisticsInput = {
   /** format: 20211130 */
   endDate?: Maybe<Scalars['Float']>;
   payments: Scalars['Boolean'];
+  period?: Maybe<Scalars['String']>;
   /** format: 20211025 */
   startDate?: Maybe<Scalars['Float']>;
   users: Scalars['Boolean'];
@@ -1130,7 +1132,10 @@ export type CheckPaymentMutation = { __typename?: 'Mutation' } & {
   > & { wallet: { __typename?: 'Wallet' } & Pick<Wallet, 'id' | 'number' | 'type'> };
 };
 
-export type StatisticsBaseFragment = { __typename?: 'CustomStatisticDto' } & Pick<CustomStatisticDto, 'users'> & {
+export type StatisticsBaseFragment = { __typename?: 'CustomStatisticDto' } & Pick<
+  CustomStatisticDto,
+  'period' | 'users'
+> & {
     payments?: Maybe<
       { __typename?: 'PaymentStatistics' } & {
         qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
@@ -1141,14 +1146,17 @@ export type StatisticsBaseFragment = { __typename?: 'CustomStatisticDto' } & Pic
   };
 
 export type StatisticsByQueryVariables = Exact<{
-  users: Scalars['Boolean'];
-  payments: Scalars['Boolean'];
+  users?: Maybe<Scalars['Boolean']>;
+  payments?: Maybe<Scalars['Boolean']>;
   startDate?: Maybe<Scalars['Float']>;
   endDate?: Maybe<Scalars['Float']>;
 }>;
 
 export type StatisticsByQuery = { __typename?: 'Query' } & {
-  statisticsBy: { __typename?: 'CustomStatisticDto' } & MakeOptional<Pick<CustomStatisticDto, 'users'>, 'users'> & {
+  statisticsBy: { __typename?: 'CustomStatisticDto' } & MakeOptional<
+    Pick<CustomStatisticDto, 'period' | 'users'>,
+    'users'
+  > & {
       payments?: Maybe<
         { __typename?: 'PaymentStatistics' } & {
           qiwi?: Maybe<{ __typename?: 'WalletStatistics' } & Pick<WalletStatistics, 'amount' | 'total'>>;
@@ -1219,6 +1227,7 @@ export type SwitchWalletStatusMutation = { __typename?: 'Mutation' } & {
 
 export const StatisticsBaseFragmentDoc = gql`
   fragment StatisticsBase on CustomStatisticDto {
+    period
     users
     payments {
       qiwi {
@@ -1411,8 +1420,9 @@ export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CheckPaymentMutationVariables
 >;
 export const StatisticsByDocument = gql`
-  query statisticsBy($users: Boolean!, $payments: Boolean!, $startDate: Float, $endDate: Float) {
+  query statisticsBy($users: Boolean = false, $payments: Boolean = false, $startDate: Float, $endDate: Float) {
     statisticsBy(input: { users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }) {
+      period
       users @include(if: $users)
       payments @include(if: $payments) {
         qiwi {

@@ -1,6 +1,6 @@
 import { expressApp } from '../express-app';
 
-import { NewReferralData, ReferralMoneyData, StatisticsData, PaymentStatistics } from './types';
+import { NewReferralData, ReferralMoneyData, StatisticsTypes, PaymentStatistics } from './types';
 
 export class MessageBroker {
   NOTIFICATION_BASE: string;
@@ -54,7 +54,7 @@ export class MessageBroker {
     });
   }
 
-  dayStatistics(chatId: string, callback: (params: StatisticsData) => void) {
+  dayStatistics(chatId: string, callback: (params: StatisticsTypes) => void) {
     expressApp.post(`${this.DAY_STATISTICS}/${chatId}`, (req, res) => {
       const {
         body: { data },

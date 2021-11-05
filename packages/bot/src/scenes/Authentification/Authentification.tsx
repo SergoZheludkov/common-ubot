@@ -4,18 +4,18 @@ import { useTranslation } from '@common_ubot/i18n';
 import { useUserQuery } from '@common_ubot/api-client';
 
 interface AuthenticationProps {
-  isSuccess: () => void;
-  isFailed: () => void;
+  onSuccess: () => void;
+  onFailed: () => void;
 }
 
-export const Authentification = ({ isSuccess, isFailed }: AuthenticationProps) => {
+export const Authentification = ({ onSuccess, onFailed }: AuthenticationProps) => {
   const { t } = useTranslation();
   const { chat } = useBotContext();
   const { data, loading } = useUserQuery({ variables: { id: chat.id } });
 
   useEffect(() => {
-    if (!loading && !data?.user) isFailed();
-    if (!loading && data?.user) setTimeout(() => isSuccess(), 1000);
+    if (!loading && !data?.user) onFailed();
+    if (!loading && data?.user) setTimeout(() => onSuccess(), 1000);
   }, [data]);
 
   if (!loading && data?.user) return <Text>{t('greeting')}</Text>;

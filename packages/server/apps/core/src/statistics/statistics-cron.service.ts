@@ -1,9 +1,10 @@
+import { getIdFromDate } from '@common_ubot/utilits';
 import { HttpService, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op, Sequelize } from 'sequelize';
-import { startOfYesterday, endOfYesterday, format } from 'date-fns';
+import { startOfYesterday, endOfYesterday } from 'date-fns';
 
 import { User } from '../user/user.model';
 import { Payment } from '../payment/payment.model';
@@ -48,7 +49,7 @@ export class StatisticsCronService {
         const payments = paymentsData.reduce(getPaymentStatistic, {} as PaymentStatistics);
 
         const statisticsPerDay = {
-          id: Number(format(startDate, 'yyyyMMdd')),
+          id: getIdFromDate(startDate),
           users: totalUsers,
           payments: JSON.stringify(payments),
         } as Statistic;

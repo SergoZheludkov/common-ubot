@@ -30,6 +30,10 @@ export class StatisticsInput {
   @Field({ description: 'format: 20211130', nullable: true })
   @IsOptional()
   endDate?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  period?: string;
 }
 
 @Resolver()
@@ -44,21 +48,21 @@ export class StatisticsResolver extends NoOpQueryService<Statistic> {
   }
 
   @Query(() => CustomStatisticDto)
-  async statisticsBy(@Args('input') { users, payments, startDate, endDate }: StatisticsInput) {
+  async statisticsBy(@Args('input') { users, payments, startDate, endDate, period }: StatisticsInput) {
     try {
       return await this.sequelize.transaction(async (transaction) => {
         // If the period is not specified - will return statistics for all available indicators for today
         if (!startDate && !endDate) {
-          const period = { [Op.between]: [startOfToday(), endOfToday()] };
+          const created = { [Op.between]: [startOfToday(), endOfToday()] };
 
           const { count: totalUsers } = await this.user.findAndCountAll({
-            where: { created: period },
+            where: { created },
             transaction,
           });
 
           const paymentsData = await this.payment.findAll({
             include: ['wallet'],
-            where: { is_paid: true, updated: period },
+            where: { is_paid: true, updated: created },
             transaction,
           });
 
@@ -71,14 +75,14 @@ export class StatisticsResolver extends NoOpQueryService<Statistic> {
         }
 
         // Else - will return statistics by settings
-        const period = { [Op.between]: [startDate, endDate] };
-
+        const id = { [Op.between]: [startDate, endDate] };
         const statistics = await this.statistic.findAll({
-          where: { id: period },
+          where: { id },
           attributes: [users ? 'users' : null, payments ? 'payments' : null].filter(isNotEmpty),
         });
 
         return {
+          period,
           users: users ? statistics.reduce((acc, { users: count }) => acc + count, 0) : null,
           payments: payments
             ? (statistics

@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 
 export const STATISTICS_FRAGMENT = gql`
   fragment StatisticsBase on CustomStatisticDto {
+    period
+
     users
     payments {
       qiwi {
@@ -21,8 +23,9 @@ export const STATISTICS_FRAGMENT = gql`
 `;
 
 export const STATISTICS_BY = gql`
-  query statisticsBy($users: Boolean!, $payments: Boolean!, $startDate: Float, $endDate: Float) {
+  query statisticsBy($users: Boolean = false, $payments: Boolean = false, $startDate: Float, $endDate: Float) {
     statisticsBy(input: { users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }) {
+      period
       users @include(if: $users)
       payments @include(if: $payments) {
         qiwi {

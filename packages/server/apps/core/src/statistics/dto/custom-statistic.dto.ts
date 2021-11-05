@@ -13,4 +13,9 @@ export class CustomStatisticDto {
   @IsDefined()
   @IsString()
   payments: PaymentStatistics;
+
+  @Field({ nullable: true })
+  @IsDefined()
+  @IsString()
+  period: string;
 }

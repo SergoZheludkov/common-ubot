@@ -14,7 +14,7 @@ export interface PaymentStatistics {
   };
 }
 
-export interface StatisticsData {
+export interface StatisticsTypes {
   users: number;
   payments: PaymentStatistics;
 }

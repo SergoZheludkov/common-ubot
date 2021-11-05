@@ -1,4 +1,3 @@
-// import { PaymentStatistics } from './dto';
 import { Payment } from '../payment/payment.model';
 
 export interface PaymentStatistics {
@@ -34,20 +33,17 @@ const getPaymentStatistic = (
 const getPaymentStatisticSum = (statistics: PaymentStatistics, paymentMeta: string): PaymentStatistics => {
   const paymentStatistics = JSON.parse(paymentMeta) as PaymentStatistics;
   return Object.entries(paymentStatistics).reduce((acc, [wallet, { amount, total }]) => {
-    return statistics[wallet]
+    return acc[wallet]
       ? {
-          ...statistics,
+          ...acc,
           [wallet]: {
-            amount: statistics[wallet].amount + amount,
-            total: statistics[wallet].total + total,
+            amount: acc[wallet].amount + amount,
+            total: acc[wallet].total + total,
           },
         }
       : {
-          ...statistics,
-          [wallet]: {
-            total: 1,
-            amount,
-          },
+          ...acc,
+          [wallet]: { total, amount },
         };
   }, statistics);
 };

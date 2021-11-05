@@ -3,17 +3,17 @@ import { ButtonGroup, Button, useText } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 
 interface Props {
-  add: () => void;
-  management: () => void;
-  back: () => void;
+  onAdd: () => void;
+  onManagement: () => void;
+  onBack: () => void;
 }
 
-const Wallets = ({ add, management, back }: Props) => {
+const Wallets = ({ onAdd, onManagement, onBack }: Props) => {
   const { t } = useTranslation(['buttons', 'wallets']);
 
-  useText(add, t('add_wallets'));
-  useText(management, t('management_wallets'));
-  useText(back, t('back'));
+  useText(onAdd, t('add_wallets'));
+  useText(onManagement, t('management_wallets'));
+  useText(onBack, t('back'));
 
   return (
     <ButtonGroup isReplyButtons isResizedKeyboard maxColumns={2} title={t('wallets:message')}>

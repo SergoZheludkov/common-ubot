@@ -7,6 +7,7 @@ schema {
 
 type CustomStatisticDto {
     payments: PaymentStatistics
+    period: String
     users: Float
 }
 
@@ -663,7 +664,7 @@ input RelationInput {
 }
 
 input StatisticCreate {
-    id: String!
+    id: Float!
     payments: String!
     users: Float!
 }
@@ -699,6 +700,7 @@ input StatisticsInput {
     "format: 20211130"
     endDate: Float
     payments: Boolean!
+    period: String
     "format: 20211025"
     startDate: Float
     users: Boolean!

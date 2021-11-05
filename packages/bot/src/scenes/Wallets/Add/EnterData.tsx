@@ -7,10 +7,10 @@ import { WALLET_TYPES } from '../../../constants';
 
 interface Props {
   onEnterData: (data: AddWalletData[]) => void;
-  exit: () => void;
+  onExit: () => void;
 }
 
-const EnterData = ({ onEnterData, exit }: Props) => {
+const EnterData = ({ onEnterData, onExit }: Props) => {
   const { t } = useTranslation(['wallets', 'buttons']);
 
   const onFinish = ({ type, meta }: DialogAnswers) => {
@@ -32,7 +32,7 @@ const EnterData = ({ onEnterData, exit }: Props) => {
   const walletTypeMessage = (
     <ButtonGroup isResizedKeyboard isNewMessageEveryRender={false} maxColumns={1} title={t('type_message')}>
       <Button id="qiwi">{t('buttons:qiwi')}</Button>
-      <Button onClick={exit}>{t('buttons:back')}</Button>
+      <Button onClick={onExit}>{t('buttons:back')}</Button>
     </ButtonGroup>
   );
 

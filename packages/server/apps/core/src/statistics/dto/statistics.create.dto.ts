@@ -7,7 +7,7 @@ export class StatisticsCreateDto {
   @Field()
   @IsDefined()
   @IsNumber()
-  id: string;
+  id: number;
 
   @Field()
   @IsDefined()
