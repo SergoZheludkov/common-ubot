@@ -4,12 +4,12 @@ import { UrbanBotTelegram } from '@urban-bot/telegram';
 import { useTranslation } from '@common_ubot/i18n';
 
 interface Props {
-  exit: () => void;
+  onExit: () => void;
 }
 
 const SUPPORT_CHAT_ID = 258000010;
 
-const Feedback = ({ exit }: Props) => {
+const Feedback = ({ onExit }: Props) => {
   const {
     chat: { id, username },
   } = useBotContext();
@@ -20,7 +20,7 @@ const Feedback = ({ exit }: Props) => {
     switch (event.type) {
       case 'text': {
         if (event.text === t('back')) {
-          exit();
+          onExit();
           break;
         }
         const message = `id: ${id}\n@${username}\nТекст:\n${event.text}`;

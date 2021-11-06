@@ -3,11 +3,11 @@ import { ButtonGroup, Button, Dialog, DialogStep, DialogAnswers } from '@urban-b
 import { useTranslation } from '@common_ubot/i18n';
 
 interface AmountProps {
-  success: (amount: number) => void;
-  back: () => void;
+  onSuccess: (amount: number) => void;
+  onBack: () => void;
 }
 
-const Amount = ({ success, back }: AmountProps) => {
+const Amount = ({ onSuccess, onBack }: AmountProps) => {
   const { t } = useTranslation(['buttons', 'input_money']);
 
   const validation = (amount: string) => {
@@ -26,21 +26,19 @@ const Amount = ({ success, back }: AmountProps) => {
   };
 
   const finishedDialog = async ({ amount }: DialogAnswers) => {
-    if (amount === t('back')) back();
-    success(Number(amount));
+    if (amount === t('back')) onBack();
+    onSuccess(Number(amount));
   };
+
+  const content = (
+    <ButtonGroup isReplyButtons isResizedKeyboard title={t('input_money:amount')}>
+      <Button>{t('back')}</Button>
+    </ButtonGroup>
+  );
 
   return (
     <Dialog onFinish={finishedDialog}>
-      <DialogStep
-        id="amount"
-        validation={validation}
-        content={(
-          <ButtonGroup isReplyButtons isResizedKeyboard title={t('input_money:amount')}>
-            <Button>{t('back')}</Button>
-          </ButtonGroup>
-        )}
-      />
+      <DialogStep id="amount" validation={validation} content={content} />
     </Dialog>
   );
 };

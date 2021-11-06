@@ -5,30 +5,30 @@ import { useTranslation } from '@common_ubot/i18n';
 interface MainMenuProps {
   isUpdated?: boolean;
 
-  admin: () => void;
-  balance: () => void;
-  referral: () => void;
+  onAdmin: () => void;
+  onBalance: () => void;
+  onReferral: () => void;
 
-  feedback: () => void;
-  rules: () => void;
+  onFeedback: () => void;
+  onRules: () => void;
 }
 
 export const Main = ({
   isUpdated,
 
-  admin,
-  balance,
-  referral,
-  feedback,
-  rules,
+  onAdmin,
+  onBalance,
+  onReferral,
+  onFeedback,
+  onRules,
 }: MainMenuProps) => {
   const { t } = useTranslation('buttons');
 
-  useCommand(() => admin(), '/admin');
-  useText(balance, t('balance'));
-  useText(referral, t('referral'));
-  useText(feedback, t('feedback'));
-  useText(rules, t('rules'));
+  useCommand(onAdmin, '/admin');
+  useText(onBalance, t('balance'));
+  useText(onReferral, t('referral'));
+  useText(onFeedback, t('feedback'));
+  useText(onRules, t('rules'));
 
   const message = isUpdated ? 'common:update_message' : 'common:main_menu';
 

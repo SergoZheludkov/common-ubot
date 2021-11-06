@@ -4,18 +4,18 @@ import { useTranslation } from '@common_ubot/i18n';
 import { Hook } from '../contexts';
 
 interface Props {
-  wallets: () => void;
-  statistic: () => void;
-  back: () => void;
+  onWallets: () => void;
+  onStatistic: () => void;
+  onBack: () => void;
 }
 
-const Admin = ({ wallets, statistic, back }: Props) => {
+const Admin = ({ onWallets, onStatistic, onBack }: Props) => {
   const { t } = useTranslation('buttons');
   const { user } = Hook.useUser();
 
-  useText(wallets, t('wallets'));
-  useText(statistic, t('statistic'));
-  useText(back, t('back'));
+  useText(onWallets, t('wallets'));
+  useText(onStatistic, t('statistic'));
+  useText(onBack, t('back'));
 
   if (!user.is_admin) {
     return (

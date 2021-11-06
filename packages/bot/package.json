@@ -13,8 +13,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@common_ubot/i18n": "0.0.1",
     "@common_ubot/api-client": "0.0.1",
+    "@common_ubot/utilits": "0.0.1",
+    "@common_ubot/i18n": "0.0.1",
     "@urban-bot/core": "0.2.5",
     "@urban-bot/telegram": "0.2.5",
     "@urban-bot/slack": "0.2.5",

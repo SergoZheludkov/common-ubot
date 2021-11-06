@@ -7,18 +7,20 @@ import { AddWalletData } from './types';
 
 interface Props {
   data: AddWalletData[];
-  exit: () => void;
+  onExit: () => void;
 }
 
-const Write = ({ data, exit }: Props) => {
+const Write = ({ data, onExit }: Props) => {
   const { t } = useTranslation(['wallets', 'buttons']);
   const [addWallets, { data: returnData }] = useAddWalletsMutation();
 
-  useText(exit, t('buttons:great'));
-  useText(exit, t('buttons:exit'));
+  useText(onExit, t('buttons:great'));
+  useText(onExit, t('buttons:exit'));
 
   useEffect(() => {
-    (async () => { await addWallets({ variables: { input: data } }); })();
+    (async () => {
+      await addWallets({ variables: { input: data } });
+    })();
   }, []);
 
   switch (returnData?.addWallets.status) {
@@ -37,7 +39,11 @@ const Write = ({ data, exit }: Props) => {
         </ButtonGroup>
       );
     default:
-      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('common:loading')}</Text>;
+      return (
+        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
+          {t('common:loading')}
+        </Text>
+      );
   }
 };
 
