@@ -48,21 +48,21 @@ export class StatisticsResolver extends NoOpQueryService<Statistic> {
   }
 
   @Query(() => CustomStatisticDto)
-  async statisticsBy(@Args('input') { users, payments, startDate, endDate, period }: StatisticsInput) {
+  async statisticsBy(@Args('input') { users, payments, startDate, endDate, period: periodType }: StatisticsInput) {
     try {
       return await this.sequelize.transaction(async (transaction) => {
         // If the period is not specified - will return statistics for all available indicators for today
         if (!startDate && !endDate) {
-          const created = { [Op.between]: [startOfToday(), endOfToday()] };
+          const period = { [Op.between]: [startOfToday(), endOfToday()] };
 
           const { count: totalUsers } = await this.user.findAndCountAll({
-            where: { created },
+            where: { created: period },
             transaction,
           });
 
           const paymentsData = await this.payment.findAll({
             include: ['wallet'],
-            where: { is_paid: true, updated: created },
+            where: { is_paid: true, updated: period },
             transaction,
           });
 
@@ -75,14 +75,14 @@ export class StatisticsResolver extends NoOpQueryService<Statistic> {
         }
 
         // Else - will return statistics by settings
-        const id = { [Op.between]: [startDate, endDate] };
+        const period = { [Op.between]: [startDate, endDate] };
         const statistics = await this.statistic.findAll({
-          where: { id },
+          where: { id: period },
           attributes: [users ? 'users' : null, payments ? 'payments' : null].filter(isNotEmpty),
         });
 
         return {
-          period,
+          period: periodType,
           users: users ? statistics.reduce((acc, { users: count }) => acc + count, 0) : null,
           payments: payments
             ? (statistics

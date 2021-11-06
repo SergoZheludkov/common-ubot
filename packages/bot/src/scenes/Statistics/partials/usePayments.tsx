@@ -3,6 +3,7 @@ import { useTranslation } from '@common_ubot/i18n';
 import { isNotEmpty } from '@common_ubot/utilits';
 
 import { StatisticsTypes } from '../../../api';
+import { PeriodTitle } from '../types';
 
 type Payments = StatisticsTypes['payments'];
 
@@ -29,11 +30,14 @@ const usePaymentsStatistics = () => {
         </Fragment>
       ));
 
-  const toString = (period: string, payments: Payments) => {
+  const render = (period: PeriodTitle, payments: Payments) => {
     const paymentsToRender = getPaymentsToRender(payments);
+    const { title, description } = period;
+
     return (
       <>
-        <b>{t(period)}</b>
+        <b>{title}</b>
+        {description}
         <br />
         <br />
         {paymentsToRender.length ? (
@@ -48,7 +52,7 @@ const usePaymentsStatistics = () => {
     );
   };
 
-  return { toString };
+  return { render };
 };
 
 export { usePaymentsStatistics };

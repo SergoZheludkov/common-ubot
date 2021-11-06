@@ -2,16 +2,20 @@ import React from 'react';
 import { useTranslation } from '@common_ubot/i18n';
 
 import { StatisticsTypes } from '../../../api';
+import { PeriodTitle } from '../types';
 
 type Users = StatisticsTypes['users'];
 
 const useUsersStatistics = () => {
   const { t } = useTranslation('statistics');
 
-  const toString = (period: string, users: Users) => {
+  const render = (period: PeriodTitle, users: Users) => {
+    const { title, description } = period;
+
     return (
       <>
-        <b>{t(period)}</b>
+        <b>{title}</b>
+        {description}
         <br />
         <br />
         {t('new_users')}
@@ -21,7 +25,7 @@ const useUsersStatistics = () => {
     );
   };
 
-  return { toString };
+  return { render };
 };
 
 export { useUsersStatistics };

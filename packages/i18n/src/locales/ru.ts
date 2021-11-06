@@ -145,7 +145,8 @@ const locale = {
     payments_is_empty: 'Платежей не было',
     total: 'Всего:',
     amount: 'Сумма:',
-    choose_period: 'Выбери период',
+    choose_period: 'Введите период в формате:',
+    period_example: '\n220521-240521',
 
     periods: {
       daily: 'Статистика за день',

@@ -1146,6 +1146,7 @@ export type StatisticsBaseFragment = { __typename?: 'CustomStatisticDto' } & Pic
   };
 
 export type StatisticsByQueryVariables = Exact<{
+  period?: Maybe<Scalars['String']>;
   users?: Maybe<Scalars['Boolean']>;
   payments?: Maybe<Scalars['Boolean']>;
   startDate?: Maybe<Scalars['Float']>;
@@ -1420,8 +1421,16 @@ export type CheckPaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CheckPaymentMutationVariables
 >;
 export const StatisticsByDocument = gql`
-  query statisticsBy($users: Boolean = false, $payments: Boolean = false, $startDate: Float, $endDate: Float) {
-    statisticsBy(input: { users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }) {
+  query statisticsBy(
+    $period: String
+    $users: Boolean = false
+    $payments: Boolean = false
+    $startDate: Float
+    $endDate: Float
+  ) {
+    statisticsBy(
+      input: { period: $period, users: $users, payments: $payments, startDate: $startDate, endDate: $endDate }
+    ) {
       period
       users @include(if: $users)
       payments @include(if: $payments) {
@@ -1454,6 +1463,7 @@ export const StatisticsByDocument = gql`
  * @example
  * const { data, loading, error } = useStatisticsByQuery({
  *   variables: {
+ *      period: // value for 'period'
  *      users: // value for 'users'
  *      payments: // value for 'payments'
  *      startDate: // value for 'startDate'

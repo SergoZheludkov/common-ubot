@@ -12,7 +12,7 @@ interface DetailedStatisticsProps {
   onExit: () => void;
 }
 
-const DATE_PERIOD = /^(\d{6}|\d{8})(\s?)*-(\s?)*(\d{6}|\d{8})$/gm; // period format: ddMMyy-ddMMyy | ddMMyy - ddMMyy
+const DATE_PERIOD = /^(\d{6}|\d{8})(\s?)*-(\s?)*(\d{6}|\d{8})$/gm; // period format: ddMMyy-ddMMyy | ddMMyyyy - ddMMyyyy
 
 const Statistics: React.FC<DetailedStatisticsProps> = ({ type, onExit }) => {
   const { t } = useTranslation(['statistics', 'buttons']);
