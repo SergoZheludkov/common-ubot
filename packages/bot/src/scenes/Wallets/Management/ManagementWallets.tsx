@@ -5,7 +5,7 @@ import { useTranslation } from '@common_ubot/i18n';
 import { SwitchWallets } from './SwitchWallets';
 
 interface Props {
-  exit: () => void;
+  onExit: () => void;
 }
 
 enum Scene {
@@ -13,7 +13,7 @@ enum Scene {
   LOADING = 'loading',
 }
 
-const ManagementWallets = ({ exit }: Props) => {
+const ManagementWallets = ({ onExit }: Props) => {
   const { t } = useTranslation(['common']);
   const [scene, setScene] = useState<Scene>(Scene.LOADING);
   console.log('Accounts scene:', scene);
@@ -24,9 +24,13 @@ const ManagementWallets = ({ exit }: Props) => {
 
   switch (scene) {
     case Scene.LOADING:
-      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('loading')}</Text>;
+      return (
+        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
+          {t('loading')}
+        </Text>
+      );
     case Scene.CHOOSE_WALLETS:
-      return <SwitchWallets exit={exit} />;
+      return <SwitchWallets onExit={onExit} />;
     default:
       return null;
   }

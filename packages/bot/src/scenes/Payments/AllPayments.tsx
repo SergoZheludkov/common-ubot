@@ -7,7 +7,7 @@ import noop from 'lodash/noop';
 import { getWallet } from '../../utilits';
 
 interface AllPaymentsProps {
-  exit: () => void;
+  onExit: () => void;
 }
 
 const paymentsPerPage = 5;
@@ -27,18 +27,18 @@ const getCurrencySymbol = (currency: string) => {
   }
 };
 
-const AllPayments = ({ exit }: AllPaymentsProps) => {
+const AllPayments = ({ onExit }: AllPaymentsProps) => {
   const { t } = useTranslation(['payments', 'buttons']);
   const { chat } = useBotContext();
   const { data: allPaymentData, loading } = useAllPaymentQuery({ variables: { id: chat.id } });
   const [offset, setOffset] = useState(0);
 
-  useText(exit, t('buttons:back'));
+  useText(onExit, t('buttons:back'));
 
   if (!loading && !allPaymentData) {
     return (
       <ButtonGroup isResizedKeyboard isReplyButtons isNewMessageEveryRender={false} title={t('error')}>
-        <Button id="back" onClick={exit}>
+        <Button id="back" onClick={onExit}>
           {t('buttons:back')}
         </Button>
       </ButtonGroup>
@@ -48,7 +48,7 @@ const AllPayments = ({ exit }: AllPaymentsProps) => {
   if (allPaymentData && !allPaymentData.getUserPayments.length) {
     return (
       <ButtonGroup isResizedKeyboard isReplyButtons isNewMessageEveryRender={false} title={t('empty')}>
-        <Button id="back" onClick={exit}>
+        <Button id="back" onClick={onExit}>
           {t('buttons:back')}
         </Button>
       </ButtonGroup>
@@ -119,7 +119,7 @@ const AllPayments = ({ exit }: AllPaymentsProps) => {
               {t('buttons:next')}
             </Button>
           )}
-          <Button id="back" onClick={exit}>
+          <Button id="back" onClick={onExit}>
             {t('buttons:back')}
           </Button>
         </ButtonGroup>

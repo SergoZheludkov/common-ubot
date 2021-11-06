@@ -33,7 +33,9 @@ const defaultOptions: DefaultOptions = {
 
 export const client = new ApolloClient({
   link: ApolloLink.from([errorLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
   defaultOptions,
 });
 

@@ -4,7 +4,7 @@ import { useTranslation } from '@common_ubot/i18n';
 import { Hook } from '../contexts';
 
 interface Props {
-  back: () => void;
+  onBack: () => void;
 }
 
 interface State {
@@ -19,7 +19,7 @@ const inviteShowed = { inviteIsShowed: true, moneyIsShowed: false };
 const moneyShowed = { inviteIsShowed: false, moneyIsShowed: true };
 
 // TODO сделать перевод по запросу
-const Referral = ({ back }: Props) => {
+const Referral = ({ onBack }: Props) => {
   const { t } = useTranslation(['buttons', 'referral', 'invite']);
   const { chat } = useBotContext();
   const [{ inviteIsShowed, moneyIsShowed }, setShowed] = useState<State>(nothingShown);
@@ -27,7 +27,7 @@ const Referral = ({ back }: Props) => {
 
   useText(() => setShowed(inviteShowed), t('invite'));
   useText(() => setShowed(moneyShowed), t('output_money'));
-  useText(back, t('back'));
+  useText(onBack, t('back'));
 
   if (inviteIsShowed) {
     const inviteLink = `https://t.me/${BOT_NAME}?start=${chat.id}`;

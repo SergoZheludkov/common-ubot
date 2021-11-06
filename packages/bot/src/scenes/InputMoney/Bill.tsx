@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react';
 import { useBotContext, Text } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
-import {
-  useCreatePaymentMutation,
-  useOneWalletQuery,
-  CreateOnePaymentInput,
-} from '@common_ubot/api-client';
+import { useCreatePaymentMutation, useOneWalletQuery, CreateOnePaymentInput } from '@common_ubot/api-client';
 
 import { Wallet as TWallet } from '../../types';
 
 interface BillProps {
   amount: number;
   walletType: TWallet;
-  check: (comment: string) => void;
+  onCheck: (comment: string) => void;
 }
 
-const Bill = ({ amount, walletType, check }: BillProps) => {
-  const { chat: { id: user_id } } = useBotContext();
+const Bill = ({ amount, walletType, onCheck }: BillProps) => {
+  const {
+    chat: { id: user_id },
+  } = useBotContext();
   const { t } = useTranslation(['input_money', 'buttons']);
   const { data: currentWallet } = useOneWalletQuery({ variables: { type: walletType } });
   const [createPaymentFC, { data: createPaymentData }] = useCreatePaymentMutation();
@@ -35,7 +33,7 @@ const Bill = ({ amount, walletType, check }: BillProps) => {
   }, [currentWallet]);
 
   useEffect(() => {
-    if (createPaymentData) check(createPaymentData.createPayment.comment);
+    if (createPaymentData) onCheck(createPaymentData.createPayment.comment);
   }, [createPaymentData]);
 
   if (!createPaymentData) return null;
@@ -68,13 +66,17 @@ const Bill = ({ amount, walletType, check }: BillProps) => {
       <br />
       <br />
       {t('wallet_number')}
-      <b><i>{wallet.number}</i></b>
+      <b>
+        <i>{wallet.number}</i>
+      </b>
       <br />
       <br />
       {t('warning')}
       <br />
       <br />
-      <b><i>{comment}</i></b>
+      <b>
+        <i>{comment}</i>
+      </b>
       <br />
       <br />
       {t('else')}

@@ -8,7 +8,7 @@ import { Write } from './Write';
 import { AddWalletData } from './types';
 
 interface Props {
-  exit: () => void;
+  onExit: () => void;
 }
 
 enum Scene {
@@ -32,7 +32,7 @@ const defaultState: State = {
   data: [],
 };
 
-const AddWallets = ({ exit }: Props) => {
+const AddWallets = ({ onExit }: Props) => {
   const { t } = useTranslation(['common']);
   const [{ scene, data }, setState] = useState<State>(loadingState);
   console.log('Accounts scene:', scene);
@@ -45,12 +45,16 @@ const AddWallets = ({ exit }: Props) => {
 
   switch (scene) {
     case Scene.LOADING:
-      return <Text isRemoveKeyboard isNewMessageEveryRender={false}>{t('loading')}</Text>;
+      return (
+        <Text isRemoveKeyboard isNewMessageEveryRender={false}>
+          {t('loading')}
+        </Text>
+      );
     case Scene.ENTER_DATA:
-      return <EnterData onEnterData={handleEnterData} exit={exit} />;
+      return <EnterData onEnterData={handleEnterData} onExit={onExit} />;
     case Scene.WRITE:
       if (!data.length) return null;
-      return <Write data={data} exit={exit} />;
+      return <Write data={data} onExit={onExit} />;
     default:
       return null;
   }

@@ -6,7 +6,7 @@ import { Check } from './Check';
 import { Wallet as TWallet } from '../../types';
 
 interface InputMoneyProps {
-  exit: () => void;
+  onExit: () => void;
 }
 
 enum Scenes {
@@ -30,7 +30,7 @@ const defaultState = {
   walletType: TWallet.NOOP,
 };
 
-const InputMoney = ({ exit }: InputMoneyProps) => {
+const InputMoney = ({ onExit }: InputMoneyProps) => {
   /*
    * scene - текущий этап пополнения счета
    * comment - комментарий к платежу
@@ -40,17 +40,17 @@ const InputMoney = ({ exit }: InputMoneyProps) => {
   const [{ scene, comment, amount, walletType }, setState] = useState<State>(defaultState);
   console.log('InputMoney scene:', scene);
 
-  const amountSuccess = (_amount: number) => {
+  const handleAmountAdded = (_amount: number) => {
     const state = { scene: Scenes.WALLET, amount: _amount };
     setState((prev) => ({ ...prev, ...state }));
   };
 
-  const walletTypeSuccess = (_walletType: TWallet) => {
+  const handleWalletTypeAdded = (_walletType: TWallet) => {
     const state = { scene: Scenes.BILL, walletType: _walletType };
     setState((prev) => ({ ...prev, ...state }));
   };
 
-  const billSuccess = (_comment: string) => {
+  const handleBillSuccess = (_comment: string) => {
     const state = { scene: Scenes.CHECK, comment: _comment };
     setState((prev) => ({ ...prev, ...state }));
   };
@@ -59,13 +59,13 @@ const InputMoney = ({ exit }: InputMoneyProps) => {
 
   switch (scene) {
     case Scenes.AMOUNT:
-      return <Amount success={amountSuccess} back={exit} />;
+      return <Amount onSuccess={handleAmountAdded} onBack={onExit} />;
     case Scenes.WALLET:
-      return <WalletType success={walletTypeSuccess} back={reset} />;
+      return <WalletType onSuccess={handleWalletTypeAdded} onBack={reset} />;
     case Scenes.BILL:
-      return <Bill amount={amount} walletType={walletType} check={billSuccess} />;
+      return <Bill amount={amount} walletType={walletType} onCheck={handleBillSuccess} />;
     case Scenes.CHECK:
-      return <Check comment={comment} back={reset} exit={exit} />;
+      return <Check comment={comment} onBack={reset} onExit={onExit} />;
     default:
       return null;
   }

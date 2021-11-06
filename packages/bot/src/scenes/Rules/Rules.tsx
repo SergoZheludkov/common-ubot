@@ -3,12 +3,12 @@ import { ButtonGroup, Button, useText } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 
 interface Props {
-  exit: () => void;
+  onExit: () => void;
 }
 
-const Rules = ({ exit }: Props) => {
+const Rules = ({ onExit }: Props) => {
   const { t } = useTranslation(['rules']);
-  useText(exit, t('buttons:back'));
+  useText(onExit, t('buttons:back'));
 
   return (
     <ButtonGroup isReplyButtons isResizedKeyboard title={t('message')}>

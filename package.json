@@ -17,7 +17,9 @@
     "typecheck:admin-web": "lerna run typecheck  --stream",
     "prepare": "lerna run prepare  --stream",
     "server:dev": "cd packages/server && yarn start:nest",
-    "bot:dev": "cd packages/bot && yarn dev"
+    "bot:dev": "cd packages/bot && yarn dev",
+    "build:i18n": "cd packages/i18n && yarn build",
+    "build:api": "cd packages/api-client && yarn build"
   },
   "dependencies": {
     "date-fns": "2.16.1",

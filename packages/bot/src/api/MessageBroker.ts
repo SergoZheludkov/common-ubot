@@ -1,5 +1,7 @@
 import { expressApp } from '../express-app';
 
+import { NewReferralData, ReferralMoneyData, StatisticsTypes, PaymentStatistics } from './types';
+
 export class MessageBroker {
   NOTIFICATION_BASE: string;
 
@@ -7,10 +9,13 @@ export class MessageBroker {
 
   REFERRAL_MONEY: string;
 
+  DAY_STATISTICS: string;
+
   constructor() {
     this.NOTIFICATION_BASE = '/bot/notification';
     this.NEW_REFERRAL = `${this.NOTIFICATION_BASE}/new_referral`;
     this.REFERRAL_MONEY = `${this.NOTIFICATION_BASE}/referral_money`;
+    this.DAY_STATISTICS = `${this.NOTIFICATION_BASE}/day_statistics`;
   }
 
   notification(chatId: string, callback: () => void) {
@@ -20,7 +25,7 @@ export class MessageBroker {
     });
   }
 
-  newReferral(chatId: string, callback: (params: { firstname: string; lastname: string }) => void) {
+  newReferral(chatId: string, callback: (params: NewReferralData) => void) {
     expressApp.post(`${this.NEW_REFERRAL}/${chatId}`, (req, res) => {
       const {
         body: { data },
@@ -34,10 +39,7 @@ export class MessageBroker {
     });
   }
 
-  referralMoney(
-    chatId: string,
-    callback: (params: { firstname: string; lastname: string; bonusMoney: number }) => void,
-  ) {
+  referralMoney(chatId: string, callback: (params: ReferralMoneyData) => void) {
     expressApp.post(`${this.REFERRAL_MONEY}/${chatId}`, (req, res) => {
       const {
         body: { data },
@@ -48,6 +50,20 @@ export class MessageBroker {
       const bonusMoney = (data.bonus_money as number) || 0;
 
       callback({ firstname, lastname, bonusMoney });
+      res.sendStatus(200);
+    });
+  }
+
+  dayStatistics(chatId: string, callback: (params: StatisticsTypes) => void) {
+    expressApp.post(`${this.DAY_STATISTICS}/${chatId}`, (req, res) => {
+      const {
+        body: { data },
+      } = req;
+
+      const users = (data.users as number) || 0;
+      const payments = (data.payments as PaymentStatistics) || {};
+
+      callback({ users, payments });
       res.sendStatus(200);
     });
   }

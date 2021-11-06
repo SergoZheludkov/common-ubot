@@ -4,18 +4,18 @@ import { useTranslation } from '@common_ubot/i18n';
 import { Hook } from '../contexts';
 
 interface Props {
-  inputMoney: () => void;
-  allPayments: () => void;
-  back: () => void;
+  onInputMoney: () => void;
+  onAllPayments: () => void;
+  onBack: () => void;
 }
 
-export const Balance = ({ inputMoney, allPayments, back }: Props) => {
+export const Balance = ({ onInputMoney, onAllPayments, onBack }: Props) => {
   const { t } = useTranslation(['buttons', 'balance']);
   const { user } = Hook.useUser();
 
-  useText(inputMoney, t('input_money'));
-  useText(allPayments, t('all_payments'));
-  useText(back, t('back'));
+  useText(onInputMoney, t('input_money'));
+  useText(onAllPayments, t('all_payments'));
+  useText(onBack, t('back'));
 
   const message = (
     <>

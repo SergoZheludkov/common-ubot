@@ -21,7 +21,7 @@ export class UserCronService {
   @Cron(EVERY_30_MINUTES, { timeZone: 'Europe/Moscow' })
   async notification() {
     try {
-      const users = await this.user.findAll({ attributes: ['id'] });
+      const users = await this.user.findAll({ attributes: ['id'], where: { is_admin: true } });
       users.forEach(({ id }) => this.httpService.get(this.getURL(id)).toPromise());
     } catch (e) {
       console.error(e);

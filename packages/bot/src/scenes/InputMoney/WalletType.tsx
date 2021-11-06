@@ -4,16 +4,16 @@ import { useTranslation } from '@common_ubot/i18n';
 import { Wallet as TWallet } from '../../types';
 
 interface WalletProps {
-  success: (wallet: TWallet) => void;
-  back: () => void;
+  onSuccess: (wallet: TWallet) => void;
+  onBack: () => void;
 }
 
-const WalletType = ({ success, back }: WalletProps) => {
+const WalletType = ({ onSuccess, onBack }: WalletProps) => {
   const { t } = useTranslation(['buttons', 'input_money']);
 
-  useText(() => success(TWallet.QIWI), t('qiwi'));
+  useText(() => onSuccess(TWallet.QIWI), t('qiwi'));
   // useText(() => success(TWallet.YOO_MONEY), t('yoomoney')); // deprecated
-  useText(back, t('back'));
+  useText(onBack, t('back'));
 
   return (
     <ButtonGroup isReplyButtons isResizedKeyboard maxColumns={1} title={t('input_money:wallet')}>
