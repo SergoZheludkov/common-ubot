@@ -6,7 +6,7 @@ const en = {
     notification: 'Server notification',
     main_menu: 'Main menu message',
     settings_menu: 'Settings menu message',
-    update_message: "I'm update!" + '\n\nЧто нового?' + '\n-Пункт 1"' + '\n-Пункт 2' + '\n-Пункт 3',
+    update_message: "I'm update!" + "\n\nWhat's new?" + '\n-Paragraph 1"' + '\n-Paragraph 2' + '\n-Paragraph 3',
   },
   lang: {
     ru: '🇷🇺 Русский',
@@ -73,96 +73,96 @@ const en = {
     balance: '💰 Your partner balance: ',
     notification: {
       registration_success: 'You have registered with your link by ',
-      bonus: 'Теперь ты будешь получать 10% с каждого его пополнения баланса',
+      bonus: 'Now you will receive 10% from each of his balance replenishment',
 
-      money_part1: 'Тебе начисленно ',
-      money_part2: ' за пополнение рефералом ',
+      money_part1: 'Your account was replenished by ',
+      money_part2: ' for replenishment by a referral ',
     },
   },
   invite: {
-    title: 'Просто перешли другу следующее сообщение⤵️',
-    message: 'Йо, здарова!\nСообщение с реферральной ссылочкой:',
+    title: 'Just send a friend the next message⤵️',
+    message: 'Yo, hello!\nMessage with a referral link:',
     // bonus: 'При переходе по ссылке получишь +10% на первое пополнение баланса.',
   },
   input_money: {
-    amount: 'Укажи сумму пополнения в USD ($)',
-    wallet: 'Выбери удобный способ оплаты',
+    amount: 'Enter payment amount in USD ($)',
+    wallet: 'Choose a convenient payment method',
 
     bill: 'Bill',
-    transfer: 'Сделай перевод на сумму:',
+    transfer: 'Make a transfer for the amount:',
     wallet_number: 'Wallet: ',
-    warning: 'Внимание! В комментарий к платежу обязательно напиши:',
-    else: 'Иначе я не смогу проверить твой платеж',
+    warning: 'Attention! Be sure to write in the comment to the payment:',
+    else: 'Otherwise, I will not be able to verify your payment',
     or: 'or ',
 
-    update_message: 'После оплаты проверь платеж и деньги зачислятся, если ты сделал все верно',
-    check_failed: 'Перевод не найден.',
-    write_to_support: 'Если считаешь что произошла ошибка - напиши в поддержку.',
-    next_check: 'Следующая попытка проверки будет доступна через',
-    sec: 'sec',
-    check_success: 'Платеж принят!',
-    balance: 'Начисленно ',
+    update_message: 'After payment, check the payment and the money will be credited if you did everything correctly',
+    check_failed: 'Transfer not found.',
+    write_to_support: 'If you think that an error has occurred - write to support.',
+    next_check: 'The next verification attempt will be available in',
+    sec: 'seconds',
+    check_success: 'Payment accepted!',
+    balance: 'Accrued ',
 
-    amount_error: 'Некорректно. Введи числом',
-    amount_not_integer: 'Введи целое число',
-    amount_should_be_positive: 'Число должно быть больше 0',
+    amount_error: 'Incorrect. Enter by number',
+    amount_not_integer: 'Please enter an integer',
+    amount_should_be_positive: 'The number must be greater 0',
   },
   payments: {
     title: 'Payments',
     from: 'from',
-    error: 'Произошла ошибка с загрузкой платежей. Попробуй позже...',
-    empty: 'Ты еще не делал никаких платежей',
+    error: 'There was an error loading payments. Try again later...',
+    empty: "You haven't made any payments yet",
   },
   feedback: {
     message:
-      'В данный момент любое отправленное сообщение будет пересланно в поддержку. Вы можете описать проблему текстом, отправить фото или видео (запись экрана)',
+      'At the moment, any sent message will be forwarded to support. You can describe the problem in text, send a photo or video (screen recording)',
   },
   wallets: {
-    message: 'Действия с кошельками',
+    message: 'Wallets actions',
 
-    type_message: 'Укажи тип добавляемого кошелька',
-    type_validation_error: 'Выбери тип кошелька кнопками, из представленных выше',
+    type_message: 'Select the type of wallet to add',
+    type_validation_error: 'Select the type of wallet to add wallet using the buttons',
 
-    empty_wallets_list: 'Нет добавленных кошельков',
+    empty_wallets_list: 'No wallets added',
 
     meta: {
       message: 'Input data',
       format: 'number:token;',
       description: 'Данные одного кошелька должны быть с разделителем :\nРазные кошельки должны быть с разделителем ;',
 
-      validation_error: 'Не косячь, сука!',
+      validation_error: "Don't screw up!",
     },
 
     add: {
-      success: 'Успешно добавленны и запущенны в ротацию кошельки в количестве',
+      success: 'Successfully added and launched in rotation wallets in quantity',
       failed:
-        'Произошла проблема с добавлением кошельков на сервере. Вероятно номер или токен уже использовался. Все проверь, если уверен что все четко и если ты не разработчик - срочно отпиши ему о проблеме',
+        'There was a problem adding wallets on the server. Probably the number or token has already been used. Check everything, if you are sure that everything is clear and if you are not a developer - write to him urgently about the problem',
     },
 
     management: {
-      message: 'Переключение кошельков',
+      message: 'Wallets switcher',
     },
   },
   rules: {
-    message: 'Правила' + '\n\n-Пункт 1"' + '\n-Пункт 2' + '\n-Пункт 3',
+    message: 'Rules' + '\n\n-Paragraph 1"' + '\n-Paragraph 2' + '\n-Paragraph 3',
   },
   statistics: {
-    more_details: 'Подробнее можно узнать по кнопкам ниже',
+    more_details: 'More details can be found on the bottom buttons',
     new_users: 'New users:',
     payments: 'Payments:',
     payments_is_empty: 'Payments is empty',
     total: 'Total:',
     amount: 'Amount:',
-    choose_period: 'Введите период в формате:',
+    choose_period: 'Enter the period in the format:',
     period_example: '\n220521-240521',
 
     periods: {
-      daily: 'Статистика за день',
-      yesterday: 'Статистика за вчера',
-      weekly: 'Статистика за неделю',
-      monthly: 'Статистика за месяц',
-      all_time: 'Статистика за все время',
-      by_period: 'Статистика за период:',
+      daily: 'Daily statistics',
+      yesterday: 'Yesterday statistics',
+      weekly: 'Weekly statistics',
+      monthly: 'Monthly statistics',
+      all_time: 'Statistics by All time ',
+      by_period: 'Statistics by period',
     },
   },
 };
