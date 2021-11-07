@@ -15,6 +15,7 @@ export const Registration = ({ refId, onExit }: RegistrationProps) => {
   const [lang, setLang] = useState<Languages | null>(null);
   const [createUser] = useCreateUserMutation();
 
+  // TODO перенести из useEffect в onClick
   useEffect(() => {
     if (lang) {
       (async () => {
