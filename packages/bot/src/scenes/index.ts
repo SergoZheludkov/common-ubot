@@ -7,6 +7,8 @@ export { Rules } from './Rules';
 export { InputMoney } from './InputMoney';
 export { Payments } from './Payments';
 
+export { Language } from './Language';
+
 export { Statistics } from './Statistics';
 
 export { Wallets } from './Wallets';

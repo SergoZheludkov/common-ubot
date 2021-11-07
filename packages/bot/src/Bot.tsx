@@ -45,8 +45,9 @@ export const Bot = () => {
   const handleMenuMain = () => setScene(T.Menu.MAIN);
   const handleMenuAdmin = () => setScene(T.Menu.ADMIN);
   const handleMenuBalance = () => setScene(T.Menu.BALANCE);
-  const handleMenuReferral = () => setScene(T.Menu.REFERRAL);
   const handleMenuWallets = () => setScene(T.Menu.WALLETS);
+  const handleMenuReferral = () => setScene(T.Menu.REFERRAL);
+  const handleMenuSettings = () => setScene(T.Menu.SETTINGS);
   const handleMenuStatistics = () => setState({ scene: T.Menu.STATISTICS, statisticsType: T.Statistics.NONE });
 
   // scene handlers
@@ -57,6 +58,8 @@ export const Bot = () => {
   const handleSceneAllPayments = () => setScene(T.Scene.ALL_PAYMENTS);
   const handleSceneAddWallets = () => setScene(T.Scene.ADD_WALLETS);
   const handleSceneManagementWallets = () => setScene(T.Scene.MANAGEMENT_WALLETS);
+  const handleSceneLanguage = () => setScene(T.Scene.LANGUAGE);
+  const handleSceneReminders = () => setScene(T.Scene.REMINDERS);
 
   // statistics handlers
   const handleStatisticsUsers = () => setStatistics(T.Statistics.USERS);
@@ -65,14 +68,17 @@ export const Bot = () => {
   switch (scene) {
     case T.Scene.UPDATE_BOT:
       return (
-        <Menu.Main
-          isUpdated
-          onAdmin={handleMenuAdmin}
-          onBalance={handleMenuBalance}
-          onReferral={handleMenuReferral}
-          onFeedback={handleSceneFeedback}
-          onRules={handleSceneRules}
-        />
+        <Provider.User>
+          <Menu.Main
+            useMain={Menu.hook.useUpdatedMain}
+            onAdmin={handleMenuAdmin}
+            onBalance={handleMenuBalance}
+            onReferral={handleMenuReferral}
+            onSettings={handleMenuSettings}
+            onFeedback={handleSceneFeedback}
+            onRules={handleSceneRules}
+          />
+        </Provider.User>
       );
     // -------------------------------------AUTHENTIFICATION-------------------------------------
     case T.Scene.AUTH:
@@ -108,13 +114,22 @@ export const Bot = () => {
           <Scene.Statistics type={statisticsType} onExit={handleMenuStatistics} />
         </Provider.Statistics>
       );
+    // ----------------------------------------SETTINGS----------------------------------------
+    case T.Scene.LANGUAGE:
+      return (
+        <Provider.User>
+          <Scene.Language onExit={handleMenuSettings} />
+        </Provider.User>
+      );
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
       return (
         <Menu.Main
+          useMain={Menu.hook.useCommonMain}
           onAdmin={handleMenuAdmin}
           onBalance={handleMenuBalance}
           onReferral={handleMenuReferral}
+          onSettings={handleMenuSettings}
           onFeedback={handleSceneFeedback}
           onRules={handleSceneRules}
         />
@@ -163,6 +178,11 @@ export const Bot = () => {
         <Provider.User>
           <Menu.Referral onBack={handleMenuMain} />
         </Provider.User>
+      );
+
+    case T.Menu.SETTINGS:
+      return (
+        <Menu.Settings onLanguage={handleSceneLanguage} onReminders={handleSceneReminders} onBack={handleMenuMain} />
       );
 
     // -----------------------------------------------------------------------------------------

@@ -16,8 +16,8 @@ import { User } from './user.model';
         {
           DTOClass: UserDto,
           EntityClass: User,
-          UpdateDTOClass: UserUpdateDto,
           CreateDTOClass: UserCreateDto,
+          UpdateDTOClass: UserUpdateDto,
           read: { defaultResultSize: 50000, maxResultsSize: 100000 },
         },
       ],

@@ -11,7 +11,7 @@ interface RegistrationProps {
 type Lang = 'ru' | 'en' | '';
 
 export const Registration = ({ refId, onExit }: RegistrationProps) => {
-  const { t } = useTranslation('lang');
+  const { t, i18n } = useTranslation('lang');
   const { chat } = useBotContext();
   const [isReg, setReg] = useState(false);
   const [lang, setLang] = useState<Lang>('');
@@ -37,6 +37,7 @@ export const Registration = ({ refId, onExit }: RegistrationProps) => {
 
         setReg(true);
         setTimeout(() => onExit(), 500);
+        await i18n.changeLanguage(lang);
       })();
     }
   }, [lang]);
