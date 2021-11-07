@@ -10,9 +10,7 @@ interface MainMenuProps {
   onFeedback: () => void;
   onRules: () => void;
 
-  useMain: () => {
-    message: string;
-  };
+  useMain: () => { message: string };
 }
 
 export const Main = ({
@@ -34,8 +32,6 @@ export const Main = ({
   useText(onSettings, t('settings'));
   useText(onFeedback, t('feedback'));
   useText(onRules, t('rules'));
-
-  // const message = isUpdated ? 'common:update_message' : 'common:main_menu';
 
   return (
     <ButtonGroup isReplyButtons isResizedKeyboard maxColumns={2} title={t(message)}>

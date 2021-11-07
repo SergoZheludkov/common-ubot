@@ -6,4 +6,4 @@ export { Referral } from './Referral';
 export { Settings } from './Settings';
 export { Statistics } from './Statistics';
 
-export * as hook from './hooks';
+export * as hooks from './hooks';

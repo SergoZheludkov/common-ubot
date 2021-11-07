@@ -70,7 +70,7 @@ export const Bot = () => {
       return (
         <Provider.User>
           <Menu.Main
-            useMain={Menu.hook.useUpdatedMain}
+            useMain={Menu.hooks.useUpdatedMain}
             onAdmin={handleMenuAdmin}
             onBalance={handleMenuBalance}
             onReferral={handleMenuReferral}
@@ -125,7 +125,7 @@ export const Bot = () => {
     case T.Menu.MAIN:
       return (
         <Menu.Main
-          useMain={Menu.hook.useCommonMain}
+          useMain={Menu.hooks.useCommonMain}
           onAdmin={handleMenuAdmin}
           onBalance={handleMenuBalance}
           onReferral={handleMenuReferral}

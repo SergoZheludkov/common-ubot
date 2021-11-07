@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ButtonGroup, Button, Text, useText } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 
@@ -11,15 +11,23 @@ interface Props {
 const Language = ({ onExit }: Props) => {
   const { t, i18n } = useTranslation(['lang']);
   const { language, languages, changeLanguage } = i18n;
+  const setLang = useRef<string | null>(null);
   const { setLanguage } = Hook.useUser();
 
   useText(onExit, t('buttons:back'));
 
-  const handleLanguageClick = (lang: string) => () => changeLanguage(lang);
+  useEffect(() => {
+    setLang.current = language;
+  }, []);
+
   const handleBackClick = () => {
     onExit();
-    setLanguage(language);
+
+    const { current: defLang } = setLang;
+    if (defLang && language !== defLang) setLanguage(language);
   };
+
+  const handleLanguageClick = (lang: string) => () => changeLanguage(lang);
 
   const langButtons = languages.map((lang) => (
     <Button key={lang} onClick={handleLanguageClick(lang)}>

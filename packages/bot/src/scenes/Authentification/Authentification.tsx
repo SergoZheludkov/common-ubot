@@ -9,16 +9,13 @@ interface AuthenticationProps {
 }
 
 export const Authentification = ({ onSuccess, onFailed }: AuthenticationProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { chat } = useBotContext();
   const { data, loading } = useUserQuery({ variables: { id: chat.id } });
 
   useEffect(() => {
     if (!loading && !data?.user) onFailed();
-    if (!loading && data?.user) {
-      i18n.changeLanguage(data.user.lang);
-      setTimeout(() => onSuccess(), 1000);
-    }
+    if (!loading && data?.user) setTimeout(() => onSuccess(), 1000);
   }, [data]);
 
   if (!loading && data?.user) return <Text>{t('greeting')}</Text>;
