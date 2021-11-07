@@ -8,7 +8,10 @@ export enum Scene {
   ADD_WALLETS = 'scene_add_wallets',
   MANAGEMENT_WALLETS = 'scene_management_wallets',
   STATISTICS = 'scene_statistics',
+  LANGUAGE = 'scene_language',
+  REMINDERS = 'scene_reminders',
 
+  TEST = 'scene_test',
   UPDATE_BOT = 'scene_update_bot',
   RESET = 'scene_reset',
 }
@@ -17,8 +20,9 @@ export enum Menu {
   MAIN = 'main_menu',
   ADMIN = 'admin_menu',
   BALANCE = 'balance_menu',
-  REFERRAL = 'referral_menu',
   WALLETS = 'wallets_menu',
+  REFERRAL = 'referral_menu',
+  SETTINGS = 'settings_menu',
   STATISTICS = 'statistics_menu',
 }
 

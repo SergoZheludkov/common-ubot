@@ -8,6 +8,7 @@ interface Props {
 
 const Rules = ({ onExit }: Props) => {
   const { t } = useTranslation(['rules']);
+
   useText(onExit, t('buttons:back'));
 
   return (
