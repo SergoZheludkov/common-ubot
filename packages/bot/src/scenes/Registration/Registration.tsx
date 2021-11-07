@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useBotContext, ButtonGroup, Button, Text } from '@urban-bot/core';
-import { useTranslation } from '@common_ubot/i18n';
+import { useTranslation, Languages } from '@common_ubot/i18n';
 import { useCreateUserMutation } from '@common_ubot/api-client';
 
 interface RegistrationProps {
@@ -8,13 +8,11 @@ interface RegistrationProps {
   onExit: () => void;
 }
 
-type Lang = 'ru' | 'en' | '';
-
 export const Registration = ({ refId, onExit }: RegistrationProps) => {
   const { t, i18n } = useTranslation('lang');
   const { chat } = useBotContext();
   const [isReg, setReg] = useState(false);
-  const [lang, setLang] = useState<Lang>('');
+  const [lang, setLang] = useState<Languages | null>(null);
   const [createUser] = useCreateUserMutation();
 
   useEffect(() => {
@@ -42,7 +40,7 @@ export const Registration = ({ refId, onExit }: RegistrationProps) => {
     }
   }, [lang]);
 
-  const handleClick = (lng: Lang) => () => setLang(lng);
+  const handleClick = (lng: Languages) => () => setLang(lng);
 
   if (isReg && lang) {
     return <Text>{t('success')}</Text>;
@@ -51,12 +49,8 @@ export const Registration = ({ refId, onExit }: RegistrationProps) => {
   if (!isReg && !lang) {
     return (
       <ButtonGroup isResizedKeyboard isNewMessageEveryRender={false} title={t('message')}>
-        <Button id="ru" onClick={handleClick('ru')}>
-          {t('ru')}
-        </Button>
-        <Button id="en" onClick={handleClick('en')}>
-          {t('en')}
-        </Button>
+        <Button onClick={handleClick(Languages.RUSSIA)}>{t(Languages.RUSSIA)}</Button>
+        <Button onClick={handleClick(Languages.ENGLISH)}>{t(Languages.ENGLISH)}</Button>
       </ButtonGroup>
     );
   }

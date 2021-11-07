@@ -33,11 +33,6 @@ export enum Statistics {
   PAYMENTS = 'payments',
 }
 
-export enum Languages {
-  RUSSIA = 'ru',
-  ENGLISH = 'en',
-}
-
 export enum Wallet {
   QIWI = 'qiwi',
   YOO_MONEY = 'yoo_money',
