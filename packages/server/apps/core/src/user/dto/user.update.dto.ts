@@ -40,4 +40,9 @@ export class UserUpdateDto {
   @IsString()
   @IsOptional()
   lang?: string;
+
+  @Field()
+  @IsNumber()
+  @IsOptional()
+  reminder_time?: number;
 }
