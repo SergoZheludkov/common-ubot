@@ -1,3 +1,7 @@
+export interface NotificationData {
+  message: string;
+}
+
 export interface NewReferralData {
   firstname: string;
   lastname: string;

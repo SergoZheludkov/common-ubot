@@ -9,7 +9,7 @@ export enum Scene {
   MANAGEMENT_WALLETS = 'scene_management_wallets',
   STATISTICS = 'scene_statistics',
   LANGUAGE = 'scene_language',
-  REMINDERS = 'scene_reminders',
+  NOTIFICATIONS = 'scene_notifications',
 
   TEST = 'scene_test',
   UPDATE_BOT = 'scene_update_bot',

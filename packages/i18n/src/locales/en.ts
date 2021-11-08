@@ -7,6 +7,7 @@ const en = {
     main_menu: 'Main menu message',
     settings_menu: 'Settings menu message',
     update_message: "I'm update!" + "\n\nWhat's new?" + '\n-Paragraph 1"' + '\n-Paragraph 2' + '\n-Paragraph 3',
+    default_notification_message: 'Default notification message',
   },
   lang: {
     ru: '🇷🇺 Русский',
@@ -39,9 +40,9 @@ const en = {
     add_wallets: '➕ Add',
     management_wallets: '💱 Management',
 
-    // ------Reminder Settings------
-    remindersOff: '🔇 Disable reminders',
-    remindersOn: '🔊 Enable reminders',
+    // ------Notifications Settings------
+    notificationsOff: '🔇 Disable reminders',
+    notificationsOn: '🔊 Enable reminders',
 
     // Фильтрация кошельков
     enabled: '🟢',
