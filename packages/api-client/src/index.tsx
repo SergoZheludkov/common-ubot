@@ -48,3 +48,5 @@ type ShopProviderProps = {
 export function ApiProvider({ children }: ShopProviderProps) {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
+
+export { ExecutionResult } from '@apollo/react-common';

@@ -21,27 +21,27 @@ export class UserUpdateDto {
   @Length(1, 50)
   username?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   balance?: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   referral_counter?: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   referral_money?: number;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
   lang?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   reminder_time?: number;

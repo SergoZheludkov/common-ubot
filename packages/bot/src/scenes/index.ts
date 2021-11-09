@@ -8,6 +8,7 @@ export { InputMoney } from './InputMoney';
 export { Payments } from './Payments';
 
 export { Language } from './Language';
+export { Notifications } from './Notifications';
 
 export { Statistics } from './Statistics';
 

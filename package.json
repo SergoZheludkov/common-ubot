@@ -19,7 +19,8 @@
     "server:dev": "cd packages/server && yarn start:nest",
     "bot:dev": "cd packages/bot && yarn dev",
     "build:i18n": "cd packages/i18n && yarn build",
-    "build:api": "cd packages/api-client && yarn build"
+    "build:api": "cd packages/api-client && yarn build",
+    "build:utilits": "cd packages/utilits && yarn build"
   },
   "dependencies": {
     "date-fns": "2.16.1",

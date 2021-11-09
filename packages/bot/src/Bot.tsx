@@ -121,6 +121,13 @@ export const Bot = () => {
           <Scene.Language onExit={handleMenuSettings} />
         </Provider.User>
       );
+
+    case T.Scene.NOTIFICATIONS:
+      return (
+        <Provider.User>
+          <Scene.Notifications onExit={handleMenuSettings} />
+        </Provider.User>
+      );
     // -----------------------------------------------------------------------------------------
     case T.Menu.MAIN:
       return (

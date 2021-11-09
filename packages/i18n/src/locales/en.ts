@@ -14,6 +14,7 @@ const en = {
     en: '🇺🇸 English',
     message: 'Выбери язык / Choose your language',
     success: '👌👍🤙',
+    main: 'Выбран:',
   },
   buttons: {
     balance: '💵 Balance',
@@ -37,12 +38,17 @@ const en = {
     exit: '🔚 Exit',
     confirm: '✔️ Confirm',
     great: '✅ Great!',
+    saved: '✅ Сохранено',
+    error: '⛔️ Ошибка',
+    less: '➖',
+    more: '➕',
     add_wallets: '➕ Add',
     management_wallets: '💱 Management',
 
     // ------Notifications Settings------
     notificationsOff: '🔇 Disable reminders',
     notificationsOn: '🔊 Enable reminders',
+    off: 'Off',
 
     // Фильтрация кошельков
     enabled: '🟢',
@@ -65,7 +71,7 @@ const en = {
     error: 'This menu is for administration only. Sorry, but you are not an admin!',
   },
   registration: {
-    // message: 'Choose language / Выберите язык',
+    message: 'Choose language / Выберите язык',
     success: 'Registration successful',
   },
   referral: {
@@ -165,6 +171,10 @@ const en = {
       all_time: 'Statistics by All time ',
       by_period: 'Statistics by period',
     },
+  },
+  notifications: {
+    message: 'Setting the notification time',
+    about: 'You can choose any time\nfrom 7:00 to 22:00',
   },
 };
 
