@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: build
+      - name: Build
         run: |
           yarn
           yarn build
@@ -28,5 +28,5 @@ jobs:
         env:
           CI: true
 
-      - name: Run linter
+      - name: Linter
         run: yarn lint
