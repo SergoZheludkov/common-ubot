@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Text } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
 import { isNotEmpty } from '@common_ubot/utilits';
-import { StatisticsTypes } from '../api';
+import { StatisticsTypes } from '../../api';
 
 const DailyStatistics: React.FC<StatisticsTypes> = ({ users, payments }) => {
   const { t } = useTranslation('statistics');
