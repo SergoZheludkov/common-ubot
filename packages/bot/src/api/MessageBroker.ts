@@ -21,12 +21,14 @@ export class MessageBroker {
     this.MESSAGE = `${this.NOTIFICATION_BASE}/message`;
   }
 
-  notification(chatId: string, callback: (params: NotificationData) => void) {
-    // expressApp.get(`${this.NOTIFICATION_BASE}/${chatId}`, (req, res) => {
-    //   callback();
-    //   res.sendStatus(200);
-    // });
+  // notification(chatId: string, callback: () => void) {
+  //   expressApp.get(`${this.NOTIFICATION_BASE}/${chatId}`, (req, res) => {
+  //     callback();
+  //     res.sendStatus(200);
+  //   });
+  // }
 
+  notification(chatId: string, callback: (params: NotificationData) => void) {
     expressApp.post(`${this.MESSAGE}/${chatId}`, (req, res) => {
       const {
         body: { data },

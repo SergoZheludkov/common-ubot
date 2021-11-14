@@ -2,9 +2,10 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/sequelize';
+import { getNumberTime } from '@common_ubot/utilits';
 import { User } from './user.model';
 
-const EVERY_30_MINUTES = '0 */1 8-17 * * *';
+const EVERY_30_MINUTES = '0 */30 8-17 * * *';
 
 @Injectable()
 export class UserCronService {
@@ -15,14 +16,16 @@ export class UserCronService {
   ) {}
 
   getURL(userid: string) {
-    return `${this.configService.get('WEBHOOK_HOST_BASE')}/notification/${userid}`;
+    return `${this.configService.get('WEBHOOK_HOST_BASE')}/notification/message/${userid}`;
   }
 
   @Cron(EVERY_30_MINUTES, { timeZone: 'Europe/Moscow' })
-  async notification() {
+  async startReminder() {
     try {
-      const users = await this.user.findAll({ attributes: ['id'], where: { is_admin: true } });
-      users.forEach(({ id }) => this.httpService.get(this.getURL(id)).toPromise());
+      const reminder_time = getNumberTime();
+      const users = await this.user.findAll({ where: { reminder_time }, attributes: ['id'] });
+      const data = { message: '' };
+      users.forEach(({ id }) => this.httpService.post(this.getURL(id), { data }).toPromise());
     } catch (e) {
       console.error(e);
       throw new Error('Error with User Cron');
