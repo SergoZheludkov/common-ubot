@@ -288,6 +288,7 @@ type User {
     lastname: String
     referral_counter: Float!
     referral_money: Float!
+    reminder_time: Float!
     updated: DateTime!
     username: String
     who_invite: String
@@ -327,6 +328,7 @@ type UserDeleteResponse {
     lastname: String
     referral_counter: Float
     referral_money: Float
+    reminder_time: Float
     updated: DateTime
     username: String
     who_invite: String
@@ -846,6 +848,7 @@ input UserUpdate {
     lastname: String
     referral_counter: Float
     referral_money: Float
+    reminder_time: Float
     username: String
 }
 

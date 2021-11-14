@@ -39,6 +39,10 @@ export class User extends Model<User> {
   @Column
   is_admin: boolean;
 
+  @Default(0)
+  @Column
+  reminder_time: number;
+
   @CreatedAt
   created: Date;
 

@@ -29,7 +29,7 @@ const Language = ({ onExit }: Props) => {
 
   const handleLanguageClick = (lang: string) => () => changeLanguage(lang);
 
-  const langButtons = languages.map((lang) => (
+  const langButtons = [...languages].sort().map((lang) => (
     <Button key={lang} onClick={handleLanguageClick(lang)}>
       {t(lang)}
     </Button>

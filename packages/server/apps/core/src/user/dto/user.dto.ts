@@ -23,16 +23,19 @@ export class UserDto {
   who_invite: string;
 
   @FilterableField()
-  referral_counter: number
+  referral_counter: number;
 
   @FilterableField()
-  referral_money: number
+  referral_money: number;
 
   @Field()
   lang: string;
 
   @Field()
   is_admin: boolean;
+
+  @Field()
+  reminder_time: number;
 
   @Field(() => GraphQLISODateTime)
   created: Date;

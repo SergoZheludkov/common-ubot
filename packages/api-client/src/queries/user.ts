@@ -12,6 +12,7 @@ export const USER_FRAGMENT = gql`
     referral_money
     is_admin
     lang
+    reminder_time
   }
 `;
 

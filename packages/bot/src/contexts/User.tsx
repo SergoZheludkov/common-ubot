@@ -1,5 +1,12 @@
 import React, { createContext, useContext } from 'react';
-import { useUserQuery, useUpdateUserMutation, UserBaseFragment } from '@common_ubot/api-client';
+import {
+  useUserQuery,
+  useUpdateUserMutation,
+  UserBaseFragment,
+  ExecutionResult,
+  UpdateUserMutation,
+} from '@common_ubot/api-client';
+
 import { useBotContext } from '@urban-bot/core';
 
 interface User {
@@ -7,6 +14,7 @@ interface User {
   refetch: () => void;
 
   setLanguage: (lang: string) => void;
+  setReminderTime: (time: number) => Promise<ExecutionResult<UpdateUserMutation>>;
 }
 
 const UserContext = createContext({} as User);
@@ -26,8 +34,12 @@ export const User = ({ children }: UserProviderProps) => {
   const { user } = data;
 
   const setLanguage = (lang: string) => updateOneUser({ variables: { input: { id, update: { lang } } } });
+  const setReminderTime = (reminder_time: number) =>
+    updateOneUser({ variables: { input: { id, update: { reminder_time } } } });
 
-  return <UserContext.Provider value={{ user, refetch, setLanguage }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, refetch, setLanguage, setReminderTime }}>{children}</UserContext.Provider>
+  );
 };
 
 export const useUser = () => useContext(UserContext);

@@ -59,7 +59,7 @@ export const Bot = () => {
   const handleSceneAddWallets = () => setScene(T.Scene.ADD_WALLETS);
   const handleSceneManagementWallets = () => setScene(T.Scene.MANAGEMENT_WALLETS);
   const handleSceneLanguage = () => setScene(T.Scene.LANGUAGE);
-  const handleSceneReminders = () => setScene(T.Scene.REMINDERS);
+  const handleSceneNotifications = () => setScene(T.Scene.NOTIFICATIONS);
 
   // statistics handlers
   const handleStatisticsUsers = () => setStatistics(T.Statistics.USERS);
@@ -119,6 +119,13 @@ export const Bot = () => {
       return (
         <Provider.User>
           <Scene.Language onExit={handleMenuSettings} />
+        </Provider.User>
+      );
+
+    case T.Scene.NOTIFICATIONS:
+      return (
+        <Provider.User>
+          <Scene.Notifications onExit={handleMenuSettings} />
         </Provider.User>
       );
     // -----------------------------------------------------------------------------------------
@@ -182,7 +189,11 @@ export const Bot = () => {
 
     case T.Menu.SETTINGS:
       return (
-        <Menu.Settings onLanguage={handleSceneLanguage} onReminders={handleSceneReminders} onBack={handleMenuMain} />
+        <Menu.Settings
+          onLanguage={handleSceneLanguage}
+          onNotifications={handleSceneNotifications}
+          onBack={handleMenuMain}
+        />
       );
 
     // -----------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 import { expressApp } from '../express-app';
 
-import { NewReferralData, ReferralMoneyData, StatisticsTypes, PaymentStatistics } from './types';
+import { NotificationData, NewReferralData, ReferralMoneyData, StatisticsTypes, PaymentStatistics } from './types';
 
 export class MessageBroker {
   NOTIFICATION_BASE: string;
@@ -11,16 +11,32 @@ export class MessageBroker {
 
   DAY_STATISTICS: string;
 
+  MESSAGE: string;
+
   constructor() {
     this.NOTIFICATION_BASE = '/bot/notification';
     this.NEW_REFERRAL = `${this.NOTIFICATION_BASE}/new_referral`;
     this.REFERRAL_MONEY = `${this.NOTIFICATION_BASE}/referral_money`;
     this.DAY_STATISTICS = `${this.NOTIFICATION_BASE}/day_statistics`;
+    this.MESSAGE = `${this.NOTIFICATION_BASE}/message`;
   }
 
-  notification(chatId: string, callback: () => void) {
-    expressApp.get(`${this.NOTIFICATION_BASE}/${chatId}`, (req, res) => {
-      callback();
+  // notification(chatId: string, callback: () => void) {
+  //   expressApp.get(`${this.NOTIFICATION_BASE}/${chatId}`, (req, res) => {
+  //     callback();
+  //     res.sendStatus(200);
+  //   });
+  // }
+
+  notification(chatId: string, callback: (params: NotificationData) => void) {
+    expressApp.post(`${this.MESSAGE}/${chatId}`, (req, res) => {
+      const {
+        body: { data },
+      } = req;
+
+      const message = (data.message as string) || '';
+
+      callback({ message });
       res.sendStatus(200);
     });
   }

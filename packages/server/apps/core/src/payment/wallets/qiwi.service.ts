@@ -81,10 +81,9 @@ export class QiwiService {
       podari_jizn: 1239,
     },
     qiwi: 99,
-  }
+  };
 
-  constructor(private readonly httpService: HttpService) {
-  }
+  constructor(private readonly httpService: HttpService) {}
 
   get token() {
     return this.TOKEN;
@@ -120,16 +119,16 @@ export class QiwiService {
     const USDtoRUB = USD_Rates.find((rate) => Number(rate.from) === this.currencyCode.RUB);
     const USDtoKZT = USD_Rates.find((rate) => Number(rate.from) === this.currencyCode.KZT);
 
-    const EUR = Math.ceil((USDtoEUR && (USD * USDtoEUR.rate)) || (USD * 0.9));
-    const RUB = Math.ceil((USDtoRUB && (USD * USDtoRUB.rate)) || (USD * 75));
-    const KZT = Math.ceil((USDtoKZT && (USD * USDtoKZT.rate)) || (USD * 430));
+    const EUR = Math.ceil((USDtoEUR && USD * USDtoEUR.rate) || USD * 0.9);
+    const RUB = Math.ceil((USDtoRUB && USD * USDtoRUB.rate) || USD * 75);
+    const KZT = Math.ceil((USDtoKZT && USD * USDtoKZT.rate) || USD * 430);
 
     this.token = '';
 
     return `${USD}/${EUR}/${RUB}/${KZT}`;
   }
 
-  async get(options: WalletOptions): Promise<any> {
+  async get(options: WalletOptions) {
     const requestOptions = { ...options, headers: this.getHeaders(this.token) };
     try {
       const res = await this.httpService.get(requestOptions.url, requestOptions).toPromise();
@@ -149,7 +148,7 @@ export class QiwiService {
     return res.result;
   }
 
-  async getOperationHistory(wallet: QiwiReqData, requestOptions: Partial<WalletOptions>): Promise<any> {
+  async getOperationHistory(wallet: QiwiReqData, requestOptions: Partial<WalletOptions>) {
     this.token = wallet.token;
 
     const now = new Date();

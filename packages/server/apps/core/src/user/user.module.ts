@@ -2,7 +2,7 @@ import { HttpModule, Module } from '@nestjs/common';
 import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
 import { NestjsQuerySequelizeModule } from '@nestjs-query/query-sequelize';
 import { UserCreateDto, UserDto, UserUpdateDto } from './dto';
-// import { UserCronService } from './user-cron.service';
+import { UserCronService } from './user-cron.service';
 import { UserResolver } from './resolver/user.resolver';
 import { User } from './user.model';
 
@@ -23,7 +23,7 @@ import { User } from './user.model';
       ],
     }),
   ],
-  providers: [UserResolver],
+  providers: [UserResolver, UserCronService],
   exports: [NestjsQuerySequelizeModule.forFeature([User])],
 })
 export class UserModule {}

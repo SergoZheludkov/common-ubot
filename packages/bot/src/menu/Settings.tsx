@@ -4,15 +4,15 @@ import { useTranslation } from '@common_ubot/i18n';
 
 interface Props {
   onLanguage: () => void;
-  onReminders: () => void;
+  onNotifications: () => void;
   onBack: () => void;
 }
 
-const Settings = ({ onLanguage, onReminders, onBack }: Props) => {
+const Settings = ({ onLanguage, onNotifications, onBack }: Props) => {
   const { t } = useTranslation(['buttons', 'common']);
 
   useText(onLanguage, t('languages'));
-  useText(onReminders, t('notifications'));
+  useText(onNotifications, t('notifications'));
   useText(onBack, t('back'));
 
   return (

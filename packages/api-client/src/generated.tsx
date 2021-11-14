@@ -803,6 +803,7 @@ export type User = {
   lastname?: Maybe<Scalars['String']>;
   referral_counter: Scalars['Float'];
   referral_money: Scalars['Float'];
+  reminder_time: Scalars['Float'];
   updated: Scalars['DateTime'];
   username?: Maybe<Scalars['String']>;
   who_invite?: Maybe<Scalars['String']>;
@@ -868,6 +869,7 @@ export type UserDeleteResponse = {
   lastname?: Maybe<Scalars['String']>;
   referral_counter?: Maybe<Scalars['Float']>;
   referral_money?: Maybe<Scalars['Float']>;
+  reminder_time?: Maybe<Scalars['Float']>;
   updated?: Maybe<Scalars['DateTime']>;
   username?: Maybe<Scalars['String']>;
   who_invite?: Maybe<Scalars['String']>;
@@ -949,6 +951,7 @@ export type UserUpdate = {
   lastname?: Maybe<Scalars['String']>;
   referral_counter?: Maybe<Scalars['Float']>;
   referral_money?: Maybe<Scalars['Float']>;
+  reminder_time?: Maybe<Scalars['Float']>;
   username?: Maybe<Scalars['String']>;
 };
 
@@ -1180,6 +1183,7 @@ export type UserBaseFragment = { __typename?: 'User' } & Pick<
   | 'referral_money'
   | 'is_admin'
   | 'lang'
+  | 'reminder_time'
 >;
 
 export type UserQueryVariables = Exact<{
@@ -1266,6 +1270,7 @@ export const UserBaseFragmentDoc = gql`
     referral_money
     is_admin
     lang
+    reminder_time
   }
 `;
 export const WalletBaseFragmentDoc = gql`
