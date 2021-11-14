@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ButtonGroup, Button, useText } from '@urban-bot/core';
 import { useTranslation } from '@common_ubot/i18n';
-import { DailyStatistics } from '../components/DailyStatistics';
+import { DailyStatistics } from '../scenes/Statistics';
 import { Hook } from '../contexts';
 
 interface Props {

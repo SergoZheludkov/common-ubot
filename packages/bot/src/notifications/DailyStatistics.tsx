@@ -3,7 +3,7 @@ import { useBotContext } from '@urban-bot/core';
 import { UrbanBotTelegram } from '@urban-bot/telegram';
 
 import { messageBroker, StatisticsTypes } from '../api';
-import { DailyStatistics as DailyStatisticsComponent } from '../components/DailyStatistics';
+import { DailyStatistics as DailyStatisticsComponent } from '../scenes/Statistics';
 
 interface StatisticsState extends StatisticsTypes {
   isShow: boolean;
